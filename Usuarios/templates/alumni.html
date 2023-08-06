@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<ul>
+    {% for alumno in alumni %}
+        <li>{{ alumno.first_name }} {{ alumno.last_name }}</li>
+        <ld><img src="{{ alumno.profile_picture.url }}" alt="foto de alumno" style="width: 300px; height: 300px;"> </ld>
+    {% endfor %}
+</ul>
+{% endblock content %}

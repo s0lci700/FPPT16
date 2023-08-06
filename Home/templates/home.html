@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class='wide'>
+    <h1 class="text-center">Home</h1>
+
+{#    Para usuarios que iniciaron sesión    #}
+
+    {%if user.is_authenticated %}
+            <h2 class="mb-0 heading-text">Hola, {{ user.first_name }} {{ user.last_name }}!</h2>
+            <p class="mb-4">Has iniciado sesión</p>
+        <button class="btn btn-danger" onclick="window.location.href='{% url 'logout' %}'">Log out</button>
+    {% else %}
+        <p>You are not logged in</p>
+        <a href="{% url 'login' %}">Log in</a>
+        <a href="{% url 'register' %}">Sign up</a>
+    {% endif %}
+    </div>
+{% endblock %}
+```

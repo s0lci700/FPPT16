@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<ul>
+    {% for user in users %}
+        <div>
+        {% if user.is_student %}
+            <li style="font-weight: bold">Alumne</li>
+        {% elif user.is_teacher %}
+            <li style="font-weight: bold">Profesor</li>
+        {% else %}
+            <li style="font-weight: lighter">Otro...</li>
+        {% endif %}
+        <ld>{{ user.first_name }} {{ user.last_name }}</ld>
+        <ld>{{ user.pronouns }}</ld>
+        <li><img src="{{ user.profile_picture.url }}" alt="foto de alumno" style="width: 300px; height: 300px;"> </li>
+    {% endfor %}
+    </div>
+</ul>
+{% endblock content %}
