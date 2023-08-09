@@ -1,5 +1,5 @@
 from django.db import models
-from Usuarios.models import CustomUser
+from Cuentas.models import CustomUser
 
 
 # Create your models here.

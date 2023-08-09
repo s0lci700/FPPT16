@@ -36,12 +36,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # my apps
-    'Usuarios',
-    'Fichas',
-    'Home',
+    'Cuentas',
     'Perfiles',
+    'Fichas',
     # third party apps
-    'bootstrap4',
+    'django_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -124,7 +123,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'Usuarios.CustomUser'
+AUTH_USER_MODEL = 'Cuentas.CustomUser'
 
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = 'home.html'

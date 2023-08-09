@@ -14,7 +14,7 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 3.11 (FPPT16Project)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
@@ -22,10 +22,9 @@
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/templates" />
-        <option value="$MODULE_DIR$/Usuarios/templates" />
-        <option value="$MODULE_DIR$/Home/templates" />
         <option value="$MODULE_DIR$/Fichas/templates" />
         <option value="$MODULE_DIR$/Perfiles/templates" />
+        <option value="$MODULE_DIR$/Cuentas/templates" />
       </list>
     </option>
   </component>

@@ -1,5 +1,5 @@
 from django import forms
-from Usuarios.models import CustomUser
+from Cuentas.models import CustomUser
 from .models import Perfil
 
 

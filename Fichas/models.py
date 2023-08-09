@@ -5,7 +5,7 @@ from django.db import models
 
 
 class Ficha(models.Model):
-    student = models.ForeignKey('Usuarios.Alumno', on_delete=models.CASCADE)
+    student = models.ForeignKey('Cuentas.Alumno', on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     main_image = models.ImageField(upload_to='images/')
     complementary_images = models.ImageField(upload_to='images/', blank=True)
@@ -22,7 +22,7 @@ class Ficha(models.Model):
 
 
 class Review(models.Model):
-    teacher = models.ForeignKey('Usuarios.Profesor', on_delete=models.CASCADE)
+    teacher = models.ForeignKey('Cuentas.Profesor', on_delete=models.CASCADE)
     ficha = models.ForeignKey(Ficha, on_delete=models.CASCADE)
     review = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
