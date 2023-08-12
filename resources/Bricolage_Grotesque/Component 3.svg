@@ -1,0 +1,8 @@
+<svg width="1306" height="783" viewBox="0 0 1306 783" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Component 3">
+<path id="Rectangle 25" d="M0 390H500V783H0V390Z" fill="#454285"/>
+<path id="Ellipse 1" d="M901 393C901 175.952 719.675 0 496 0V393H901Z" fill="#C5402D"/>
+<path id="Subtract" fill-rule="evenodd" clip-rule="evenodd" d="M901 392C901 607.943 1082.32 783 1306 783V588C1188.92 588 1094 500.248 1094 392H901Z" fill="#FEC223"/>
+<path id="Ellipse 3" d="M1306 196C1188.92 196 1094 283.752 1094 392H1306V196Z" fill="#454285"/>
+</g>
+</svg>

@@ -28,6 +28,13 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+
+TAILWIND_APP_NAME = "theme"
+INTERNAL_IPS = [
+    "123.0.0.1",
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,7 +47,8 @@ INSTALLED_APPS = [
     'Perfiles',
     'Fichas',
     # third party apps
-    'django_bootstrap5',
+    'tailwind',
+    'theme'
 ]
 
 MIDDLEWARE = [

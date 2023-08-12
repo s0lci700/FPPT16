@@ -1,42 +1,44 @@
 {% extends 'base.html' %}
-{% load django_bootstrap5 %}
 {% block content %}
+<svg width="1306" height="783" viewBox="0 0 1306 783" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Component 3">
+<path id="Rectangle 25" d="M0 390H500V783H0V390Z" fill="#454285"/>
+<path id="Ellipse 1" d="M901 393C901 175.952 719.675 0 496 0V393H901Z" fill="#C5402D"/>
+<path id="Subtract" fill-rule="evenodd" clip-rule="evenodd" d="M901 392C901 607.943 1082.32 783 1306 783V588C1188.92 588 1094 500.248 1094 392H901Z" fill="#FEC223"></path>
+<path id="Ellipse 3" d="M1306 196C1188.92 196 1094 283.752 1094 392H1306V196Z" fill="#454285"/>
+</g>
+</svg>
 
-{#    Para usuarios que iniciaron sesión    #}
-
-    {%if user.is_authenticated %}
-
-
-        <div class="container">
-        <h2 class="mb-0 heading-text">Hola, {{ user.first_name }} {{ user.last_name }}!</h2>
-            <h2 class="mb-0 heading-text">Hola, {{ user.first_name }} {{ user.last_name }}!</h2>
-            <p class="mb-4">Has iniciado sesión</p>
-        <button class="btn btn-danger" onclick="window.location.href='{% url 'logout' %}'">Log out</button>
+<div class="w-96 h-96 relative bg-stone-200">
+    <div class="w-96 h-96 left-[134px] top-[175px] absolute">
+        <div class="w-96 h-96 left-0 top-[390px] absolute bg-indigo-900"></div>
+        <img class="w-96 h-96 left-[901px] top-[392px] absolute" src="https://via.placeholder.com/405x391" />
+    </div>
+    <div class="left-[140px] top-[53px] absolute"><span style="text-stone-800 text-9xl font-medium">FPP</span><span style="text-amber-400 text-9xl tracking-widest">/</span><span style="text-stone-800 text-9xl font-medium">T16</span></div>
+    <div class="w-96 h-px left-[134px] top-[568px] absolute border-2 border-stone-800"></div>
+    <div class="w-96 h-16 left-0 top-[958px] absolute">
+        <div class="w-96 h-16 left-0 top-0 absolute bg-orange-700 border-t-4 border-stone-800"></div>
+        <div class="w-96 left-[447.77px] top-[18px] absolute text-center text-white text-base font-normal">para la Universidad de Chile,<br/>con amor</div>
+    </div>
+    <div class="w-96 h-80 left-[191px] top-[213px] absolute">
+        <div class="w-96 h-11 left-0 top-[82px] absolute">
+            <div class="w-96 h-11 left-0 top-0 absolute bg-white border border-indigo-900"></div>
+            <div class="w-20 left-[19.76px] top-[8px] absolute text-black text-opacity-50 text-2xl font-normal">correo</div>
         </div>
-
-
-    {% else %}
-        <div class="container">
-            <div class="row">
-                <div class='col text-center'>
-                    <h1 class="mb-0 heading-text">Hola!</h1>
-                    <h2 class="mb-4 mt-10 text-muted">Inicia sesión o crea una cuenta para poder acceder a la aplicación</h2>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col"></div>
-                <div class="col justify-content-center text-center">
-                    <a href="{% url 'login' %}" class="btn btn-primary">Log in</a>
-                </div>
-                <div class="col justify-content-center text-center">
-                    <a href="{% url 'signup' %}" class="btn btn-secondary">Sign up</a>
-                </div>
-                <div class="col"></div>
-            </div>
+        <div class="w-96 h-11 left-0 top-[171px] absolute">
+            <div class="w-96 h-11 left-0 top-0 absolute bg-white border border-indigo-900"></div>
+            <div class="w-36 left-[19.76px] top-[8px] absolute text-black text-opacity-50 text-2xl font-normal">contraseña</div>
         </div>
+        <div class="w-36 h-11 left-0 top-[260px] absolute">
+            <div class="w-36 h-11 left-0 top-0 absolute bg-indigo-900 border border-stone-800"></div>
+            <div class="w-16 left-[34.86px] top-[8px] absolute text-white text-2xl font-normal">LogIn</div>
+        </div>
+        <div class="left-[209px] top-[272px] absolute text-indigo-900 text-xl font-normal">Contactar al admin</div>
+        <div class="left-0 top-0 absolute text-stone-800 text-3xl font-medium">Inicia sesion</div>
+    </div>
+</div>
 
-    {% endif %}
+{#    {% endif %}#}
 
 
 {% endblock %}
