@@ -5,17 +5,16 @@
 <div class="bg-bg-bau">
 
   <div class="border-baublack flex flex-col mx-auto container">
-    <span class="font-primary text-8xl font-semibold text-center">FPP/T16</span>
-    <div class="flex flex-row w-full">
-        <div class="basis-1/6 border-l-4 border-t-4 border-baublack"></div>
-          <div class="basis-2/6 container flex flex-wrap flex-col justify-center place-content-evenly gap-7 text-left border-baublack border-t-4
-          border-l-4">
+    <span class="font-primary text-8xl font-semibold w-auto border-baublack border-x-4 px-36 py-2">FPP/T16</span>
+    <div class="flex flex-row w-full border-baublack border-t-4">
+        <div class="basis-1/6 border-l-4 border-baublack"></div>
+          <div class="ml-px basis-2/6 flex flex-wrap flex-col justify-center place-content-evenly gap-7 text-left border-baublack border-l-4">
               <span class="font-primary font-semibold text-2xl"> Inicia Sesion </span>
               <input type="email" class="ring-2 ring-baublue">
               <input type="password" class="ring-2 ring-baublue">
               <button type="submit" class="ring-2 ring-baublack font-primary bg-baublue text-white"><a>Log In</a></button>
           </div>
-                    <div class="container basis-3/6 border-t-4 border-r-4 border-l-4 border-baublack">
+                    <div class="container basis-3/6 border-r-4 border-l-4 border-baublack">
           <svg width="810" height="380" viewBox="0 0 810 380" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M405 393C405 175.952 223.675 0 0 0V393H405Z" fill="#C5402D"/>
           <path d="M810 196C692.916 196 598 283.752 598 392H810V196Z" fill="#454285"/>
@@ -23,9 +22,9 @@
         </div>
     </div>
 
-    <div class="flex flex-row w-full border-baublack">
-        <div class="basis-1/6 border-l-4 border-t-4 border-baublack"></div>
-        <div class="basis-2/6 border-l-4 border-baublack border-t-4 border-r-4 bg-baublue pt-20"></div>
+    <div class="flex flex-row border-baublack">
+        <div class="basis-1/6 border-l-4 border-baublack"></div>
+        <div class="basis-2/6 border-baublack border-t-4 border-x-4 bg-baublue"></div>
         <div class="basis-1/6 border-t-4 border-r-4 border-baublack">
         <div class="overflow-clip">
           <svg class="relative -end-2/4 " width="810" height="380" viewBox="0 0 810 380" fill="none" xmlns="http://www.w3.org/2000/svg">
