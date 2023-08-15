@@ -14,7 +14,12 @@
         {% endif %}
         <ld>{{ user.first_name }} {{ user.last_name }}</ld>
         <ld>{{ user.pronouns }}</ld>
-        <li><img src="{{ user.profile_picture.url }}" alt="foto de alumno" style="width: 300px; height: 300px;"> </li>
+        {% if user.avatar %}
+        <li><img src="{{ user.avatar.url }}" alt="foto de alumno" style="width: 300px; height: 300px;"> </li>
+        {% else %}
+        <li><img src="{% static 'default.png' %}" alt="foto de alumno" style="width: 300px; height: 300px;"> </li>
+            <p>Este usuario no tiene foto de perfil</p>
+        {% endif %}
     {% endfor %}
     </div>
 </ul>

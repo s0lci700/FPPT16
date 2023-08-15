@@ -4,8 +4,9 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class CustomUser(AbstractUser):
-    profile_picture = models.ImageField(upload_to='perfiles/profile_pictures', blank=True, default='default.png')
-    pronouns = models.CharField(max_length=50, blank=True)
+    avatar = models.ImageField(
+        upload_to="media/perfiles/profile_pictures", default="Perfiles/static/default.png", blank=True)
+    email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
     is_student = models.BooleanField(default=False)
@@ -30,6 +31,7 @@ class Alumno(CustomUser):
 
 class Profesor(CustomUser):
     is_teacher = True
+    is_student = False
 
     def __str__(self):
         return 'Prof. ' + self.first_name + " " + self.last_name

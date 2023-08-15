@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.edit import FormView
-from .forms import AlumnoForm, ProfesorForm, CustomUserForm
+from .forms import AlumnoCreationForm, ProfesorCreationForm, CustomUserCreationForm
 from .models import CustomUser
 from django.contrib.auth.decorators import login_required
 
@@ -13,7 +13,7 @@ def home_view(request):
 
 class CustomUserRegister(FormView):
     template_name = 'register_view.html'
-    form_class = CustomUserForm
+    form_class = CustomUserCreationForm
     success_url = '/'
 
     def form_valid(self, form):

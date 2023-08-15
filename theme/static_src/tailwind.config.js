@@ -42,7 +42,18 @@ module.exports = {
         // '../../**/*.py'
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily:{
+                'primary':'Bricolage Grotesque'
+            },
+            colors:{
+                'bg-bau':'#E8E9E3',
+                'baublack':'#23241E',
+                'baublue':'#454285',
+                'baured':'#C5402D',
+                'bauyellow':'#FEC223',
+            },
+        },
     },
     plugins: [
         /**

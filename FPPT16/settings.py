@@ -138,3 +138,5 @@ LOGIN_REDIRECT_URL = 'home.html'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+AUTHENTICATION_BACKENDS = ['Cuentas.backends.EmailBackend']

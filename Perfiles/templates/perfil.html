@@ -19,8 +19,8 @@
 
 {#        check for profile image, if not, show default#}
             <div >
-                {% if user.profile_picture %}
-                <img src="{{user.profile_picture.url}}" alt="Profile Picture" class="img-fluid"
+                {% if user.avatar %}
+                <img src="{{user.avatar.url}}" alt="Profile Picture" class="img-fluid"
                 style="width: 300px; height: 300px;">
                 {% else %}
                 <img src="{% static 'default.png' %}" alt="Profile Picture" class="img-fluid"
