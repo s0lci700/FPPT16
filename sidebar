@@ -28,17 +28,21 @@
         </span>
       </div>
 
-      <div class="border-baublack row-start-5 row-end-7 mb-2 border-t-4 py-2 mx-4 grid grid-cols-1 grid-rows-3 gap-2 -mt-6">
+      <div class="border-baublack row-start-5 row-end-7 mb-2 border-t-4 py-2 mx-7 grid grid-cols-1 grid-rows-3 gap-2 -mt-8 pt-4">
 
-
-
-        <div class="w-16 h-16 container justify-self-center text-center text-sm bg-baublue flex">
-          <span class="self-center text-center text-white">Cerrar Sesion</span>
+        <div class="w-16 h-16 container text-w justify-self-center text-center text-sm">
+          <svg class="hover:transition-all hover:-rotate-90 transition-all" width="65" height="58" viewBox="0 0 65 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32.5 0L64.5 58H0.5L32.5 0Z" fill="#FEC223"/>
+          </svg>
         </div>
 
-        <div class="w-16 h-16 container text-w justify-self-center text-center text-sm bg-bauyellow flex">
-          <span class="self-center">Cerrar Sesion</span>
+
+        <div class="w-16 h-16 container justify-self-center text-center text-sm bg-baublue flex justify-center px-3
+        hover:bg-baublack hover:bg-gradient-to-l">
+          <span class="self-center text-center text-white">Mi Perfil</span>
         </div>
+
+        
 
         <div class="w-16 h-16 justify-self-center text-white text-sm bg-baured flex rounded-full">
           <span class="self-center text-center">Cerrar Sesion</span>
