@@ -1,8 +1,10 @@
 <div class="h-screen grid grid-flow-row grid-cols-6 grid-rows-6 gap-1 bg-bg-bau">
 
-  <div class="border-baublack border-x-4 border-y-4 my-1 row-span-full col-start-1">
-    <div class="h-full grid grid-flow-col grid-rows-6 grid-cols-1 gap-2">
-      <div class="row-start-1 row-end-3 mx-4">
+  <div id="sidebar" class="border-baublack border-x-4 border-y-4 my-1 row-span-full col-start-1">
+
+    <div id="sidebar-content" class="h-full grid grid-flow-col grid-rows-6 grid-cols-1 gap-2">
+
+      <div id="urls" class="row-start-1 row-end-3 mx-4">
         <div class="border-baublue border-b-4 flex h-20 justify-center ">
           <span class="font-primary font-semibold self-center">
             INICIO
@@ -22,13 +24,13 @@
         </div>
       </div>
 
-      <div class="mx-4 my-3 row-start-3 row-end-5 flex justify-center">
+      <div id="logo" class="mx-4 my-3 row-start-3 row-end-5 flex justify-center">
         <span class="font-primary font-bold self-center">
-          FPP/T16
+          Fichas
         </span>
       </div>
 
-      <div class="border-baublack row-start-5 row-end-7 mb-2 border-t-4 py-2 mx-7 grid grid-cols-1 grid-rows-3 gap-2 -mt-8 pt-4">
+      <div id="shapes" class="border-baublack row-start-5 row-end-7 mb-2 border-t-4 py-2 mx-7 grid grid-cols-1 grid-rows-3 gap-2 -mt-8 pt-4">
 
         <div class="w-16 h-16 container text-w justify-self-center text-center text-sm">
           <svg class="hover:transition-all hover:-rotate-90 transition-all" width="65" height="58" viewBox="0 0 65 58" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,15 +38,13 @@
           </svg>
         </div>
 
-
-        <div class="w-16 h-16 container justify-self-center text-center text-sm bg-baublue flex justify-center px-3
-        hover:bg-baublack hover:bg-gradient-to-l">
-          <span class="self-center text-center text-white">Mi Perfil</span>
+        <div class="w-16 h-16 container justify-self-center text-center text-sm bg-baublue flex justify-center px-3 leading-4">
+          <span class=" self-center text-center text-white font-semibold">Mi Perfil</span>
         </div>
 
         
 
-        <div class="w-16 h-16 justify-self-center text-white text-sm bg-baured flex rounded-full">
+        <div class="w-16 h-16 justify-self-center text-white text-sm bg-baured flex rounded-full font-medium leading-3">
           <span class="self-center text-center">Cerrar Sesion</span>
         </div>
 
@@ -55,7 +55,7 @@
 
   </div>
 
-  <div class="bg-baured row-span-full col-span-5 my-1">
+  <div id="rightside" class="bg-baured row-span-full col-span-5 my-1">
 
   </div>
 </div>
