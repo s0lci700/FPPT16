@@ -1,0 +1,57 @@
+<div class="h-screen grid grid-flow-row grid-cols-6 grid-rows-6 gap-1 bg-bg-bau">
+
+  <div class="border-baublack border-x-4 border-y-4 my-1 row-span-full col-start-1">
+    <div class="h-full grid grid-flow-col grid-rows-6 grid-cols-1 gap-2">
+      <div class="row-start-1 row-end-3 mx-4">
+        <div class="border-baublue border-b-4 flex h-20 justify-center ">
+          <span class="font-primary font-semibold self-center">
+            INICIO
+          </span>
+        </div>
+
+        <div class="border-bauyellow border-b-4 flex h-20 justify-center ">
+          <span class="font-primary font-semibold self-center">
+            Alumnos
+          </span>
+        </div>
+
+        <div class="border-baured border-b-4 flex h-20 justify-center ">
+          <span class="font-primary font-semibold self-center">
+            Profesores
+          </span>
+        </div>
+      </div>
+
+      <div class="mx-4 my-3 row-start-3 row-end-5 flex justify-center">
+        <span class="font-primary font-bold self-center">
+          FPP/T16
+        </span>
+      </div>
+
+      <div class="border-baublack row-start-5 row-end-7 mb-2 border-t-4 py-2 mx-4 grid grid-cols-1 grid-rows-3 gap-2 -mt-6">
+
+
+
+        <div class="w-16 h-16 container justify-self-center text-center text-sm bg-baublue flex">
+          <span class="self-center text-center text-white">Cerrar Sesion</span>
+        </div>
+
+        <div class="w-16 h-16 container text-w justify-self-center text-center text-sm bg-bauyellow flex">
+          <span class="self-center">Cerrar Sesion</span>
+        </div>
+
+        <div class="w-16 h-16 justify-self-center text-white text-sm bg-baured flex rounded-full">
+          <span class="self-center text-center">Cerrar Sesion</span>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+  <div class="bg-baured row-span-full col-span-5 my-1">
+
+  </div>
+</div>
