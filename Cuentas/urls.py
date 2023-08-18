@@ -18,4 +18,9 @@ urlpatterns = [
     path('profesores/', views.profesor_list_view, name='profesores'),
     path('all_users/', views.all_users_list_view, name='all_users'),
 
+    # detail_views
+    path('alumni/<int:pk>/', views.student_detail_view, name='alumni_detail'),
+    path('profesores/<int:pk>/', views.teacher_detail_view, name='profesor_detail'),
+    path('all_users/<int:pk>/', views.user_detail_view, name='all_users_detail'),
+
 ]

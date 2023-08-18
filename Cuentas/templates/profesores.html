@@ -1,11 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
+{% block title %}
+    <title>Profesores</title>
+{% endblock %}
+
 {% block content %}
-<ul>
-    {% for profesor in profesores %}
-        <li>{{ profesor.first_name }} {{ profesor.last_name }}</li>
-        <ld><img src="{{ profesor.profile_picture.url }}" alt="foto de alumno" style="width: 300px; height: 300px;"> </ld>
-    {% endfor %}
-</ul>
+<div class="grid grid-cols-12 grid-rows-6 h-full font-primary">
+    <div class="container row-span-full col-start-1 col-end-2 border-baublack border-x-4 border-y-4 my-1">
+        {% include 'components/sidebar.html' %}
+    </div>
+
+    <div class="mt-4 justify-items-center justify-center text-center bg-baublue row-start-1 col-start-3 col-end-12 flex-wrap mb-14">
+        <h1 class="mt-6 flex flex-col font-bold text-2xl text-white self-center justify-self-center">Profesores</h1></div>
+
+
+    <div id="content" class="-mt-12 my-1 row-start-2 row-span-full col-start-3 col-end-12 grid gap-4">
+        {% include 'components/user_list.html' with users=profesores title="Profesores" %}
+    </div>
+</div>
 {% endblock content %}
+
+{% block footer %}
+    {% include 'components/footer.html' %}
+{% endblock %}

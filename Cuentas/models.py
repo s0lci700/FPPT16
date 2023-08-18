@@ -1,3 +1,8 @@
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -22,20 +27,17 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
-        if not extra_fields.get("is_superuser", False):
-            raise ValueError("Superuser must have is_superuser=True.")
-        if not extra_fields.get("is_staff", False):
-            raise ValueError("Superuser must have is_staff=True.")
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
         return self.create_user(email, password, **extra_fields)
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    avatar = models.ImageField(
-        upload_to="media/perfiles/profile_pictures",
-        default="Perfiles/static/default.png",
-        blank=True,
-    )
     email = models.EmailField("email address", unique=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    USERNAME_FIELD = "email"
+
     first_name = models.CharField(
         max_length=50, blank=True, verbose_name="Nombre", help_text="Nombre del usuario"
     )
@@ -45,57 +47,78 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name="Apellido",
         help_text="Apellido del usuario",
     )
-    is_student = models.BooleanField(default=False)
-    is_teacher = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
-
-    date_joined = models.DateTimeField(auto_now_add=True)
-    last_login = models.DateTimeField(auto_now=True)
-
-    # other properties
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
-    objects = CustomUserManager()
+    ROLE_CHOICES = (
+        ("A", "Alumno"),
+        ("P", "Profesor"),
+        ("NS", "No especificado"),
+    )
+    role = models.CharField(max_length=2, choices=ROLE_CHOICES, default="NS")
 
     avatar = models.ImageField(
         upload_to="media/perfiles/profile_pictures",
-        default="Perfiles/static/default.png",
+        default="media/perfiles/default.png",
         blank=True,
     )
 
+    date_joined = models.DateTimeField(auto_now_add=True)
+    last_login = models.DateTimeField(auto_now=True)
+    REQUIRED_FIELDS = []
+    objects = CustomUserManager()
+
+    @property
+    def is_student(self):
+        return hasattr(self, "studentprofile")
+
+    @property
+    def is_teacher(self):
+        return hasattr(self, "teacherprofile")
+
+    def __str__(self):
+        return f"Custom User: {self.email}"
+
     class Meta:
         db_table = "CustomUser"
+        verbose_name = "Usuario"
+        verbose_name_plural = "Usuarios"
 
-    def __str__(self):
-        return f"Custom User: {self.first_name} {self.last_name}"
+    def save(self, *args, **kwargs):
+        if hasattr(self, "studentprofile"):
+            self.role = "A"
+        elif hasattr(self, "teacherprofile"):
+            self.role = "P"
+        else:
+            self.role = "NS"
+        super().save(*args, **kwargs)
 
 
-class Alumno(CustomUser):
-    year_choices = [("3", "3"), ("4", "4")]
+class StudentProfile(models.Model):
+    userprofile = models.OneToOneField(
+        CustomUser, on_delete=models.CASCADE, related_name="studentprofile"
+    )
+    year_choices = [('3', "3"), ('4', "4")]
     year = models.CharField(max_length=1, choices=year_choices, blank=True)
 
-    def save(self, *args, **kwargs):
-        self.is_student = True
-        super().save(*args, **kwargs)
 
-    def __str__(self):
-        return f"Alumne:{self.first_name} {self.last_name}"
-
-    class Meta:
-        verbose_name = "Alumne"
-        verbose_name_plural = "Alumnes"
-        db_table = "Alumno"
+class TeacherProfile(models.Model):
+    userprofile = models.OneToOneField(
+        CustomUser, on_delete=models.CASCADE, related_name="teacherprofile"
+    )
 
 
-class Profesor(CustomUser):
-    def save(self, *args, **kwargs):
-        self.is_teacher = True
-        super().save(*args, **kwargs)
+@receiver(post_save, sender=CustomUser)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        if instance.role == "A":
+            StudentProfile.objects.create(userprofile=instance)
+        elif instance.role == "P":
+            TeacherProfile.objects.create(userprofile=instance)
+        else:
+            pass
 
-    def __str__(self):
-        return "Prof. " + self.first_name + " " + self.last_name
 
-    class Meta:
-        verbose_name = "Profesor"
-        verbose_name_plural = "Profesores"
-        db_table = "Profesor"
+@receiver(post_save, sender=CustomUser)
+def save_user_profile(sender, instance, **kwargs):
+    if instance.role == "A" and hasattr(instance, 'studentprofile'):
+        instance.studentprofile.save()
+    elif instance.role == "P" and hasattr(instance, 'teacherprofile'):
+        instance.teacherprofile.save()

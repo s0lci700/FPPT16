@@ -1,0 +1,5 @@
+.user-avatar {
+    width: 100px; /* You can set your desired width here */
+    height: 100px; /* Make sure the height is the same as the width for 1:1 ratio */
+    object-fit: cover; /* Ensures the image covers the whole area without distorting the aspect ratio */
+}

@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
-{% load django_bootstrap5 %}
 
 {% block content %}
     <div class="container">
         <div class="col">
         <form method="post">
             {% csrf_token %}
-            {% bootstrap_form form %}
+            {{ form.as_div }}
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <button type='reset' class="btn btn-danger">Cancel</button>
         </form>
@@ -15,4 +14,7 @@
         </div>
 
     </div>
+{% endblock %}
+{% block footer %}
+    {% include 'components/footer.html' %}
 {% endblock %}

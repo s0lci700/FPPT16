@@ -5,28 +5,44 @@ from django.db import models
 
 
 class Ficha(models.Model):
-    student = models.ForeignKey('Cuentas.Alumno', on_delete=models.CASCADE)
+    student = models.ForeignKey("Cuentas.StudentProfile", on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
-    main_image = models.ImageField(upload_to='images/')
-    complementary_images = models.ImageField(upload_to='images/', blank=True)
-    description = models.TextField()
-    analysis = models.TextField()
-    references = models.TextField()
-    keywords = models.TextField()
-    misc = models.TextField()
+    main_image = models.ImageField(upload_to="fichas/images/")
+    description = models.TextField(blank=True)
+    analysis = models.TextField(blank=True)
+    references = models.TextField(blank=True)
+    keywords = models.TextField("Keywords", blank=True)
+    misc = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.title + " - " + self.student.first_name + " " + self.student.last_name
+        return self.title
+
+
+class ComplementaryImage(models.Model):
+    ficha = models.ForeignKey(
+        Ficha, on_delete=models.CASCADE, related_name="complementary_images"
+    )
+    image = models.ImageField(upload_to="images/")
+
+    def __str__(self):
+        return self.ficha.title + " - " + self.image.name
+
+
+class Keywords(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
 
 
 class Review(models.Model):
-    teacher = models.ForeignKey('Cuentas.Profesor', on_delete=models.CASCADE)
+    teacher = models.ForeignKey("Cuentas.TeacherProfile", on_delete=models.CASCADE)
     ficha = models.ForeignKey(Ficha, on_delete=models.CASCADE)
-    review = models.TextField()
+    review = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.ficha.title + " - " + self.teacher.first_name + " " + self.teacher.last_name
+        return self.ficha.title

@@ -1,0 +1,18 @@
+<div class="border-baublack border-4 p-4">
+    <h3 class="text-lg font-bold text-center">{{ title }}</h3>
+    <ul class="list-inside">
+        {% for user in users %}
+            <li class="border-baublack border-4 p-2 text-center my-1 w-1/2 mx-auto bg-zinc-100 bg-opacity-30 self-center">
+            <div class="flex justify-center">
+                <img alt="user-avatar" class="user-avatar" src="{{ user.avatar.url }}">
+            </div>
+                <div class="flex flex-col">
+                    <span>{{ user.first_name }} <b>{{ user.last_name }}</b></span>
+                    <span>{{ user.email }}</span>
+                    <span>{{ user.role }}</span>
+                    <span>{{ user.year }}</span>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

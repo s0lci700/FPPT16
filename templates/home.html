@@ -3,17 +3,18 @@
     <title>Inicio</title>
 {% endblock %}
 
-{% block sidebar %}
-{% include 'components/sidebar.html' %}
-{% endblock %}
-
 {% block content %}
+<div class="grid grid-cols-12 grid-rows-6 h-full font-primary">
+    <div class="container row-span-full col-start-1 col-end-2 border-baublack border-x-4 border-y-4 my-1">
+        {% include 'components/sidebar.html' %}
+    </div>
+
 
     {% if user.is_authenticated %}
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="text-center">Bienvenido {{ user.username }}</h1>
+                    <h1 class="text-center">Bienvenido {{ user.first_name }} {{ user.last_name }}</h1>
                 </div>
             </div>
         </div>
@@ -26,5 +27,9 @@
             </div>
         </div>
     {% endif %}
+</div>
 {% endblock %}
 
+{% block footer %}
+    {% include 'components/footer.html' %}
+{% endblock %}
