@@ -6,10 +6,11 @@ from .models import Perfil
 class UpdateUserForm(forms.ModelForm):
     pronouns = forms.CharField(max_length=20, required=False)
     email = forms.EmailField(required=False)
+    # username = forms.CharField(max_length=20, required=False)
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'first_name', 'last_name']
+        fields = ['email', 'first_name', 'last_name']
 
 
 class UpdateProfileForm(forms.ModelForm):

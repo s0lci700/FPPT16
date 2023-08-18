@@ -1,26 +1,66 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}
+    <title>Usuarios</title>
+{% endblock %}
+
 {% block content %}
-<ul>
-    {% for user in users %}
-        <div>
-        {% if user.is_student %}
-            <li style="font-weight: bold">Alumne</li>
-        {% elif user.is_teacher %}
-            <li style="font-weight: bold">Profesor</li>
-        {% else %}
-            <li style="font-weight: lighter">Otro...</li>
-        {% endif %}
-        <ld>{{ user.first_name }} {{ user.last_name }}</ld>
-        <ld>{{ user.pronouns }}</ld>
-        {% if user.avatar %}
-        <li><img src="{{ user.avatar.url }}" alt="foto de alumno" style="width: 300px; height: 300px;"> </li>
-        {% else %}
-        <li><img src="{% static 'default.png' %}" alt="foto de alumno" style="width: 300px; height: 300px;"> </li>
-            <p>Este usuario no tiene foto de perfil</p>
-        {% endif %}
-    {% endfor %}
+<div class="grid grid-cols-12 grid-rows-6 h-full font-primary">
+    <div class="container row-span-full col-start-1 col-end-2 border-baublack border-x-4 border-y-4 my-1">
+        {% include 'components/sidebar.html' %}
     </div>
-</ul>
+
+    <div class="mt-4 justify-items-center justify-center text-center bg-baublue row-start-1 col-start-3 col-end-12 flex-wrap mb-14">
+        <h1 class="mt-6 flex flex-col font-bold text-2xl text-white self-center justify-self-center">Usuarios</h1></div>
+
+    <div id="content" class="-mt-12 my-1 row-start-2 row-span-full col-start-3 col-end-12 grid grid-cols-3 gap-4">
+        <!-- Students -->
+        <div class="border-baublack border-4 p-4">
+            <h3 class="text-lg font-bold text-center">Students</h3>
+            <ul class="list-inside">
+                {% for user in users %}
+                    {% if user.is_student %}
+                        <li class="border-baublack border-4 p-2 text-center my-1">
+                            <img src="{{ user.avatar.url }}">
+                            {{ user.first_name }} {{ user.last_name }} {{ user.email }}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- Teachers -->
+        <div class="border-baublack border-4 p-4">
+            <h3 class="text-lg font-bold text-center">Teachers</h3>
+            <ul class="list-inside">
+                {% for user in users %}
+                    {% if user.is_teacher %}
+                        <li class="border-baublack border-4 p-2 text-center">
+                            <img src="{{ user.avatar.url }}">
+                            {{ user.first_name }} {{ user.last_name }} {{ user.email }}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- Others -->
+        <div class="border-baublack border-4 p-4">
+            <h3 class="text-lg font-bold text-center">Others</h3>
+            <ul class="list-inside">
+                {% for user in users %}
+                    {% if not user.is_student and not user.is_teacher %}
+                        <li class="border-baublack border-4 p-2 text-center">
+                            <img src="{{ user.avatar.url }}">
+                            {{ user.first_name }} {{ user.last_name }} {{ user.email }}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock content %}
+
+{% block footer %}
+    {% include 'components/footer.html' %}
+{% endblock %}

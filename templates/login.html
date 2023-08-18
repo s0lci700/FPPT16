@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}<title>Log In</title>{% endblock %}
+{% block content %}
+
+    <div class="border-baublack flex flex-col mx-auto container">
+    <span class="font-primary text-8xl font-semibold w-auto border-baublack border-x-4 px-36 pb-3 pt-5">FPP<a class="font-black text-bauyellow">/</a>T16</span>
+        <div class="flex flex-row w-full border-baublack border-t-4">
+            <div class="basis-1/6 border-l-4 border-baublack"></div>
+            <div class="ml-px basis-2/6 flex flex-wrap flex-col justify-center place-content-evenly text-left border-baublack border-l-4">
+              <span class="font-primary font-semibold text-2xl mb-6"> Inicia Sesion </span>
+
+                <div class="flex flex-col text-center justify-center place-content-between">
+                    <div class="flex-wrap">
+                        {% if form.errors %}
+                            {% for error in form.non_field_errors %}
+                                <div class="text-red-500">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <form method="post" class="grid grid-flow-row grid-rows-3 grid-cols-1 gap-3 align-center">
+                        {% csrf_token %}
+                        {{ form.as_div }}
+                        <button type="submit" value="Login" class="row-span-1 col-span-full ring-2 ring-baublack font-primary bg-baublue text-white rounded-full mb-6">Log In</button>
+                    </form>
+                </div>
+
+              <a class="font-primary font-medium justify-self-center text-blue-500">Contactar al Admin</a>
+            </div>
+
+            <div class="container basis-3/6 border-r-4 border-l-4 border-baublack">
+              <svg width="810" height="380" viewBox="0 0 810 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M405 393C405 175.952 223.675 0 0 0V393H405Z" fill="#C5402D"/>
+              <path d="M810 196C692.916 196 598 283.752 598 392H810V196Z" fill="#454285"/>
+              </svg>
+            </div>
+        </div>
+
+    <div class="flex flex-row border-baublack">
+        <div class="basis-1/6 border-l-4 border-baublack"></div>
+        <div class="basis-2/6 border-baublack border-t-4 border-x-4 bg-baublue"></div>
+        <div class="basis-1/6 border-t-4 border-r-4 border-baublack">
+        <div class="overflow-clip">
+          <svg class="relative -end-2/4 " width="810" height="380" viewBox="0 0 810 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0C0 215.943 181.325 391 405 391V196C287.916 196 193 108.248 193 0H0Z" fill="#FEC223"/>
+          </svg>
+        </div>
+        </div>
+    </div>
+  </div>
+
+    {% include 'components/footer.html' %}
+{% endblock %}

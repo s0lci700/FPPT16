@@ -1,15 +1,17 @@
 from django.urls import path
+from .views import CustomUserRegister, CustomLoginView
 from . import views
-from .views import CustomUserRegister
 from . import forms
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
 
     # login, logout, register
     path('signup/', CustomUserRegister.as_view(), name='signup'),
-    path('', LoginView.as_view(template_name='home.html', authentication_form=forms.CustomAuthForm), name='login'),
+    path('accounts/login/', CustomLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('home/', views.home_view, name='home'),
+    path('', views.landing_view, name='landing'),
 
     # list_views
     path('alumni/', views.alumni_list_view, name='alumni'),
