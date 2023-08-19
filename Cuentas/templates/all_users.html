@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 {% load static %}
 
 
@@ -18,13 +19,13 @@
 
     <div id="content" class="-mt-12 my-1 row-start-2 row-span-full col-start-3 col-end-12 grid grid-cols-3 gap-4">
         <!-- Students -->
-        {% include 'components/user_list.html' with users=alumni title="Alumnes" %}
+        {% include 'components/user_list.html' with users=users|filter_by_role:"A" title="Alumnes" %}
 
         <!-- Teachers -->
-        {% include 'components/user_list.html' with users=profesores title="Profesores" %}
+        {% include 'components/user_list.html' with users=users|filter_by_role:"P" title="Profesores" %}
 
         <!-- Others -->
-        {% include 'components/user_list.html' with users=otros title="Otros" %}
+        {% include 'components/user_list.html' with users=users|filter_by_role:"NS" title="Otros" %}
     </div>
 </div>
 {% endblock content %}

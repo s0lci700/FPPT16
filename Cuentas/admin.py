@@ -20,7 +20,7 @@ class UserAdmin(DefaultUserAdmin):
     ordering = ("last_name", "first_name", "role")
     filter_horizontal = ()
     fieldsets = (
-        (None, {"fields": ("email", "password")}),
+        (None, {"fields": ("email", "password", "role")}),
         ("Personal info", {"fields": ("first_name", "last_name", "avatar")}),
         (
             "Permissions",
@@ -34,8 +34,8 @@ class UserAdmin(DefaultUserAdmin):
                 )
             },
         ),
-        ("Important dates", {"fields": ("last_login", "date_joined")}),
     )
+    readonly_fields = ("last_login", "date_joined")
 
     inlines = [StudentProfileInline, TeacherProfileInline]
 

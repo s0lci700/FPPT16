@@ -6,7 +6,6 @@ class FichaForm(forms.ModelForm):
     class Meta:
         model = Ficha
         fields = [
-            "student",
             "title",
             "main_image",
             "description",

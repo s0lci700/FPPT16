@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 {% load static %}
-
 
 {% block title %}
     <title>Alumnes</title>
@@ -18,7 +18,7 @@
 
     <div id="content" class="-mt-12 my-1 row-start-2 row-span-full col-start-3 col-end-12 grid gap-4">
         <!-- Students -->
-        {% include 'components/user_list.html' with users=alumni title="Alumnes" %}
+        {% include 'components/user_list.html' with users=users|filter_by_role:"A" title="Alumnes" %}
     </div>
 </div>
 {% endblock content %}

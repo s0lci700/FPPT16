@@ -23,7 +23,7 @@
                     </svg>
                 </div>
                 <div class="w-16 h-16 container justify-self-center text-center text-sm bg-baublue flex justify-center px-3 leading-4">
-                    <a href="{% url 'all_users_detail' pk=request.user.id %}" class="self-center text-center text-white font-semibold">Mi Perfil</a>
+                    <a href="{% url 'user_detail' pk=request.user.id %}" class="self-center text-center text-white font-semibold">Mi Perfil</a>
                 </div>
                 <div class="w-16 h-16 justify-self-center text-white text-sm bg-baured flex rounded-full font-medium leading-3">
                     <a href="{% url 'logout' %}" class="self-center text-center">Cerrar Sesion</a>

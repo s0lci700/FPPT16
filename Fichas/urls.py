@@ -1,9 +1,19 @@
 from django.urls import path
-from . import views
+from .views import (
+    ficha_general_view,
+    ficha_create_view,
+    ficha_detail_view,
+    ficha_update_view,
+    ficha_delete_view,
+)
+
 urlpatterns = [
-    path('', views.ficha_general_view, name='ficha_general'),
-    path('create/', views.ficha_create_view, name='ficha_create'),
-    path('ficha/<int:id>/', views.ficha_detail_view, name='ficha_detail'),
-    path('ficha/<int:id>/update/', views.ficha_update_view, name='ficha_update'),
-    path('ficha/<int:id>/delete/', views.ficha_delete_view, name='ficha_delete'),
+    # These urls match the view functions and correctly pass an 'id' argument
+    path('<int:id>/detail/', ficha_detail_view, name='ficha_detail'),
+    path('<int:id>/update/', ficha_update_view, name='ficha_update'),
+    path('<int:id>/delete/', ficha_delete_view, name='ficha_delete'),
+
+    # These urls don't require an id so they can just call the function directly
+    path('general/', ficha_general_view, name='ficha_general'),
+    path('create/', ficha_create_view, name='ficha_create'),
 ]

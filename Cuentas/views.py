@@ -52,9 +52,10 @@ class UserProfileView(DetailView):
         context = super().get_context_data(**kwargs)
         role = self.object.role
         if role == "A":
-            context["year"] = self.object.year
+            student_profile = self.object.studentprofile  # Access the StudentProfile object
+            context["year"] = student_profile.year        # Access the year attribute from the StudentProfile object
         elif role == "P":
-            pass
+            teacher_profile = self.object.teacherprofile
         return context
 
 
@@ -108,7 +109,11 @@ def home_view(request):
 # General List View with logic for different roles
 class UserListView(ListView):
     context_object_name = "users"
-    role = 'Not Set'
+    context = {
+        "alumni": CustomUser.objects.filter(role="A"),
+        "profesores": CustomUser.objects.filter(role="P"),
+        "otros": CustomUser.objects.filter(role="NS"),
+    }
 
     def get_template_names(self):
         role = self.kwargs.get("role")
@@ -116,17 +121,21 @@ class UserListView(ListView):
 
     def get_queryset(self):
         role = self.kwargs.get("role")
+
+        if role == "all_users":
+            return CustomUser.objects.all()
+
         role_mapping = {
             "alumni": "A",
             "profesores": "P",
-            "all_users": CustomUser.objects.all(),
         }
+
         return CustomUser.objects.filter(role=role_mapping[role])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if self.kwargs["role"] == "all_users":
+        if self.kwargs["role"] not in ["alumni", "profesores"]:
             users = context["users"]
             context["alumni"] = [user for user in users if user.role == "A"]
             context["profesores"] = [user for user in users if user.role == "P"]

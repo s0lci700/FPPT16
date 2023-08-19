@@ -23,9 +23,13 @@ class CustomUser(AbstractUser):
         verbose_name="Rol",
         help_text="Rol del usuario",
     )
-    email = models.EmailField("email address", unique=True)
+    email = models.EmailField(
+        unique=True,
+        verbose_name="Correo electrónico",
+        help_text="Correo electrónico del usuario",
+    )
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['role']
 
     first_name = models.CharField(
         max_length=50,
