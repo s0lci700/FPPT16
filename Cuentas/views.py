@@ -13,6 +13,7 @@ from django.contrib.auth import login
 
 User = get_user_model()
 
+
 # AUTH VIEWS
 def login_view(request):
     form = LoginForm(request.POST or None)
@@ -51,7 +52,7 @@ class UserProfileView(DetailView):
         context = super().get_context_data(**kwargs)
         role = self.object.role
         if role == "A":
-            context['year'] = self.object.year
+            context["year"] = self.object.year
         elif role == "P":
             pass
         return context
@@ -94,6 +95,7 @@ class DeleteUser(DeleteView, LoginRequiredMixin, UserPassesTestMixin):
 
 # General views
 
+
 def landing_view(request):
     return render(request, "landing.html")
 
@@ -106,6 +108,7 @@ def home_view(request):
 # General List View with logic for different roles
 class UserListView(ListView):
     context_object_name = "users"
+    role = 'Not Set'
 
     def get_template_names(self):
         role = self.kwargs.get("role")
@@ -114,20 +117,20 @@ class UserListView(ListView):
     def get_queryset(self):
         role = self.kwargs.get("role")
         role_mapping = {
-            'alumni': 'A',
-            'profesores': 'P',
-            'all_users': CustomUser.objects.all(),
+            "alumni": "A",
+            "profesores": "P",
+            "all_users": CustomUser.objects.all(),
         }
         return CustomUser.objects.filter(role=role_mapping[role])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if self.kwargs['role'] == 'all_users':
-            users = context['users']
-            context['alumni'] = [user for user in users if user.role == "A"]
-            context['profesores'] = [user for user in users if user.role == "P"]
-            context['otros'] = [user for user in users if user.role not in ["A", "P"]]
+        if self.kwargs["role"] == "all_users":
+            users = context["users"]
+            context["alumni"] = [user for user in users if user.role == "A"]
+            context["profesores"] = [user for user in users if user.role == "P"]
+            context["otros"] = [user for user in users if user.role not in ["A", "P"]]
 
         return context
 
@@ -176,6 +179,7 @@ class UserListView(ListView):
 
 # Detail views
 
+
 class UserDetailView(DetailView):
     model = CustomUser
 
@@ -186,17 +190,18 @@ class UserDetailView(DetailView):
         elif role == "P":
             return "profesor_detail.html"
         elif role == "NS":
-            raise ValueError("User has no role, only users with a role can be displayed.")
+            raise ValueError(
+                "User has no role, only users with a role can be displayed."
+            )
         else:
             return "user_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         role = self.object.role
-        context['role'] = role
+        context["role"] = role
         if role == "A":
-            context['year'] = self.object.year
+            context["year"] = self.object.year
         elif role == "P":
             pass
         return context
-
