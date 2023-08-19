@@ -14,10 +14,10 @@ class TeacherProfileInline(admin.StackedInline):
 
 
 class UserAdmin(DefaultUserAdmin):
-    list_display = ("email", "first_name", "last_name", "role", "year")
-    list_filter = ("role", "year", "is_staff", "is_superuser")
+    list_display = ("email", "first_name", "last_name", "role")
+    list_filter = ("role", "is_staff", "is_superuser")
     search_fields = ("email", "first_name", "last_name")
-    ordering = ("last_name", "first_name", "role", "year")
+    ordering = ("last_name", "first_name", "role")
     filter_horizontal = ()
     fieldsets = (
         (None, {"fields": ("email", "password")}),
@@ -34,7 +34,6 @@ class UserAdmin(DefaultUserAdmin):
                 )
             },
         ),
-        ("Role & Year", {"fields": ("role", "year")}),
         ("Important dates", {"fields": ("last_login", "date_joined")}),
     )
 
