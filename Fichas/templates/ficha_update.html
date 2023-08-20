@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}<title>Actualizar Ficha</title>{% endblock %}
+{% block content %}
+    <div class="grid grid-cols-12 h-full font-primary">
+        {% include 'components/sidebar.html' %}
+        <div id='content' class="col-start-3 col-end-12 flex justify-center items-center p-6">
+            <form action="{% url 'ficha-update' ficha.pk %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- Form fields -->
+                {{ form.as_p }}
+                <!-- Buttons -->
+                <div class="flex flex-row gap-x-2 mt-6">
+                    <button class="bg-baublue rounded-full px-2 py-1 flex" type="submit">Actualizar</button>
+                    <button class="bg-bauyellow rounded-full px-2 py-1 flex" type="button">Guardar como Borrador</button>
+                    <a class="bg-baured rounded-full px-2 py-1 flex" href="{% url 'ficha-detail' ficha.pk %}">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block footer %}{% include 'components/footer.html' %}{% endblock %}
