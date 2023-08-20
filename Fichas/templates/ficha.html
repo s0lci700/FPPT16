@@ -3,24 +3,25 @@
 {% block title %}<title>Fichas</title>{% endblock %}
 {% block content %}
 
-
     <div class="grid grid-cols-12 grid-rows-6 h-full font-primary">
         <div class="container row-span-full col-start-1 col-end-2 border-baublack border-x-4 border-y-4 my-1">
             {% include 'components/sidebar.html' %}
         </div>
 
-        <div class="mt-4 justify-items-center justify-center text-center bg-baublue row-start-1 col-start-3 col-end-12 flex-wrap mb-14">
-        <h1 class="mt-6 flex flex-col font-bold text-2xl text-white self-center justify-self-center">Usuarios</h1></div>
-                <a class="bg-bauyellow rounded-full flex-wrap px-3 py-1" href="{% url 'ficha_create' %}">Crear ficha</a>
-                <hr>
-        <div id="content" class="-mt-12 my-1 row-start-2 row-span-full col-start-3 col-end-12 grid grid-cols-3 gap-4">
+       <div class="mt-4 justify-between text-center bg-baublue row-start-1 col-start-3 col-end-12 flex-wrap mb-14 flex items-center px-6">
+    <h1 class="font-bold text-2xl text-white">Fichas</h1>
+    <a class="bg-bauyellow rounded-full flex-wrap px-3 py-1" href="{% url 'ficha_create' %}">Crear ficha</a>
+</div>
 
-            </div>
-            <div class=" ring-2 ring-baublack col-span-3 row-span-2">
+
+        <div id="content" class=" row-start-1 row-span-full col-start-3 col-end-12 grid grid-cols-3 gap-4 items-center">
+            <div class="ring-2 ring-baublack col-span-3 row-span-2">
                 {% for ficha in fichas %}
+                    <div class="text-center p-4"> <!-- Centered content for each ficha -->
                         <a href="{% url 'ficha_detail' ficha.id %}">{{ ficha.title }}</a>
                         <img class="user-avatar" src="{{ ficha.main_image.url }}" alt="ficha image">
                         <span>{{ ficha.description }}</span>
+                    </div>
                 {% endfor %}
             </div>
         </div>
