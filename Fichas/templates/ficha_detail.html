@@ -4,8 +4,18 @@
 {% endblock %}
 
 {% block content %}
-<h2>{{ ficha.title }}</h2>
-<p>{{ ficha.description }}</p>
+    <div class="my-auto text-center p-4 ring-2 ring-baublack mx-auto"> <!-- Centered content for each ficha -->
+                        <a class="bg-bauyellow font-primary font-semibold hover:text-baublue" href="{% url 'ficha_detail' ficha.id %}">{{ ficha.title }}</a>
+                        <img class="self-center justify-self-center mx-auto" src="{{ ficha.main_image.url }}" alt="ficha image">
+                        <ul class="px-36">
+                            <li class=" border-baublack border-b-2">{{ ficha.student.user.first_name }} {{ ficha.student.user.last_name }}</li>
+                            <li>{{ ficha.description }}</li>
+                            <li>{{ ficha.analysis }}</li>
+                            <li>{{ ficha.references }}</li>
+                            <li>{{ ficha.misc }}</li>
+                            <li>{{ ficha.created_at }} / {{ ficha.updated_at }}</li>
+                        </ul>
+                    </div>
 {% endblock %}
 {% block footer %}
     {% include 'components/footer.html' %}

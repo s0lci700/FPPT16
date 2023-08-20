@@ -889,10 +889,6 @@ select{
   margin-top: auto;
 }
 
-.ml-6{
-  margin-left: 1.5rem;
-}
-
 .block{
   display: block;
 }
@@ -1017,10 +1013,6 @@ select{
   place-content: space-evenly;
 }
 
-.items-start{
-  align-items: flex-start;
-}
-
 .items-center{
   align-items: center;
 }
@@ -1112,6 +1104,10 @@ select{
   border-top-width: 4px;
 }
 
+.border-b-2{
+  border-bottom-width: 2px;
+}
+
 .border-baublack{
   --tw-border-opacity: 1;
   border-color: rgb(35 36 30 / var(--tw-border-opacity));
@@ -1194,6 +1190,11 @@ select{
   padding-right: 1rem;
 }
 
+.px-6{
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
 .py-1{
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
@@ -1209,9 +1210,9 @@ select{
   padding-bottom: 2rem;
 }
 
-.px-6{
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+.px-12{
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
 
 .pb-3{
@@ -1228,10 +1229,6 @@ select{
 
 .text-center{
   text-align: center;
-}
-
-.align-baseline{
-  vertical-align: baseline;
 }
 
 .align-bottom{
@@ -1352,6 +1349,11 @@ select{
 .hover\:-rotate-90:hover{
   --tw-rotate: -90deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.hover\:text-baublue:hover{
+  --tw-text-opacity: 1;
+  color: rgb(69 66 133 / var(--tw-text-opacity));
 }
 
 .hover\:ring-2:hover{

@@ -9,18 +9,25 @@
         </div>
 
        <div class="mt-4 justify-between text-center bg-baublue row-start-1 col-start-3 col-end-12 flex-wrap mb-14 flex items-center px-6">
-    <h1 class="font-bold text-2xl text-white">Fichas</h1>
-    <a class="bg-bauyellow rounded-full flex-wrap px-3 py-1" href="{% url 'ficha_create' %}">Crear ficha</a>
-</div>
+            <h1 class="font-bold text-2xl text-white">Fichas</h1>
+            <a class="bg-bauyellow rounded-full flex-wrap px-3 py-1" href="{% url 'ficha_create' %}">Crear ficha</a>
+        </div>
 
 
         <div id="content" class=" row-start-1 row-span-full col-start-3 col-end-12 grid grid-cols-3 gap-4 items-center">
             <div class="ring-2 ring-baublack col-span-3 row-span-2">
                 {% for ficha in fichas %}
-                    <div class="text-center p-4"> <!-- Centered content for each ficha -->
-                        <a href="{% url 'ficha_detail' ficha.id %}">{{ ficha.title }}</a>
-                        <img class="user-avatar" src="{{ ficha.main_image.url }}" alt="ficha image">
-                        <span>{{ ficha.description }}</span>
+                    <div class=" text-center p-4 ring-2 ring-baublack mx-auto"> <!-- Centered content for each ficha -->
+                        <a class="bg-bauyellow font-primary font-semibold hover:text-baublue" href="{% url 'ficha_detail' ficha.id %}">{{ ficha.title }}</a>
+                        <img class="user-avatar self-center justify-self-center mx-auto" src="{{ ficha.main_image.url }}" alt="ficha image">
+                        <ul class="px-36">
+                            <li class=" border-baublack border-b-2">{{ ficha.student.user.first_name }} {{ ficha.student.user.last_name }}</li>
+                            <li>{{ ficha.description }}</li>
+                            <li>{{ ficha.analysis }}</li>
+                            <li>{{ ficha.references }}</li>
+                            <li>{{ ficha.misc }}</li>
+                            <li>{{ ficha.created_at }} / {{ ficha.updated_at }}</li>
+                        </ul>
                     </div>
                 {% endfor %}
             </div>
