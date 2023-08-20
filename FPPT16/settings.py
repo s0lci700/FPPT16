@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'Fichas',
     # third party apps
     'tailwind',
-    'theme'
+    'theme',
     "django_htmx",
 ]
 
