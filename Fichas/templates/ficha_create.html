@@ -4,13 +4,11 @@
 {% endblock %}
 
 {% block content %}
-    <div class="grid grid-cols-12 grid-rows-6 h-full font-primary">
-        <div class="container row-span-full col-start-1 col-end-2 border-baublack border-x-4 border-y-4 my-1">
-            {% include 'components/sidebar.html' %}
-        </div>
-        <div id='content' class="gap-y-4 border-baublack border-x-4 border-y-4 ml-2 flex justify-center items-center row-span-full col-start-2 my-1 py-8 col-end-12">
-            <form action="{% url 'ficha_create' %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
+    <div class="grid grid-cols-12 h-full font-primary">
+        {% include 'components/sidebar.html' %}
+        <div id='content' class="col-start-3 col-end-12 flex justify-center items-center p-6">
+            <form action="{% url 'ficha-create' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
                 <div>{{ form.title }} {{ form.main_image }}</div>
                 <div>{{ form.description }} </div>
                 <div>{{ form.analysis }} </div>
@@ -18,9 +16,9 @@
                 <div>{{ form.keywords }}</div>
                 <div>{{ form.misc  }} </div>
                 <div class="flex flex-row gap-x-2 mt-6">
-                    <button class="bg-baublue rounded-full px-2 py-1 flex" type="submit"> Publicar </button>
-                    <button class="bg-bauyellow rounded-full px-2 py-1 flex" type="button"> Guardar como Borrador </button>
-                    <button class="bg-baured rounded-full px-2 py-1 flex" type="reset"> Cancelar </button>
+                    {% include 'components/button.html' with bg-button='bg-baublue' extra_classes="hover:bg-blue-600" name='publish' button_type="submit" button_text="Publicar" %}
+                    {% include 'components/button.html' with bg_button='bg-bauyellow' extra_classes="hover:bg-amber-600" name='save_draft' button_type="submit" button_text="Guardar como Borrador" %}
+                    {% include 'components/button.html' with bg_button='bg-baured' extra_classes="hover:bg-red-600" name='cancel' button_type="submit" button_text="Cancelar" %}
                 </div>
             </form>
         </div>

@@ -1,21 +1,32 @@
 {% extends 'base.html' %}
-{% block title %}<title>Actualizar Ficha</title>{% endblock %}
+{% block title %}
+    <title>Editar Ficha</title>
+{% endblock %}
+
 {% block content %}
     <div class="grid grid-cols-12 h-full font-primary">
         {% include 'components/sidebar.html' %}
         <div id='content' class="col-start-3 col-end-12 flex justify-center items-center p-6">
             <form action="{% url 'ficha-update' ficha.pk %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <!-- Form fields -->
-                {{ form.as_p }}
-                <!-- Buttons -->
+                <div>{{ form.title }} {{ form.main_image }}</div>
+                <div>{{ form.description }} </div>
+                <div>{{ form.analysis }} </div>
+                <div>{{ form.references }} </div>
+                <div>{{ form.keywords }}</div>
+                <div>{{ form.misc  }} </div>
                 <div class="flex flex-row gap-x-2 mt-6">
-                    <button class="bg-baublue rounded-full px-2 py-1 flex" type="submit">Actualizar</button>
-                    <button class="bg-bauyellow rounded-full px-2 py-1 flex" type="button">Guardar como Borrador</button>
-                    <a class="bg-baured rounded-full px-2 py-1 flex" href="{% url 'ficha-detail' ficha.pk %}">Cancelar</a>
+                    {% include 'components/button.html' with bg_button='bg-baublue' extra_classes="hover:bg-blue-600" name='update' button_type="submit" button_text="Actualizar" %}
+                    {% include 'components/button.html' with bg_button='bg-baured' extra_classes="hover:bg-red-600" hx-get="{% url 'ficha-delete-confirm' ficha.pk %}" hx-target="#deleteModal" button_text="Eliminar" %}
+                    {% include 'components/button.html' with bg_button='bg-gray-400' extra_classes="hover:bg-gray-600" name='cancel' button_type="button" hx-get="{% url 'cancel-edit' %}" hx-swap="outerHTML" button_text="Cancelar" %}
                 </div>
             </form>
         </div>
+        <!-- Include the delete modal here -->
+        {% include 'components/modal.html' %}
     </div>
 {% endblock %}
-{% block footer %}{% include 'components/footer.html' %}{% endblock %}
+
+{% block footer %}
+    {% include 'components/footer.html' %}
+{% endblock %}

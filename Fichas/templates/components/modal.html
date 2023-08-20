@@ -1,0 +1,10 @@
+<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+  <div class="bg-white p-8 rounded shadow-lg">
+    <p class="text-lg mb-4">Are you sure you want to delete this ficha? This action is irreversible.</p>
+    <form action="{% url 'ficha-delete' ficha.pk %}" method="post" hx-post="{% url 'ficha-delete' ficha.pk %}" hx-swap="outerHTML">
+        {% csrf_token %}
+        {% include 'components/button.html' with hxget="{% url 'ficha-delete-confirm' ficha.pk %}" hxswap="outerHTML" bg_button='bg-baured' button_text='DELETE' %}
+        {% include 'components/button.html' with bg_button='bg-baublue' button_text='CANCEL' %}
+    </form>
+  </div>
+</div>

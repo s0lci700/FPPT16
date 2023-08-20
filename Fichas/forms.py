@@ -5,6 +5,7 @@ from .models import Ficha, Review
 class FichaForm(forms.ModelForm):
     class Meta:
         model = Ficha
+        exclude = ["student", "status", "created_at", "updated_at"]
         fields = [
             "title",
             "main_image",

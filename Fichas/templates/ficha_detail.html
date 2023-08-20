@@ -4,7 +4,9 @@
 {% endblock %}
 
 {% block content %}
-    <div class="my-auto text-center p-4 ring-2 ring-baublack mx-auto"> <!-- Centered content for each ficha -->
+    <div class="grid grid-cols-12 h-full font-primary">
+        {% include 'components/sidebar.html' %}
+        <div class="col-start-3 col-end-12 my-auto text-center p-4 ring-2 ring-baublack mx-auto">
                         <a class="bg-bauyellow font-primary font-semibold hover:text-baublue" href="{% url 'ficha_detail' ficha.id %}">{{ ficha.title }}</a>
                         <img class="self-center justify-self-center mx-auto" src="{{ ficha.main_image.url }}" alt="ficha image">
                         <ul class="px-36">
@@ -15,7 +17,8 @@
                             <li>{{ ficha.misc }}</li>
                             <li>{{ ficha.created_at }} / {{ ficha.updated_at }}</li>
                         </ul>
-                    </div>
+        </div>
+    </div>
 {% endblock %}
 {% block footer %}
     {% include 'components/footer.html' %}
