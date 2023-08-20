@@ -92,7 +92,6 @@ def ficha_detail_view(request, id):
 #         return JsonResponse(data)
 
 
-@login_required
 class FichaCreateUpdateDeleteView(
     LoginRequiredMixin, CreateView, UpdateView, DeleteView
 ):
