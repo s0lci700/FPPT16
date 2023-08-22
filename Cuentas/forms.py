@@ -10,7 +10,13 @@ class LoginForm(forms.Form):
 
 
 class CustomUserForm(forms.ModelForm):
-    year = forms.ChoiceField(choices=[("3", "3"), ("4", "4")], required=False)
+    TERCERO = "3"
+    CUARTO = "4"
+    year_choices = [
+        (TERCERO, "Tercer Año"),
+        (CUARTO, "Cuarto Año"),
+    ]
+    year = forms.ChoiceField(choices=year_choices)
 
     class Meta:
         model = CustomUser

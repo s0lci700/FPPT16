@@ -28,7 +28,7 @@ urlpatterns = [
     path("user/<int:pk>/edit/", EditUser.as_view(), name="edit_user"),
     path("user/<int:pk>/delete/", DeleteUser.as_view(), name="delete_user"),
 
-    # R View/Detail User View with logic for each role
+    # R View/Detail User View
 
     path("user/<int:pk>/", UserProfileView.as_view(), name="user_detail"),
 

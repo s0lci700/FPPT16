@@ -6,9 +6,11 @@
         <div class="container row-span-full col-start-1 col-end-2 border-baublack border-x-4 border-y-4 my-1">
             {% include 'components/sidebar.html' %}
         </div>
-        <div class="mt-2 justify-items-center justify-center text-center bg-baublue row-start-1 col-start-3 col-end-12 flex-wrap mb-14">
-            <span class="mt-6 flex flex-col font-bold text-2xl text-white self-center justify-self-center">Alumnes</span>
-            <span><a class="bg-bauyellow rounded-full px-3 py-1" href="{% url 'ficha-create' %}">Crear ficha</a></span>
+        <div class="mt-2 justify-items-center justify-center text-center bg-baublue row-start-1 row-span-1 col-start-3 col-end-12 mb-14">
+            <div class="grid grid-cols-6 grid-rows-3">
+                <span class="mt-6 flex flex-col font-bold text-2xl text-white self-center justify-self-center">Fichas</span>
+                <span class="col-start-5 row-start-2 -mt-6"><a class="bg-bauyellow rounded-full px-3 py-1" href="{% url 'ficha-create' %}">Crear ficha</a></span>
+            </div>
         </div>
 
 

@@ -22,12 +22,16 @@ def login_view(request):
         if form.is_valid():
             email = form.cleaned_data.get("email")
             password = form.cleaned_data.get("password")
-            user = authenticate(request, email=email, password=password)
-            if user:
-                login(request, user)
-                messages.success(request, "You are now logged in.")
-                return redirect("landing")
-            else:
+
+            try:
+                user = CustomUser.objects.get(email=email)
+                if user.check_password(password):
+                    login(request, user)
+                    messages.success(request, "You are now logged in.")
+                    return redirect("landing")
+                else:
+                    messages.error(request, "Invalid email or password.")
+            except CustomUser.DoesNotExist:
                 messages.error(request, "Invalid email or password.")
 
     context = {"form": form}
@@ -53,8 +57,14 @@ class UserProfileView(DetailView):
         context = super().get_context_data(**kwargs)
         role = self.object.role
         if role == "A":
-            student_profile = self.object.studentprofile  # Access the StudentProfile object
-            context["year"] = student_profile.year        # Access the year attribute from the StudentProfile object
+            student_profile = (
+                self.object.studentprofile
+            )  # Access the StudentProfile object
+            context[
+                "year"
+            ] = (
+                student_profile.year
+            )  # Access the year attribute from the StudentProfile object
         elif role == "P":
             teacher_profile = self.object.teacherprofile
         return context
@@ -144,6 +154,7 @@ class UserListView(ListView):
 
         return context
 
+
 # Detail views
 
 
@@ -154,7 +165,9 @@ class UserDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         student_profile = self.object.studentprofile  # Access the StudentProfile object
-        user_fichas = Ficha.objects.filter(student=student_profile)  # Filter by StudentProfile object
+        user_fichas = Ficha.objects.filter(
+            student=student_profile
+        )  # Filter by StudentProfile object
         context["user_fichas"] = user_fichas
         context["role_display"] = self.object.get_role_display()
 

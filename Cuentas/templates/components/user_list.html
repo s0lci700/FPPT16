@@ -5,16 +5,16 @@
         {% for user in users %}
             <li class="w-fit h-fit border-baublack border-4 p-2 text-center my-1 mx-auto bg-zinc-100 bg-opacity-30 self-center">
             <div class="flex flex-col justify-center">
-            <span>{{ user.first_name }} <b>{{ user.last_name }}</b></span>
+            <span><a href="{% url 'user_detail' user.pk %}">{{ user.first_name }} <b>{{ user.last_name }}</b></a></span>
                     <hr>
                 {% thumbnail user.avatar "200x200" crop="center" as im %}
                 <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ user.first_name }} avatar">
                 {% endthumbnail %}
             </div>
                 <div class="flex flex-col">
-                    <span>{{ user.email }}</span>
-                    <span>{{ user.role }}</span>
-                    <span>{{ user.year }}</span>
+{#                    <span>{{ user.email }}</span>#}
+                    <span>{{ user.studentprofile.get_year_display }}</span>
+{#                    <span>{{ user.get_role_display }}</span>#}
                 </div>
             </li>
         {% endfor %}

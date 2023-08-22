@@ -77,11 +77,11 @@ class StudentProfile(models.Model):
         limit_choices_to={'role': 'A'},
         related_name="studentprofile"
     )
-    TERCER_AÑO = "3"
-    CUARTO_AÑO = "4"
+    TERCERO = "3"
+    CUARTO = "4"
     year_choices = [
-        (TERCER_AÑO, "3"),
-        (CUARTO_AÑO, "4"),
+        (TERCERO, "Tercer Año"),
+        (CUARTO, "Cuarto Año"),
     ]
     year = models.CharField(choices=year_choices, max_length=1, default="3")
 
