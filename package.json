@@ -4,6 +4,7 @@
     "prettier-plugin-tailwindcss": "^0.5.2"
   },
   "dependencies": {
+    "alpinejs": "^3.12.3",
     "htmx.org": "^1.9.4"
   }
 }

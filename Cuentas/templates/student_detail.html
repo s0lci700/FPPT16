@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load thumbnail %}
 {% block title %}
     <title>{{ user.first_name }}</title>
 {% endblock %}
@@ -9,10 +9,19 @@
     <div class="container row-span-full col-start-1 col-end-2 border-baublack border-x-4 border-y-4 my-1">
         {% include 'components/sidebar.html' %}
     </div>
-<h1>{{ user.email }}</h1>
-<p>First Name: {{ user.first_name }}</p>
-<p>Last Name: {{ user.last_name }}</p>
-<p>Year: {{ user.studentprofile.year }}</p>
+<div class="flex flex-col justify-center">
+            <span>{{ user.first_name }} <b>{{ user.last_name }}</b></span>
+                    <hr>
+                {% thumbnail user.avatar "200x200" crop="center" as im %}
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ user.first_name }} avatar">
+                {% endthumbnail %}
+            </div>
+                <div class="flex flex-col">
+                    <span>{{ user.email }}</span>
+                    <span>{{ user.role }}</span>
+                    asdfasdfasdfasdfasdfasdfasdfsdf
+                    <span>{{ user.year }}</span>
+                </div>
     </div>
 {% endblock %}
 

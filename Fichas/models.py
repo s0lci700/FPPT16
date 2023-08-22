@@ -12,7 +12,7 @@ class Ficha(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Borrador')
     student = models.ForeignKey("Cuentas.StudentProfile", on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
-    main_image = models.ImageField(upload_to="fichas/images/")
+    main_image = models.ImageField(upload_to="fichas/images/", blank=True, null=True)
     description = models.TextField(blank=True)
     analysis = models.TextField(blank=True)
     references = models.TextField(blank=True)

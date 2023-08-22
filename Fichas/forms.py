@@ -3,6 +3,7 @@ from .models import Ficha, Review
 
 
 class FichaForm(forms.ModelForm):
+    main_image = forms.ImageField(required=False)
     class Meta:
         model = Ficha
         exclude = ["student", "status", "created_at", "updated_at"]

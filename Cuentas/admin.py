@@ -8,9 +8,17 @@ from .models import StudentProfile, TeacherProfile
 class StudentProfileInline(admin.StackedInline):
     model = StudentProfile
 
+    class Meta:
+        verbose_name = "Perfil de alumno"
+        verbose_name_plural = "Perfiles de alumnos"
+
 
 class TeacherProfileInline(admin.StackedInline):
     model = TeacherProfile
+
+    class Meta:
+        verbose_name = "Perfil de profesor"
+        verbose_name_plural = "Perfiles de profesores"
 
 
 class UserAdmin(DefaultUserAdmin):
@@ -54,3 +62,5 @@ class UserAdmin(DefaultUserAdmin):
 
 
 admin.site.register(CustomUser, UserAdmin)
+admin.site.register(StudentProfile)
+admin.site.register(TeacherProfile)

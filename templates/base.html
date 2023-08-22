@@ -8,7 +8,9 @@
     {% load tailwind_tags %}
     {% tailwind_css %}
     {% load static %}
-    <script src="/node_modules/htmx.org/dist/htmx.min.js"></script>
+    {% load thumbnail %}
+    <script defer src="{% static 'alpinejs/dist/cdn.min.js'  %}"></script>
+    <script src="{% static 'htmx.org/dist/htmx.min.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 </head>
 
@@ -20,7 +22,9 @@
 
 {% endblock %}
 
+</body>
+
 {% block footer %}
 {% endblock %}
-</body>
+
 </html>

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load thumbnail %}
 
 {% block title %}<title>{{ user.email }}</title>{% endblock %}
 
@@ -7,20 +8,38 @@
         <div class="container row-span-full col-start-1 col-end-2 border-baublack border-x-4 border-y-4 my-1">
             {% include 'components/sidebar.html' %}
         </div>
-     <div class="mt-4 justify-between text-center bg-baublue row-start-1 col-start-3 col-end-12 flex-wrap mb-14 flex items-center px-6">
-    <h1 class="font-bold text-2xl text-white">{{ user.first_name }}</h1>
-     </div>
-         <div class="mx-auto flex-grow row-span-full w-full">
-             <img src="{{ user.avatar.url }}" alt="Profile Picture">
-             <h1>{{ user.email }}</h1>
-             <p>First Name: {{ user.first_name }}</p>
-             <p>Last Name: {{ user.last_name }}</p>
+         <div class="h-12 w-full mt-1.5 justify-between text-center ml-6 bg-baublue row-start-1 col-start-2 col-end-12 flex-wrap mb-14 flex items-center px-6">
+            <h1 class="font-primary font-bold text-2xl text-white">{{ user.first_name }}</h1>
+         </div>
+         <div class="ml-8 -mt-16 col-start-2 col-end-5 row-start-2 row-end-7">
+             {% thumbnail user.avatar "300x300" crop="center" as im %}
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ user.first_name }} avatar">
+             {% endthumbnail %}
+         </div>
+            <div class=" col-start-5 -mt-14 col-end-12 row-start-2 row-end-7 ml-1.5">
+             <p class="font-medium text-3xl">{{ user.first_name }} {{ user.last_name }}</p>
+             <p class="text-muted">{{ user.email }}</p>
              <p>{{ user.role }}</p>
              {% if user.studentprofile %}
-                 {{ user.studentprofile.year }}
+                 <p>{{ user.studentprofile.year }}</p>
              {% endif %}
-         </div>
-     </div>
+            </div>
+            <div class="border-baublack border-t-4 -ml-16  col-start-3 col-end-12 row-start-4 row-end-7 -mt-8 w-full h-full">
+            <div class=" w-48 h-48 bg-baublue">
+                <p>{{ role }} // {{ year }} // {{ user_fichas }}</p>
+
+                {% for ficha in user_fichas %}
+                    szaaaa
+                    {% thumbnail ficha.main_image "300x300" crop="center" as im %}
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="ficha">
+                    {% endthumbnail %}
+                    <h3>{{ ficha.title }}</h3>
+                    <p>{{ ficha.description }}</p>
+                    <!-- other fields ... -->
+                </div>
+                {% endfor %}
+            </div>
+        </div>
 {% endblock %}
 
 {% block footer %}

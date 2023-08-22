@@ -11,10 +11,13 @@ from django.contrib.auth.models import (
 
 # Create your models here.
 class CustomUser(AbstractUser):
+    ALUMNO = "A"
+    PROFESOR = "P"
+    NO_ESPECIFICADO = "NS"
     ROLE_CHOICES = (
-        ("A", "Alumno"),
-        ("P", "Profesor"),
-        ("NS", "No especificado"),
+        (ALUMNO, "Alumno"),
+        (PROFESOR, "Profesor"),
+        (NO_ESPECIFICADO, "No especificado"),
     )
     role = models.CharField(
         max_length=2,
@@ -48,15 +51,23 @@ class CustomUser(AbstractUser):
         default="perfiles/default.png",
         blank=True,
     )
+    birth_date = models.DateField(
+        blank=True,
+        null=True,
+        verbose_name="Fecha de nacimiento",
+        help_text="Fecha de nacimiento del usuario",
+    )
 
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.role}: {self.first_name + ' ' + self.last_name}"
+        return f"{self.first_name + ' ' + self.last_name}"
 
     class Meta:
         ordering = ["last_name", "first_name", 'role']
+        verbose_name = "Usuario"
+        verbose_name_plural = "Usuarios"
 
 
 class StudentProfile(models.Model):
@@ -66,8 +77,21 @@ class StudentProfile(models.Model):
         limit_choices_to={'role': 'A'},
         related_name="studentprofile"
     )
-    year_choices = [('3', "3"), ('4', "4")]
-    year = models.CharField(max_length=1, choices=year_choices, blank=True)
+    TERCER_AÑO = "3"
+    CUARTO_AÑO = "4"
+    year_choices = [
+        (TERCER_AÑO, "3"),
+        (CUARTO_AÑO, "4"),
+    ]
+    year = models.CharField(choices=year_choices, max_length=1, default="3")
+
+    def __str__(self):
+        return f"Alumne: {self.user.first_name} {self.user.last_name}"
+
+    class Meta:
+        verbose_name = "Perfil de alumno"
+        verbose_name_plural = "Perfiles de alumnos"
+
 
 
 class TeacherProfile(models.Model):
@@ -77,3 +101,10 @@ class TeacherProfile(models.Model):
         limit_choices_to={'role': 'P'},
         related_name="teacherprofile",
     )
+
+    def __str__(self):
+        return f"Profesor: {self.user.first_name} {self.user.last_name}"
+
+    class Meta:
+        verbose_name = "Perfil de profesor"
+        verbose_name_plural = "Perfiles de profesores"

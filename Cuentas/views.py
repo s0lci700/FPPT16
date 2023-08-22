@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model, authenticate
 from django.views.generic import DetailView, ListView
 
+from Fichas.models import Ficha
 from .forms import CustomUserForm, LoginForm
 from .models import CustomUser
 from django.contrib.auth.decorators import login_required
@@ -143,74 +144,18 @@ class UserListView(ListView):
 
         return context
 
-
-# @login_required
-# def alumni_list_view(request):
-#     context = {
-#         "alumni": CustomUser.objects.filter(role="A"),
-#     }
-#     return render(request, "alumni.html", context)
-
-# class AlumniListView(ListView):
-#     model = CustomUser
-#     template_name = "alumni.html"
-#     context_object_name = "alumni"
-#     queryset = CustomUser.objects.filter(role="A")
-
-# @login_required
-# def profesor_list_view(request):
-#     context = {
-#         "profesores": CustomUser.objects.filter(role="P"),
-#     }
-#     return render(request, "profesores.html", context)
-
-# class ProfesorListView(ListView):
-#     model = CustomUser
-#     template_name = "profesores.html"
-#     context_object_name = "profesores"
-#     queryset = CustomUser.objects.filter(role="P")
-
-# @login_required
-# def all_users_list_view(request):
-#     users = CustomUser.objects.all()
-#     students = [user for user in users if user.role == "A"]
-#     teachers = [user for user in users if user.role == "P"]
-#     others = [user for user in users if user.role not in ["A", "P"]]
-#
-#     context = {
-#         "users": users,
-#         "alumni": students,
-#         "profesores": teachers,
-#         "otros": others,
-#     }
-#     return render(request, "all_users.html", context)
-
-
 # Detail views
 
 
 class UserDetailView(DetailView):
     model = CustomUser
-
-    def get_template_names(self):
-        role = self.object.role
-        if role == "A":
-            return "alumni_detail.html"
-        elif role == "P":
-            return "profesor_detail.html"
-        elif role == "NS":
-            raise ValueError(
-                "User has no role, only users with a role can be displayed."
-            )
-        else:
-            return "user_detail.html"
+    template_name = "user_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        role = self.object.role
-        context["role"] = role
-        if role == "A":
-            context["year"] = self.object.year
-        elif role == "P":
-            pass
+        student_profile = self.object.studentprofile  # Access the StudentProfile object
+        user_fichas = Ficha.objects.filter(student=student_profile)  # Filter by StudentProfile object
+        context["user_fichas"] = user_fichas
+        context["role_display"] = self.object.get_role_display()
+
         return context
