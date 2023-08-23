@@ -1,17 +1,15 @@
+from django.contrib.auth.views import LogoutView
 from django.urls import path
+
+from . import views
 from .views import (
-    CustomUserForm,
     RegisterView,
-    UserProfileView,
     EditUser,
     DeleteUser,
     UserListView,
     UserDetailView,
     user_detail_redirect,
 )
-from . import views
-from . import forms
-from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     # login, logout

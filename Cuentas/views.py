@@ -1,18 +1,17 @@
 from django.contrib import messages
+from django.contrib.auth import get_user_model
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth import get_user_model, authenticate
+from django.urls import reverse_lazy, resolve
 from django.views.generic import DetailView, ListView
+from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from taggit.models import Tag
 
-from Fichas.models import Ficha
 from .forms import CustomUserForm, LoginForm
 from .models import CustomUser
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy, resolve
-from django.views.generic.edit import FormView, UpdateView, CreateView, DeleteView
-from django.contrib.auth import login
 
 User = get_user_model()
 

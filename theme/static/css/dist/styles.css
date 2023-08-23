@@ -1599,7 +1599,7 @@ select{
 }
 
 .font-primary{
-  font-family: Bricolage Grotesque;
+  font-family: Bricolage Grotesque, "Times New Roman", Serif, serif;
 }
 
 .font-serif{
