@@ -1,5 +1,5 @@
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.contrib.auth.base_user import BaseUserManager
+
 
 from django.db import models
 from django.contrib.auth.models import (
@@ -10,6 +10,28 @@ from django.contrib.auth.models import (
 
 
 # Create your models here.
+
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError("The Email field must be set")
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password=None, **extra_fields):
+        # Assuming that email is the unique identifier for your user model
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+
 class CustomUser(AbstractUser):
     ALUMNO = "A"
     PROFESOR = "P"
@@ -32,13 +54,10 @@ class CustomUser(AbstractUser):
         help_text="Correo electrónico del usuario",
     )
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ['role']
+    REQUIRED_FIELDS = ["role"]
 
     first_name = models.CharField(
-        max_length=50,
-        blank=True,
-        verbose_name="Nombre",
-        help_text="Nombre del usuario"
+        max_length=50, blank=True, verbose_name="Nombre", help_text="Nombre del usuario"
     )
     last_name = models.CharField(
         max_length=50,
@@ -65,17 +84,19 @@ class CustomUser(AbstractUser):
         return f"{self.first_name + ' ' + self.last_name}"
 
     class Meta:
-        ordering = ["last_name", "first_name", 'role']
+        ordering = ["last_name", "first_name", "role"]
         verbose_name = "Usuario"
         verbose_name_plural = "Usuarios"
+
+    objects = CustomUserManager()  # Add this line to assign your custom manager
 
 
 class StudentProfile(models.Model):
     user = models.OneToOneField(
         CustomUser,
         on_delete=models.CASCADE,
-        limit_choices_to={'role': 'A'},
-        related_name="studentprofile"
+        limit_choices_to={"role": "A"},
+        related_name="studentprofile",
     )
     TERCERO = "3"
     CUARTO = "4"
@@ -93,12 +114,11 @@ class StudentProfile(models.Model):
         verbose_name_plural = "Perfiles de alumnos"
 
 
-
 class TeacherProfile(models.Model):
     user = models.OneToOneField(
         CustomUser,
         on_delete=models.CASCADE,
-        limit_choices_to={'role': 'P'},
+        limit_choices_to={"role": "P"},
         related_name="teacherprofile",
     )
 
@@ -108,3 +128,5 @@ class TeacherProfile(models.Model):
     class Meta:
         verbose_name = "Perfil de profesor"
         verbose_name_plural = "Perfiles de profesores"
+
+

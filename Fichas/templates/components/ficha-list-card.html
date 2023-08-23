@@ -1,0 +1,22 @@
+{% load thumbnail %}
+<div @mouseover="showInfo{{ forloop.counter0 }} = true"
+     @mouseleave="showInfo{{ forloop.counter0 }} = false"
+     @click="window.location.href = '{% url 'ficha-detail' ficha.id %}'"
+     class="relative text-center p-4 ring-2 ring-baublack mx-auto w-64 min-h-96 z-10 h-full top-0 left-0 cursor-pointer"
+     id="card">
+        <div id="card-content">
+            <span class="bg-bauyellow font-primary font-semibold hover:text-baublue truncate block">{{ ficha.title }}</span>
+            {% thumbnail ficha.main_image "150x150" crop="top" as MI %}
+                <img class="self-center mx-auto h-32 w-32 object-cover my-2" src="{{ MI.url }}" alt="{{ ficha.title }} main image">
+            {% endthumbnail %}
+            <ul class="px-4">
+                <li class="border-baublack border-b-2 truncate font-bold">{{ ficha.student.user.first_name }} {{ ficha.student.user.last_name }}</li>
+            </ul>
+        </div>
+
+        <div id="info" x-show="showInfo{{ forloop.counter0 }}"
+             x-transition.opacity.duration.300ms
+             class="bg-zinc-100 absolute w-full h-full inset-0 flex flex-col justify-center items-center">
+            <span class="text-muted">{{ ficha.updated_at }}<br>{{ ficha.status }}</span>
+        </div>
+</div>

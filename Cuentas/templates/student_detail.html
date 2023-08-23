@@ -27,13 +27,9 @@
                     <span class="ml-1">Lorem Ipsum Dolor Sit Amet Miau miau miau.....</span>
                 </div>
                 <div id="keywordcontainer" class="w-full h-full col-start-7 col-span-6 row-start-1 row-span-2 px-4 pt-4">
-                    <div id="keywords" class="border-baublack border-2 w-full h-full px-4 py-4 grid grid-cols-12 grid-rows-6 grid-flow-row gap-2 content-evenly text-xs">
-                        <div id="keywords-title" class="border-baublack mb-3 border-b-2 col-span-full row-span-1 row-start-1 font-primary text-lg text-center -mt-2 ">
-                            <span class="font-semibold">Palabras Clave</span>
-                        </div>
-                        {% for tag in tags %}
-                            {% include 'components/tag.html' %}
-                        {% endfor %}
+                    <div id="keywords" class="border-baublack border-2 w-full h-full px-4 py-4 grid grid-cols-12 grid-rows-6 grid-flow-row gap-2 content-evenly text-xs"><div id="keywords-title" class=" border-baublack mb-3 border-b-2 col-span-full row-span-1 row-start-1 font-primary text-lg text-center -mt-2 "> Palabras Clave</div>
+    {#                      for keyword in keywords#}
+                        <div id="keyword" class="bg-zinc-100 rounded-full col-start-auto col-span-2 row-span-1 flex-1 text-center w-full h-full"><p class="flex-1 mt-1.5">Video</p></div>
                     </div>
                 </div>
                 <div id="fichascontainer" class="mt-6 row-start-3 row-end-7 col-start-1 col-end-13 border-baublack border-t-4 px-2">

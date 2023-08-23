@@ -6,6 +6,8 @@ from .views import (
     EditUser,
     DeleteUser,
     UserListView,
+    UserDetailView,
+    user_detail_redirect,
 )
 from . import views
 from . import forms
@@ -30,7 +32,9 @@ urlpatterns = [
 
     # R View/Detail User View
 
-    path("user/<int:pk>/", UserProfileView.as_view(), name="user_detail"),
+    path("user/student/<int:pk>/", UserDetailView.as_view(), name="student_detail"),
+    path("user/teacher/<int:pk>/", UserDetailView.as_view(), name="teacher_detail"),
+    path("user/<int:pk>/", user_detail_redirect, name="user_detail"),
 
     # list_views for each role
 

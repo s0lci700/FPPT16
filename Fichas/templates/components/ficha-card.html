@@ -1,0 +1,11 @@
+{% load thumbnail %}
+<a class="bg-slate-200 col-span-2 row-span-3 border-baublack border-2
+hover:border-bauyellow transition-all" href="{% url 'ficha-detail' ficha.id %}">
+<div id="ficha-card" class="h-full w-full relative text-center flex flex-col pt-3 px-1">
+    <span class="font-bold">{{ ficha.title }}</span>
+    {% thumbnail ficha.main_image "150x150" crop="top" as MI %}
+        <img class="w-fit self-center" src="{{ MI.url }}" width="{{ MI.width }}" height="{{ MI.height }}" alt="{{ ficha.title }} main image">
+    {% endthumbnail %}
+    <span class="text-sm text-muted absolute bottom-0 self-center">{{ ficha.updated_at }}</span>
+</div>
+</a>

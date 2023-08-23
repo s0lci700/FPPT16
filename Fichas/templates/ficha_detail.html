@@ -25,7 +25,8 @@
                             <li>{{ ficha.created_at }} / {{ ficha.updated_at }}</li>
                         </ul>
                         {% if user == ficha.student.user %}
-                            <a href="{% url 'ficha-update' ficha.id %}" class="mt-6 bg-baublue font-primary font-semibold hover:text-baublue hover:bg-blue-600 px-4 py-2 text-white rounded">Editar</a>
+                            <a href="{% url 'ficha-update' ficha.id %}" class="mt-6 bg-baublue font-primary font-semibold hover:bg-blue-600
+                             transition-all px-4 py-2 text-white rounded">Editar</a>
                         {% elif user.role == 'P' %}
                             <a class="bg-bauyellow font-primary font-semibold text-white px-4 py-2 rounded">Reseñar</a>
                         {% endif %}

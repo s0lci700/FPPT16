@@ -1,29 +1,41 @@
-<div class="h-full flex bg-bg-bau">
-    <div id="sidebar" class="w-full border-baublack my-1">
-        <div id="sidebar-content" class="h-full flex flex-col gap-2 p-4">
-            <div id="urls" class="flex flex-col gap-4">
-                <div class="border-baublue border-b-4 flex h-20 justify-center">
-                    <a href="{% url 'home' %}" class="font-primary font-semibold self-center">INICIO</a>
-                </div>
-                <div class="border-bauyellow border-b-4 flex h-20 justify-center">
-                    <a href="{% url 'alumni' %}" class="font-primary font-semibold self-center">Alumnos</a>
-                </div>
-                <div class="border-baured border-b-4 flex h-20 justify-center">
-                    <a href="{% url 'profesores' %}" class="font-primary font-semibold self-center">Profesores</a>
+{% load static %}
+
+<div class="h-full flex bg-bg-bau flex-col">
+    <div id="sidebar" class="w-full border-baublack my-1 flex-grow">
+        <div id="sidebar-content" class="h-full flex flex-col justify-between gap-2 pr-1">
+            <div>
+                <div id="urls" class="flex flex-col gap-0">
+                    <a href="{% url 'home' %}" class="relative border-baublue border-r-4 h-20 flex justify-center items-center overflow-hidden bg-cover bg-no-repeat font-primary font-semibold self-center text-center w-full">
+                        INICIO
+                        <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-baublue bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
+                    </a>
+                    <a href="{% url 'alumni' %}" class="relative border-bauyellow border-r-4 h-20 flex justify-center items-center overflow-hidden bg-cover bg-no-repeat font-primary font-semibold self-center text-center w-full">
+                        Alumnos
+                        <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-bauyellow bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
+                    </a>
+                    <a href="{% url 'profesores' %}" class="relative border-baured border-r-4 h-20 flex justify-center items-center overflow-hidden bg-cover bg-no-repeat font-primary font-semibold self-center text-center w-full">
+                        Profesores
+                        <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-baured bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
+                    </a>
+                    <a href="{% url 'ficha-list' %}" class="relative border-baublack border-r-4 h-20 flex justify-center items-center overflow-hidden bg-cover bg-no-repeat font-primary font-semibold self-center text-center w-full">
+                        <a href="{% url 'ficha-list' %}" class="relative border-baublack border-r-4 h-20 flex justify-center items-center overflow-hidden bg-cover bg-no-repeat font-primary font-semibold self-center text-center w-full dropdown-trigger">
+                            Fichas
+                            <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-zinc-400 bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
+                            <div class="dropdown-content hidden absolute w-48 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                                <a href="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mis Fichas</a>
+                                <a href="{% url 'ficha-list' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Fichas</a>
+                            </div>
+                        </a>
+                    </a>
                 </div>
             </div>
-            <div class="my-3 flex justify-center">
-                <a href="{% url 'ficha-list' %}" class="font-primary font-bold self-center">Fichas</a>
-            </div>
+
             <div id="shapes" class="border-baublack mb-2 border-t-4 py-2 grid grid-cols-1 grid-rows-3 gap-2">
-                <div class="w-16 h-16 container text-w justify-self-center text-center text-sm">
-                    <svg class="hover:transition-all hover:-rotate-90 transition-all" width="65" height="58"
-                         viewBox="0 0 65 58" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M32.5 0L64.5 58H0.5L32.5 0Z" fill="#FEC223"/>
-                    </svg>
-                </div>
-                <div class="w-16 h-16 container justify-self-center text-center text-sm bg-baublue flex justify-center px-3 leading-4">
-                    <a href="{% url 'user_detail' pk=request.user.id %}" class="self-center text-center text-white font-semibold">Mi Perfil</a>
+                <div class="w-16 h-16 container justify-self-center text-center text-sm relative bg-baublue">
+                    <a href="{% url 'user_detail' pk=request.user.id %}" class="self-center text-center text-white font-semibold absolute inset-0 flex flex-col justify-center items-center">
+                        <span class="z-10 absolute">Mi Perfil</span>
+                        <div class="z-0 absolute inset-0 transition-transform duration-300 ease-in-out transform hover:scale-110"></div>
+                    </a>
                 </div>
                 <div class="w-16 h-16 justify-self-center text-white text-sm bg-baured flex rounded-full font-medium leading-3">
                     <a href="{% url 'logout' %}" class="self-center text-center">Cerrar Sesion</a>

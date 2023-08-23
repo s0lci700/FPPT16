@@ -1,0 +1,17 @@
+{% load thumbnail %}
+<a href="{% url 'user_detail' user.pk %}">
+    <li class="border-baublack border-4 p-2 text-center my-1 bg-zinc-100 bg-opacity-30 self-center hover:border-bauyellow transition-all">
+        <div class="h-full w-full relative text-center flex flex-col pt-3 px-1 justify-center items-center">
+            <span>{{ user.first_name }} <b>{{ user.last_name }}</b></span>
+            <hr>
+            {% thumbnail user.avatar "200x200" crop="center" as im %}
+            <img class="self-center" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ user.first_name }} avatar">
+            {% endthumbnail %}
+        </div>
+        <div class="flex flex-col">
+            {#<span>{{ user.email }}</span>#}
+{#            <span>{{ user.studentprofile.get_year_display }}</span>#}
+            {#<span>{{ user.get_role_display }}</span>#}
+        </div>
+    </li>
+</a>

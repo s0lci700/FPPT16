@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'theme',
     "django_htmx",
     'sorl.thumbnail',
+    'taggit',
 ]
 
 MIDDLEWARE = [

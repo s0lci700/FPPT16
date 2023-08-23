@@ -30,7 +30,7 @@ def ficha_general_view(request):
     context = {
         "fichas": fichas,
     }
-    return render(request, "ficha.html", context)
+    return render(request, "ficha_list.html", context)
 
 
 def ficha_detail_view(request, id):

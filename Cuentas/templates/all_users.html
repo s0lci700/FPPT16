@@ -17,7 +17,7 @@
         <h1 class="mt-6 flex flex-col font-bold text-2xl text-white self-center justify-self-center">Usuarios</h1></div>
 
 
-    <div id="content" class="-mt-12 my-1 row-start-2 row-span-full col-start-3 col-end-12 grid grid-cols-3 gap-4">
+    <div id="content" class="-mt-12 my-1 row-start-2 row-span-full col-start-3 col-end-12 grid grid-flow-col auto-cols-max auto-rows-max gap-4">
         <!-- Students -->
         {% include 'components/user_list.html' with users=users|filter_by_role:"A" title="Alumnes" %}
 

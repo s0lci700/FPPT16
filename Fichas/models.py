@@ -1,4 +1,5 @@
 from django.db import models
+from taggit.managers import TaggableManager
 
 
 # Create your models here.
@@ -6,21 +7,25 @@ from django.db import models
 
 class Ficha(models.Model):
     STATUS_CHOICES = (
-        ('Borrador', 'Borrador'),
-        ('Publicado', 'Publicado'),
+        ("Borrador", "Borrador"),
+        ("Publicado", "Publicado"),
     )
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Borrador')
-    student = models.ForeignKey("Cuentas.StudentProfile", on_delete=models.CASCADE)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="Borrador")
+    student = models.ForeignKey(
+        "Cuentas.StudentProfile",
+        on_delete=models.CASCADE,
+        related_query_name="fichas",
+        related_name="user_ficha",
+    )
     title = models.CharField(max_length=50)
     main_image = models.ImageField(upload_to="fichas/images/", blank=True, null=True)
     description = models.TextField(blank=True)
     analysis = models.TextField(blank=True)
     references = models.TextField(blank=True)
-    keywords = models.TextField("Keywords", blank=True)
+    keywords = TaggableManager(blank=True)
     misc = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
 
     def __str__(self):
         return self.title

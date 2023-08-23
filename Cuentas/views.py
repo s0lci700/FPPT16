@@ -1,14 +1,16 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model, authenticate
 from django.views.generic import DetailView, ListView
+from taggit.models import Tag
 
 from Fichas.models import Ficha
 from .forms import CustomUserForm, LoginForm
 from .models import CustomUser
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, resolve
 from django.views.generic.edit import FormView, UpdateView, CreateView, DeleteView
 from django.contrib.auth import login
 
@@ -156,19 +158,37 @@ class UserListView(ListView):
 
 
 # Detail views
+def user_detail_redirect(request, pk):
+    user = get_object_or_404(CustomUser, pk=pk)
+    if user.role == "A":
+        return redirect("student_detail", pk=pk)
+    elif user.role == "P":
+        return redirect("teacher_detail", pk=pk)
 
 
 class UserDetailView(DetailView):
     model = CustomUser
     template_name = "user_detail.html"
 
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get("pk")
+        # Determine the role based on the URL name
+        url_name = resolve(self.request.path_info).url_name
+        if url_name == "student_detail":
+            return get_object_or_404(CustomUser, pk=pk, role="A")
+        elif url_name == "teacher_detail":
+            return get_object_or_404(CustomUser, pk=pk, role="P")
+        else:
+            raise Http404
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        student_profile = self.object.studentprofile  # Access the StudentProfile object
-        user_fichas = Ficha.objects.filter(
-            student=student_profile
-        )  # Filter by StudentProfile object
-        context["user_fichas"] = user_fichas
-        context["role_display"] = self.object.get_role_display()
-
+        if self.object.role == "A":
+            student_profile = self.object.studentprofile
+            user_fichas = student_profile.user_ficha.all()
+            tags = Tag.objects.filter(ficha__in=user_fichas).distinct()
+            context["tags"] = tags
+            context["user_fichas"] = user_fichas
+        elif self.object.role == "P":
+            teacher_profile = self.object.teacherprofile
         return context
