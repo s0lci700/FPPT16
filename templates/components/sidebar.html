@@ -1,46 +1,94 @@
-{% load static %}
-
 <div class="h-full flex bg-bg-bau flex-col">
-    <div id="sidebar" class="w-full border-baublack my-1 flex-grow">
-        <div id="sidebar-content" class="h-full flex flex-col justify-between gap-2 pr-1">
-            <div>
-                <div id="urls" class="flex flex-col gap-0">
-                    <a href="{% url 'home' %}" class="relative border-baublue border-r-4 h-20 flex justify-center items-center overflow-hidden bg-cover bg-no-repeat font-primary font-semibold self-center text-center w-full">
-                        INICIO
-                        <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-baublue bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
-                    </a>
-                    <a href="{% url 'alumni' %}" class="relative border-bauyellow border-r-4 h-20 flex justify-center items-center overflow-hidden bg-cover bg-no-repeat font-primary font-semibold self-center text-center w-full">
-                        Alumnos
-                        <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-bauyellow bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
-                    </a>
-                    <a href="{% url 'profesores' %}" class="relative border-baured border-r-4 h-20 flex justify-center items-center overflow-hidden bg-cover bg-no-repeat font-primary font-semibold self-center text-center w-full">
-                        Profesores
-                        <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-baured bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
-                    </a>
-                    <a href="{% url 'ficha-list' %}" class="relative border-baublack border-r-4 h-20 flex justify-center items-center overflow-hidden bg-cover bg-no-repeat font-primary font-semibold self-center text-center w-full">
-                        <a href="{% url 'ficha-list' %}" class="relative border-baublack border-r-4 h-20 flex justify-center items-center overflow-hidden bg-cover bg-no-repeat font-primary font-semibold self-center text-center w-full dropdown-trigger">
-                            Fichas
-                            <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-zinc-400 bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
-                            <div class="dropdown-content hidden absolute w-48 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                                <a href="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mis Fichas</a>
-                                <a href="{% url 'ficha-list' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Fichas</a>
-                            </div>
-                        </a>
-                    </a>
-                </div>
-            </div>
+    <div id="sidebar" class="w-full border-baublack my-1 flex-grow flex flex-col justify-between">
+        <div id="sidebar-content" class="flex-grow overflow-y-auto flex flex-col gap-2 pr-1">
+            <!-- MAIN URLS and ACCORDION -->
+            <div id="urls" class="flex flex-col gap-0">
+                <!-- INICIO, Alumnos, Profesores, and Accordion here -->
 
-            <div id="shapes" class="border-baublack mb-2 border-t-4 py-2 grid grid-cols-1 grid-rows-3 gap-2">
-                <div class="w-16 h-16 container justify-self-center text-center text-sm relative bg-baublue">
-                    <a href="{% url 'user_detail' pk=request.user.id %}" class="self-center text-center text-white font-semibold absolute inset-0 flex flex-col justify-center items-center">
-                        <span class="z-10 absolute">Mi Perfil</span>
-                        <div class="z-0 absolute inset-0 transition-transform duration-300 ease-in-out transform hover:scale-110"></div>
-                    </a>
-                </div>
-                <div class="w-16 h-16 justify-self-center text-white text-sm bg-baured flex rounded-full font-medium leading-3">
-                    <a href="{% url 'logout' %}" class="self-center text-center">Cerrar Sesion</a>
+                <a href="{% url 'home' %}"
+                   class="relative flex h-20 w-full items-center justify-center self-center overflow-hidden border-r-4 border-baublue bg-cover bg-no-repeat text-center font-primary font-semibold">
+                    INICIO
+                    <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-baublue bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
+                </a>
+                <a href="{% url 'alumni' %}"
+                   class="relative flex h-20 w-full items-center justify-center self-center overflow-hidden border-r-4 border-bauyellow bg-cover bg-no-repeat text-center font-primary font-semibold">
+                    Alumnos
+                    <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-bauyellow bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
+                </a>
+                <a href="{% url 'profesores' %}"
+                   class="relative flex h-20 w-full items-center justify-center self-center overflow-hidden border-r-4 border-baured bg-cover bg-no-repeat text-center font-primary font-semibold">
+                    Profesores
+                    <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-baured bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
+                </a>
+                <!-- ACCORDION -->
+                <div class="flex flex-col self-center w-full h-20 ">
+                    <!-- Container with fixed height using Tailwind CSS -->
+                    <div id="accordion" class="flex self-center w-full" x-data="{ open: false }">
+                        <div class="relative flex-1 justify-self-center self-center w-full">
+                            <button @click="open = !open"
+                                    class="flex cursor-pointer items-center justify-center text-gray-500 w-full h-20 hover:bg-zinc-400 transition-all"
+                                    x-transition.duration.300ms>
+                                <span class="font-primary font-bold text-baublack text-base">Fichas</span>
+                                <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-5 w-5 transform transition-all duration-300 ml-4"
+                                        :class="{'rotate-180': open}"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                    <path
+                                            fill-rule="evenodd"
+                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                            clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                            <div x-show="open"
+                                 class="transition-all ease-in-out duration-300 overflow-hidden w-full">
+                                <ul class="mb-2 mt-0 space-y-1 flex flex-col justify-items-start w-full">
+                                    <li>
+                                        <a href="{% url 'my-fichas' pk=request.user.pk %}"
+                                           class="px-4 py-2 text-sm font-medium text-gray-500 hover:bg-zinc-300 cursor-pointer transition-all w-full flex">
+                                            Mis Fichas
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'ficha-list' %}"
+                                           class="px-4 py-2 text-sm font-medium text-gray-500 hover:bg-zinc-300 cursor-pointer transition-all w-full flex">
+                                            Fichas
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div x-show="!open" class="h-10"></div> <!-- Placeholder -->
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <!-- BOTTOM -->
+
+        <div id="shapes"
+             class="mx-1 mb-2 py-2 flex flex-col justify-evenly items-center gap-4">
+
+            <a href="{% url 'ficha-create' %}"
+               class="w-20 h-10 rounded-lg flex text-baublack items-center justify-self-center text-center justify-center text-sm bg-bauyellow font-medium leading-3
+               hover:bg-yellow-600 hover:scale-120 hover:text-zinc-50 px-2 transition-all ">
+                Crear
+                ficha
+            </a>
+
+            <a href="{% url 'user_detail' pk=request.user.id %}"
+               class="w-20 h-20 flex items-center justify-self-center text-center justify-center text-white text-sm bg-baublue font-medium leading-3
+               hover:bg-blue-600 hover:scale-120 transition-all">
+                Mi Perfil
+            </a>
+
+            <a href="{% url 'logout' %}"
+               class="w-20 h-20 flex items-center justify-self-center text-center justify-center text-white text-sm bg-baured rounded-full font-medium leading-3
+               hover:bg-red-600">
+                Cerrar Sesion
+            </a>
+
         </div>
     </div>
 </div>

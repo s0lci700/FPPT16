@@ -2,11 +2,14 @@
 <project version="4">
   <component name="Black">
     <option name="enabledOnReformat" value="true" />
+    <option name="enabledOnSave" value="true" />
     <option name="sdkUUID" value="2f7a995f-a161-4383-9760-53cdddd03b57" />
   </component>
   <component name="ExtraIconsSettingsProject">
     <option name="addToIDEUserIcons" value="false" />
-    <option name="uiTypeIconsPreference" value="PREFER_NEW_UI_ICONS" />
+    <option name="ignoredPattern" value="" />
+    <option name="additionalUIScale" value="1.0" />
+    <option name="uiTypeIconsPreference" value="BASED_ON_ACTIVE_UI_TYPE" />
     <option name="useIDEFilenameIndex" value="false" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (FPPT16Project)" project-jdk-type="Python SDK" />

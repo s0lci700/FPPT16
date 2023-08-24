@@ -8,26 +8,26 @@
 {% endblock %}
 
 {% block content %}
-<div class="grid grid-cols-12 grid-rows-6 h-full font-primary">
-    <div class="container row-span-full col-start-1 col-end-2 border-baublack border-x-4 border-y-4 my-1">
-        {% include 'components/sidebar.html' %}
+    <div class="grid grid-cols-12 grid-rows-6 h-full font-primary">
+        <div class="container row-span-full col-start-1 col-end-2 border-baublack border-x-4 border-y-4 my-1">
+            {% include 'components/sidebar.html' %}
+        </div>
+
+        {% include 'components/header.html' with header_title='All Users' %}
+
+
+        <div id="content"
+             class="-mt-12 my-1 row-start-2 row-span-full col-start-3 col-end-12 grid grid-flow-col auto-cols-max auto-rows-max gap-4">
+            <!-- Students -->
+            {% include 'components/user_list.html' with users=users|filter_by_role:"A" title="Alumnes" %}
+
+            <!-- Teachers -->
+            {% include 'components/user_list.html' with users=users|filter_by_role:"P" title="Profesores" %}
+
+            <!-- Others -->
+            {% include 'components/user_list.html' with users=users|filter_by_role:"NS" title="Otros" %}
+        </div>
     </div>
-
-    <div class="mt-4 justify-items-center justify-center text-center bg-baublue row-start-1 col-start-3 col-end-12 flex-wrap mb-14">
-        <h1 class="mt-6 flex flex-col font-bold text-2xl text-white self-center justify-self-center">Usuarios</h1></div>
-
-
-    <div id="content" class="-mt-12 my-1 row-start-2 row-span-full col-start-3 col-end-12 grid grid-flow-col auto-cols-max auto-rows-max gap-4">
-        <!-- Students -->
-        {% include 'components/user_list.html' with users=users|filter_by_role:"A" title="Alumnes" %}
-
-        <!-- Teachers -->
-        {% include 'components/user_list.html' with users=users|filter_by_role:"P" title="Profesores" %}
-
-        <!-- Others -->
-        {% include 'components/user_list.html' with users=users|filter_by_role:"NS" title="Otros" %}
-    </div>
-</div>
 {% endblock content %}
 
 {% block footer %}

@@ -1,30 +1,90 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 {% block title %}
     <title>Crear Ficha</title>
 {% endblock %}
 
 {% block content %}
-    <div class="grid grid-cols-12 h-full font-primary">
-        {% include 'components/sidebar.html' %}
-        <div id='content' class="col-start-3 col-end-12 flex justify-center items-center p-6">
-            <form action="{% url 'ficha-create' %}" method="post" enctype="multipart/form-data">
+    <div class="grid grid-cols-12 grid-rows-6 h-full font-primary">
+        <div class="container row-span-full col-start-1 col-end-2 border-baublack border-x-4 border-y-4 my-1">
+            {% include 'components/sidebar.html' %}
+        </div>
+
+        <div id='content'
+             class="col-start-2 col-span-full row-start-1 row-end-6 p-6 w-full h-screen">
+
+            <form class="w-full h-full grid grid-flow-col grid-cols-12 grid-rows-6 gap-2"
+                  action="{% url 'ficha-create' %}"
+                  method="post"
+                  enctype="multipart/form-data">
+
                 {% csrf_token %}
-                <div>{{ form.title }} {{ form.main_image }}</div>
-                <div>{{ form.description }} </div>
-                <div>{{ form.analysis }} </div>
-                <div>{{  form.references }} </div>
-                <div>{{ form.keywords }}</div>
-                <div>{{ form.misc  }} </div>
-                <div class="flex flex-row gap-x-2 mt-6">
-                    {% include 'components/button.html' with bg_button='bg-baublue' extra_classes="hover:bg-blue-600" name='publish' button_type="submit" button_text="Publicar" %}
-                    {% include 'components/button.html' with bg_button='bg-bauyellow' extra_classes="hover:bg-amber-600" name='save_draft' button_type="submit" button_text="Guardar como Borrador" %}
-                    {% include 'components/button.html' with bg_button='bg-gray-600' extra_classes="hover:bg-gray-800" name='cancel' button_type="submit" button_text="Cancelar" %}
+                <!-- Titulo e Imagen Principal -->
+                <div id="titleAndImage" class="row-span-1 col-span-6 flex-1 relative">
+
+                    <!-- Titulo -->
+                    <label for="title" class=" flex text-sm font-medium leading-6 text-gray-900">Titulo</label>
+                    <div class="mt-0.5 h-auto flex-1 cursor-text">
+                        <div class="bg-zinc-100 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md cursor-text">
+                            {% render_field form.title type="text" name="title" id="title" class="flex w-full px-2 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm" placeholder="Titulo de la Obra" %}
+                        </div>
+                    </div>
+
+
+                    <!-- Imagen Principal -->
+                    <div class="flex-1 w-52 h-full">
+                        <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Imagen
+                            Principal</label>
+                        <div class="flex bg-zinc-100 bg-opacity-30 justify-center rounded-lg border border-dashed border-gray-900/25 px-2 py-2">
+                            <div class="text-center justify-center">
+                                <svg class="flex mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24"
+                                     fill="currentColor"
+                                     aria-hidden="true">
+                                    <path fill-rule="evenodd"
+                                          d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
+                                          clip-rule="evenodd"></path>
+                                </svg>
+                                <div class="mt-1 flex flex-col text-sm leading-6 text-gray-600">
+                                    <label for="file-upload"
+                                           class="relative flex cursor-pointer rounded-md font-semibold text-zinc-100 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
+                                        <span class="flex px-4 mx-auto text-zinc-100 bg-baublue self-center justify-self-center w-fit rounded-full">Sube una Imagen</span>
+                                        {% render_field form.main_image type="file" class='sr-only' id="file-upload" name="file-upload" %}
+                                    </label>
+                                </div>
+                                <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="flex-1 col-start-1 col-end-12 row-start-2 row-span-1 h-fit mt-12">
+                    <label for="description"
+                           class="text-sm font-medium leading-6 text-gray-900">Descripción</label>
+                    {% render_field form.description id="description" type="text-input" class='w-full h-full rounded-md ring-inset' %}
+                </div>
+                <!-- Analysis -->
+                <div class="flex-1 col-start-1 col-end-12 row-start-3 row-span-1 h-fit mt-4">
+                    <label for="analysis"
+                           class="flex-1 text-sm font-medium leading-6 text-gray-900">Analisis</label>
+                    {% render_field form.analysis id="analysis" type="text-input" class='w-full h-full rounded-md ring-inset' %}
+                    <!-- Referentes -->
+                    <div class="col-span-2 row-start-6 row-span-1">{{ form.references }} </div>
+                    <!-- Palabras Claves / Tags -->
+                    <div class="col-span-2 row-start-6 row-span-1">{{ form.keywords }}</div>
+                    <!-- Información Adicional -->
+                    <div class="col-span-2 row-start-6 row-span-1">{{ form.misc }} </div>
+                    <!-- Botones -->
+                    <div class="flex flex-row gap-x-2 mt-6 col-span-6 row-start-7 row-span-1">
+                        {% include 'components/button.html' with bg_button='bg-baublue' extra_classes="hover:bg-blue-600" name='publish' button_type="submit" button_text="Publicar" %}
+                        {% include 'components/button.html' with bg_button='bg-bauyellow' extra_classes="hover:bg-amber-600" name='save_draft' button_type="submit" button_text="Guardar como Borrador" %}
+                        {% include 'components/button.html' with bg_button='bg-gray-600' extra_classes="hover:bg-gray-800" name='cancel' button_type="submit" button_text="Cancelar" %}
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 {% endblock %}
-
 
 {% block footer %}
     {% include 'components/footer.html' %}

@@ -3,5 +3,8 @@
     <SQLiteCodeStyleSettings version="6">
       <option name="USE_GENERAL_STYLE" value="false" />
     </SQLiteCodeStyleSettings>
+    <codeStyleSettings language="HTML">
+      <option name="WRAP_ON_TYPING" value="1" />
+    </codeStyleSettings>
   </code_scheme>
 </component>

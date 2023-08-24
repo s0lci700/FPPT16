@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Crear Ficha</title>
+{% endblock %}
+
+{% block content %}
+    <div class="grid grid-cols-12 h-full font-primary">
+        {% include 'components/sidebar.html' %}
+        <div id='content' class="col-start-3 col-end-12 flex justify-center items-center p-6">
+            <form action="{% url 'ficha-create' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div>{{ form.title }} {{ form.main_image }}</div>
+                <div>{{ form.description }} </div>
+                <div>{{ form.analysis }} </div>
+                <div>{{  form.references }} </div>
+                <div>{{ form.keywords }}</div>
+                <div>{{ form.misc  }} </div>
+                <div class="flex flex-row gap-x-2 mt-6">
+                    {% include 'components/button.html' with bg_button='bg-baublue' extra_classes="hover:bg-blue-600" name='publish' button_type="submit" button_text="Publicar" %}
+                    {% include 'components/button.html' with bg_button='bg-bauyellow' extra_classes="hover:bg-amber-600" name='save_draft' button_type="submit" button_text="Guardar como Borrador" %}
+                    {% include 'components/button.html' with bg_button='bg-gray-600' extra_classes="hover:bg-gray-800" name='cancel' button_type="submit" button_text="Cancelar" %}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'components/footer.html' %}
+{% endblock %}

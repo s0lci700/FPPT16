@@ -10,6 +10,7 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from taggit.models import Tag
 
+from Fichas.models import Ficha
 from .forms import CustomUserForm, LoginForm
 from .models import CustomUser
 
@@ -188,6 +189,23 @@ class UserDetailView(DetailView):
             tags = Tag.objects.filter(ficha__in=user_fichas).distinct()
             context["tags"] = tags
             context["user_fichas"] = user_fichas
+            student = CustomUser.objects.get(pk=self.object.pk)
+            context["student"] = student
         elif self.object.role == "P":
             teacher_profile = self.object.teacherprofile
         return context
+
+
+class MyFichasViews(ListView, LoginRequiredMixin):
+    model = Ficha
+    template_name = "ficha_list.html"
+    context_object_name = "fichas"
+
+    def get_queryset(self):
+        active_user = self.request.user.pk
+        user = CustomUser.objects.get(pk=active_user)
+        if user.role == "A":
+            student_profile = user.studentprofile
+            return Ficha.objects.filter(student=student_profile).all()
+        else:
+            raise Http404
