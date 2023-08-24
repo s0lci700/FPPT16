@@ -3,12 +3,12 @@
 {% block title %}<title>Fichas</title>{% endblock %}
 {% block content %}
     <div class="grid grid-cols-12 grid-rows-6 h-full font-primary">
-        <div class="container row-span-full col-start-1 col-end-2 border-baublack border-x-4 border-y-4 my-1">
+        <div class="container row-span-full col-start-1 col-end-2 my-1">
             {% include 'components/sidebar.html' %}
         </div>
 
         {% include 'components/header.html' with header_title='Fichas' %}
- 
+
 
         <div id="content"
              class="-mt-12 my-1 row-start-2 row-span-full col-start-3 col-end-12 grid grid-flow-col auto-cols-max auto-rows-max gap-4 items-center"

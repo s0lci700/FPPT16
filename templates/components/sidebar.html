@@ -1,8 +1,8 @@
-<div class="h-full flex bg-bg-bau flex-col">
-    <div id="sidebar" class="w-full border-baublack my-1 flex-grow flex flex-col justify-between">
+<div class="h-full flex bg-transparent flex-col ring-baublack ring-inset ring-4 pr-0.5 pl-1 z-20">
+    <div id="sidebar" class="w-full my-1 flex flex-grow flex-col justify-between">
         <div id="sidebar-content" class="flex-grow overflow-y-auto flex flex-col gap-2 pr-1">
             <!-- MAIN URLS and ACCORDION -->
-            <div id="urls" class="flex flex-col gap-0">
+            <div id="urls" class="flex flex-col gap-0 ">
                 <!-- INICIO, Alumnos, Profesores, and Accordion here -->
 
                 <a href="{% url 'home' %}"
@@ -21,11 +21,12 @@
                     <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-baured bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
                 </a>
                 <!-- ACCORDION -->
-                <div class="flex flex-col self-center w-full h-20 ">
+                <div class="flex flex-col self-center w-full h-20">
                     <!-- Container with fixed height using Tailwind CSS -->
                     <div id="accordion" class="flex self-center w-full" x-data="{ open: false }">
                         <div class="relative flex-1 justify-self-center self-center w-full">
                             <button @click="open = !open"
+                                    x-cloak
                                     class="flex cursor-pointer items-center justify-center text-gray-500 w-full h-20 hover:bg-zinc-400 transition-all"
                                     x-transition.duration.300ms>
                                 <span class="font-primary font-bold text-baublack text-base">Fichas</span>
@@ -41,7 +42,8 @@
                                             clip-rule="evenodd"></path>
                                 </svg>
                             </button>
-                            <div x-show="open"
+                            <div x-show="open" x-transition.origin.top x-transition.duration.100ms x-cloak
+                                 @mouseleave="open = false"
                                  class="transition-all ease-in-out duration-300 overflow-hidden w-full">
                                 <ul class="mb-2 mt-0 space-y-1 flex flex-col justify-items-start w-full">
                                     <li>
@@ -58,7 +60,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div x-show="!open" class="h-10"></div> <!-- Placeholder -->
+                            <div x-cloak x-show="!open" class="h-10"></div> <!-- Placeholder -->
                         </div>
                     </div>
                 </div>

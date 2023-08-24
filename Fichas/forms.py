@@ -23,7 +23,7 @@ class FichaForm(forms.ModelForm):
             ),
             "description": forms.Textarea(
                 attrs={
-                    "rows": 3,
+                    "rows": 5,
                     "placeholder": "Descripción de la ficha",
                     "label": "Descripción",
                 }
@@ -31,14 +31,14 @@ class FichaForm(forms.ModelForm):
             "analysis": forms.Textarea(
                 attrs={
                     "rows": 5,
-                    "placeholder": "Análisis de la ficha",
+                    "placeholder": "Análisis Operacional",
                     "label": "Análisis",
                 }
             ),
             "references": forms.Textarea(
                 attrs={
                     "rows": 5,
-                    "placeholder": "Referentes de la obra",
+                    "placeholder": "Analisis Referencial",
                     "label": "Referentes",
                 }
             ),
@@ -47,6 +47,13 @@ class FichaForm(forms.ModelForm):
                     "rows": 2,
                     "placeholder": "Información adicional",
                     "label": "Información adicional",
+                }
+            ),
+            "keywords": forms.Textarea(
+                attrs={
+                    "rows": 2,
+                    "placeholder": "Palabras clave",
+                    "label": "Palabras clave",
                 }
             ),
         }

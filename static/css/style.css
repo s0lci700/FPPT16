@@ -5,6 +5,7 @@
 .fichas-container:hover .fichas-svg {
     transform: scale(1.2);
 }
+
 .dropdown-trigger:hover .dropdown-content {
     display: block;
 }
@@ -12,4 +13,8 @@
 .dropdown-content {
     position: absolute;
     z-index: 1;
+}
+
+[x-cloak] {
+    display: none !important;
 }

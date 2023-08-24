@@ -5,8 +5,8 @@
 
 {% block content %}
     <div x-data="{showModal: false}" class="grid grid-cols-12 h-full font-primary">
-        <div class="container row-span-full col-start-1 col-end-2 border-baublack border-x-4 border-y-4 my-1">
-        {% include 'components/sidebar.html' %}
+        <div class="container row-span-full col-start-1 col-end-2 my-1">
+            {% include 'components/sidebar.html' %}
         </div>
         <div id='content' class="w-full h-full col-start-3 col-end-12 flex justify-center items-center p-6">
             <form action="{% url 'ficha-update' ficha.id %}" method="post" enctype="multipart/form-data">
@@ -16,19 +16,22 @@
                 <div>{{ form.analysis }} </div>
                 <div>{{ form.references }} </div>
                 <div>{{ form.keywords }}</div>
-                <div>{{ form.misc  }} </div>
+                <div>{{ form.misc }} </div>
                 <div class="flex flex-row gap-x-2 mt-6">
                     {% include 'components/button.html' with bg_button='bg-baublue' extra_classes="hover:bg-blue-600" name='update' button_type="submit" button_text="Actualizar" %}
 
-{#                    {% url 'ficha-delete-confirm' ficha.id as delete_confirm_url %}#}
-                    <button @click="showModal = true" class="px-4 py-2 bg-baured hover:bg-red-600 text-white rounded" type="button">Eliminar</button>
+                    {#                    {% url 'ficha-delete-confirm' ficha.id as delete_confirm_url %}#}
+                    <button @click="showModal = true" class="px-4 py-2 bg-baured hover:bg-red-600 text-white rounded"
+                            type="button">Eliminar
+                    </button>
                     <a href="{% url 'ficha-list' %}" class="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded">Cancelar</a>
                 </div>
             </form>
         </div>
         <!-- Include the delete modal here -->
-        <div id="deleteModal" x-show="showModal" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" aria-hidden="true">
-        {% include 'components/modal.html' %}
+        <div id="deleteModal" x-show="showModal" x-transition.opacity
+             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" aria-hidden="true">
+            {% include 'components/modal.html' %}
         </div>
     </div>
 {% endblock %}

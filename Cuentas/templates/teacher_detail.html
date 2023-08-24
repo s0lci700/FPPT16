@@ -4,21 +4,22 @@
 {% block title %}<title>{{ user.email }}</title>{% endblock %}
 
 {% block content %}
-     <div id="nav-sidebar" class="grid grid-cols-12 grid-rows-6 h-full font-primary">
-        <div class="container row-span-full col-start-1 col-end-2 border-baublack border-x-4 border-y-4 my-1">
+    <div id="nav-sidebar" class="grid grid-cols-12 grid-rows-6 h-full font-primary">
+        <div class="container row-span-full col-start-1 col-end-2 my-1">
             {% include 'components/sidebar.html' %}
         </div>
 
         <div id="content" class="col-start-2 col-end-13 row-start-1 row-end-7 my-1 mx-2 p-4">
 
             <div id="container-grid" class="grid grid-rows-6 grid-cols-12 w-full h-full">
-                 <div id="pfp" class="col-start-1 col-end-4 row-start-1 row-span-2">
-                   {% thumbnail user.avatar "300x300" crop="center" as im %}
-                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ user.first_name }} avatar">
+                <div id="pfp" class="col-start-1 col-end-4 row-start-1 row-span-2">
+                    {% thumbnail user.avatar "300x300" crop="center" as im %}
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
+                             alt="{{ user.first_name }} avatar">
                     {% endthumbnail %}
-                 </div>
+                </div>
                 <div id="data" class="col-start-4 col-span-4 row-start-1 row-span-1 pt-4 pl-3 -ml-28">
-                    <p class="font-medium text-3xl">{{ user.first_name }} {{ user.last_name  }}</p>
+                    <p class="font-medium text-3xl">{{ user.first_name }} {{ user.last_name }}</p>
                     <p class="text-muted">{{ user.email }}</p>
                     <p>{{ user.get_role_display }}</p>
                 </div>
@@ -28,7 +29,7 @@
                 </div>
             </div>
         </div>
-     </div>
+    </div>
 {% endblock %}
 
 {% block footer %}
