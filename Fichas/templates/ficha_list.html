@@ -2,23 +2,26 @@
 {% load static %}
 {% block title %}<title>Fichas</title>{% endblock %}
 {% block content %}
-    <div class="grid grid-cols-12 grid-rows-6 h-full font-primary">
-        <div class="container row-span-full col-start-1 col-end-2 my-1">
+    <div class="container-fluid grid grid-cols-12 grid-rows-6 grid-flow-row">
+        <div class="row-span-full col-start-1 col-end-2 my-1">
             {% include 'components/sidebar.html' %}
         </div>
-
-        {% include 'components/header.html' with header_title='Fichas' %}
+        <div class="h-fit row-start-1 row-span-1 col-start-2 col-end-12">
+            {% include 'components/header.html' with header_title='Fichas' %}
+        </div>
 
 
         <div id="content"
-             class="-mt-12 my-1 row-start-2 row-span-full col-start-3 col-end-12 grid grid-flow-col auto-cols-max auto-rows-max gap-4 items-center"
+             class="container flex flex-wrap flex-row -mt-12 my-1 row-start-2 row-span-full col-start-3 col-end-12 items-center justify-center content-start"
              x-data="{
                  {% for e in fichas %}
                      showInfo{{ forloop.counter0 }}: false,
                          {% endfor %}
                 }">
             {% for ficha in fichas %}
-                {% include 'components/ficha-list-card.html' %}
+                <div class="col-span-1 aspect-w-1 aspect-h-1">
+                    {% include 'components/ficha-list-card.html' %}
+                </div>
             {% endfor %}
         </div>
     </div>

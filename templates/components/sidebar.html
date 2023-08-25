@@ -1,34 +1,36 @@
-<div class="h-full flex bg-transparent flex-col ring-baublack ring-inset ring-4 pr-0.5 pl-1 z-20">
-    <div id="sidebar" class="w-full my-1 flex flex-grow flex-col justify-between">
+<div class="h-full flex bg-transparent flex-col ring-baublack ring-inset ring-4 pr-0.5 pl-1 z-20 fixed top-0 left-0 min-w-[120px]">
+    <div id="sidebar" class="w-full my-1 flex flex-grow flex-col justify-between min-h-screen">
         <div id="sidebar-content" class="flex-grow overflow-y-auto flex flex-col gap-2 pr-1">
             <!-- MAIN URLS and ACCORDION -->
-            <div id="urls" class="flex flex-col gap-0 ">
+            <div id="urls" class="flex flex-col gap-0">
                 <!-- INICIO, Alumnos, Profesores, and Accordion here -->
 
                 <a href="{% url 'home' %}"
                    class="relative flex h-20 w-full items-center justify-center self-center overflow-hidden border-r-4 border-baublue bg-cover bg-no-repeat text-center font-primary font-semibold">
                     INICIO
-                    <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-baublue bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
+                    <div class="absolute bottom-0 translate-x-6 hover:translate-x-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-baublue bg-fixed opacity-0 transition duration-300 ease-in-out
+                    hover:opacity-50 "></div>
                 </a>
                 <a href="{% url 'alumni' %}"
                    class="relative flex h-20 w-full items-center justify-center self-center overflow-hidden border-r-4 border-bauyellow bg-cover bg-no-repeat text-center font-primary font-semibold">
                     Alumnos
-                    <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-bauyellow bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
+                    <div class="absolute bottom-0 translate-x-6 hover:translate-x-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-bauyellow bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
                 </a>
                 <a href="{% url 'profesores' %}"
                    class="relative flex h-20 w-full items-center justify-center self-center overflow-hidden border-r-4 border-baured bg-cover bg-no-repeat text-center font-primary font-semibold">
                     Profesores
-                    <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-baured bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
+                    <div class="absolute bottom-0 translate-x-6 hover:translate-x-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-baured bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-50"></div>
                 </a>
                 <!-- ACCORDION -->
                 <div class="flex flex-col self-center w-full h-20">
                     <!-- Container with fixed height using Tailwind CSS -->
                     <div id="accordion" class="flex self-center w-full" x-data="{ open: false }">
                         <div class="relative flex-1 justify-self-center self-center w-full">
-                            <button @click="open = !open"
-                                    x-cloak
-                                    class="flex cursor-pointer items-center justify-center text-gray-500 w-full h-20 hover:bg-zinc-400 transition-all"
-                                    x-transition.duration.300ms>
+                            <button x-on:mouseenter="open = true; clearTimeout(timeout)"
+                                    x-on:mouseleave="timeout = setTimeout(() => { open = false }, 500)"
+                                    x-on:click.away="open = false"
+                                    x-on:click="open = !open"
+                                    class="flex cursor-pointer items-center justify-center text-gray-500 w-full h-20 hover:bg-zinc-400 transition-all">
                                 <span class="font-primary font-bold text-baublack text-base">Fichas</span>
                                 <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -42,9 +44,14 @@
                                             clip-rule="evenodd"></path>
                                 </svg>
                             </button>
-                            <div x-show="open" x-transition.origin.top x-transition.duration.100ms x-cloak
-                                 @mouseleave="open = false"
-                                 class="transition-all ease-in-out duration-300 overflow-hidden w-full">
+                            <div x-show="open"
+                                 x-on:mouseenter="open = true; clearTimeout(timeout)"
+                                 x-on:mouseleave="timeout = setTimeout(() => { open = false }, 500)"
+                                 x-transition.enter.origin.top
+                                 x-transition.enter.duration.100ms
+                                 x-transition.leave.duration.500ms
+                                 x-cloak
+                                 class="transition-all ease-in-out duration-150 overflow-hidden w-full">
                                 <ul class="mb-2 mt-0 space-y-1 flex flex-col justify-items-start w-full">
                                     <li>
                                         <a href="{% url 'my-fichas' pk=request.user.pk %}"
@@ -74,20 +81,20 @@
 
             <a href="{% url 'ficha-create' %}"
                class="w-20 h-10 rounded-lg flex text-baublack items-center justify-self-center text-center justify-center text-sm bg-bauyellow font-medium leading-3
-               hover:bg-yellow-600 hover:scale-120 hover:text-zinc-50 px-2 transition-all ">
+               hover:bg-yellow-600 hover:scale-120 hover:text-zinc-50 hover:animate-pulse px-2 transition-all ">
                 Crear
                 ficha
             </a>
 
             <a href="{% url 'user_detail' pk=request.user.id %}"
                class="w-20 h-20 flex items-center justify-self-center text-center justify-center text-white text-sm bg-baublue font-medium leading-3
-               hover:bg-blue-600 hover:scale-120 transition-all">
+               hover:bg-blue-600 hover:scale-120 hover:animate-pulse transition-all">
                 Mi Perfil
             </a>
 
             <a href="{% url 'logout' %}"
                class="w-20 h-20 flex items-center justify-self-center text-center justify-center text-white text-sm bg-baured rounded-full font-medium leading-3
-               hover:bg-red-600">
+               hover:bg-red-600 hover:animate-pulse">
                 Cerrar Sesion
             </a>
 

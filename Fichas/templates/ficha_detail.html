@@ -7,18 +7,19 @@
 {% endblock %}
 
 {% block content %}
-    <div class="grid grid-cols-12 grid-rows-6 h-full font-primary">
+    <div class="grid grid-cols-12 min-h-screen font-primary">
         <div class="container row-span-full col-start-1 col-end-2 my-1">
             {% include 'components/sidebar.html' %}
         </div>
         <div id="ficha-content"
-             class="w-full h-full -bottom-8 row-start-1 row-end-6 mb-6 col-start-3 col-end-12 text-center p-4 ring-2 ring-baublack mt-6">
-            <a class="bg-bauyellow font-primary font-semibold hover:text-baublue"
-               href="{% url 'ficha-detail' ficha.id %}">{{ ficha.title }}</a>
-            {% thumbnail ficha.main_image "x500" as im %}
-                <img class="self-center justify-self-center mx-auto" src="{{ im.url }}" alt="ficha image">
-            {% endthumbnail %}
-            <ul class="mb-14 px-36">
+             class="w-full h-full col-start-3 col-end-12 text-center p-4 ring-2 ring-baublack mt-2">
+            <p class="bg-bauyellow font-primary font-semibold px-6 py-2 text-center mb-2">{{ ficha.title }}</p>
+            <a class="contents" href="{{ ficha.main_image.url }}">
+                {% thumbnail ficha.main_image "x500" as im %}
+                    <img class=" mx-auto" src="{{ im.url }}" alt="ficha image">
+                {% endthumbnail %}
+            </a>
+            <ul class="px-36">
                 <li class=" border-baublack border-b-2">{{ ficha.student.user.first_name }} {{ ficha.student.user.last_name }}</li>
                 <li>{{ ficha.description }}</li>
                 <li>{{ ficha.analysis }}</li>
@@ -26,15 +27,17 @@
                 <li>{{ ficha.misc }}</li>
                 <li>{{ ficha.created_at }} / {{ ficha.updated_at }}</li>
             </ul>
-            {% if user == ficha.student.user %}
-                <a href="{% url 'ficha-update' ficha.id %}" class="mt-6 bg-baublue font-primary font-semibold hover:bg-blue-600
+            <div class="flex justify-center">
+                {% if user == ficha.student.user %}
+                    <a href="{% url 'ficha-update' ficha.id %}" class="mt-6 bg-baublue font-primary font-semibold hover:bg-blue-600
                              transition-all px-4 py-2 text-white rounded">Editar</a>
-            {% elif user.role == 'P' %}
-                <a class="bg-bauyellow font-primary font-semibold text-white px-4 py-2 rounded">Reseñar</a>
-            {% endif %}
+                {% elif user.role == 'P' %}
+                    <a class="bg-bauyellow font-primary font-semibold text-white px-4 py-2 rounded">Reseñar</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}
-{% block footer %}
-    {% include 'components/footer.html' %}
-{% endblock %}
+{#{% block footer %}#}
+{#    {% include 'components/footer.html' %}#}
+{#{% endblock %}#}
