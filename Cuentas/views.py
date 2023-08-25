@@ -82,6 +82,12 @@ class EditUser(UpdateView):
         kwargs["user"] = self.request.user
         return kwargs
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = CustomUser.objects.get(pk=self.object.pk)
+        context["user"] = user
+        return context
+
     def get_success_url(self):
         return reverse_lazy("user_detail", kwargs={"pk": self.object.pk})
 

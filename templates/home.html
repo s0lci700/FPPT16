@@ -12,9 +12,10 @@
 
 
         {% if user.is_authenticated %}
-            <div class="mt-4 justify-between text-center row-start-1 col-start-3 col-end-12 flex-wrap mb-14 flex items-center px-6">
-                <h1 class="font-primary font-bold text-2xl text-center">
-                    Hola {{ user.first_name }} {{ user.last_name }}!</h1>
+            <div class="mt-10 text-center row-start-1 col-start-2 col-span-2 place-items-start flex-col flex items-center px-6">
+                <span class="self-start font-primary font-bold text-4xl">
+                    Hola {{ user.first_name }} {{ user.last_name }}!</span>
+                <span class="self-start">{% now "SHORT_DATETIME_FORMAT" %}</span>
             </div>
         {% else %}
             <div class="mt-4 justify-between text-center row-start-1 col-start-3 col-end-12 flex-wrap mb-14 flex items-center px-6">

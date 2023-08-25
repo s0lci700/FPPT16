@@ -65,6 +65,12 @@ class CustomUser(AbstractUser):
         verbose_name="Apellido",
         help_text="Apellido del usuario",
     )
+    pronouns = models.CharField(
+        max_length=20,
+        blank=True,
+        verbose_name="Pronombres",
+        help_text="Pronombres del usuario",
+    )
     avatar = models.ImageField(
         upload_to="perfiles/avatars",
         default="perfiles/default.png",
@@ -128,5 +134,3 @@ class TeacherProfile(models.Model):
     class Meta:
         verbose_name = "Perfil de profesor"
         verbose_name_plural = "Perfiles de profesores"
-
-

@@ -1,1 +1,10 @@
-omg
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <img src="{{ user.avatar.url }}" alt="avatar" class="user-avatar w-[200px] h-[200px] resize-x">
+    <form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+{% endblock %}
+```

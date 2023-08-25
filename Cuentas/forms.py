@@ -20,7 +20,20 @@ class CustomUserForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ["first_name", "last_name", "email", "role", "avatar",]
+        fields = [
+            "first_name",
+            "last_name",
+            "email",
+            "role",
+            "avatar",
+            "avatar",
+            "birth_date",
+            "pronouns",
+        ]
+
+        widgets = {
+            "birth_date": forms.DateInput(attrs={"type": "date"}),
+        }
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user", None)
@@ -42,7 +55,7 @@ class CustomUserForm(forms.ModelForm):
         if commit:
             user.save()
             student_profile, created = StudentProfile.objects.get_or_create(user=user)
-            if 'year' in self.cleaned_data and self.cleaned_data["year"]:
+            if "year" in self.cleaned_data and self.cleaned_data["year"]:
                 student_profile.year = self.cleaned_data["year"]
                 student_profile.save()
 

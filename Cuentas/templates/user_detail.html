@@ -9,22 +9,34 @@
             {% include 'components/sidebar.html' %}
         </div>
 
-        <div id="content" class="col-start-2 col-end-13 row-start-1 row-end-7 mx-2 p-4">
+        <div id="content" class="col-start-2 col-end-13 row-start-1 row-end-7 mx-2 p-4 mt-6">
 
-            <div id="container-grid" class="grid grid-rows-6 grid-cols-12 w-full h-full">
+            <div id="container-grid" class="grid grid-rows-6 grid-cols-12 w-full h-full px-6">
 
-                <div id="pfp" class="col-start-1 col-end-4 row-start-1 row-span-2">
-                    {% thumbnail student.avatar "300x300" crop="center" as im %}
-                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
+                <div id="pfp"
+                     class="col-start-1 col-span-2 row-start-1 row-span-2 w-full h-full justify-items-center">
+                    {% thumbnail student.avatar "400x400" crop="center" as im %}
+                        <img class="flex self-center scale-110 translate-y-8" src="{{ im.url }}" width="{{ im.width }}"
+                             height="{{ im.height }}"
                              alt="{{ student.first_name }} avatar">
                     {% endthumbnail %}
                 </div>
-                <div id="data" class="col-start-4 col-span-4 row-start-1 row-span-1 pt-4 pl-3 -ml-28">
+                <div id="data" class="col-start-4 col-span-4 row-start-1 row-span-2 pt-4 pl-3 -ml-28">
                     <p class="font-medium text-3xl">{{ student.first_name }} {{ student.last_name }}</p>
+                    {% if request.user.pk == student.studentprofile.user.pk %}
+                        <div class="mt-2 mb-3">
+                            <a href="{% url 'edit_user' student.studentprofile.user.pk %}"
+                               class="text-sm border-baublack border-2 rounded-full px-4 py-2 text-baublack hover:bg-bauyellow/80 duration-200 transition-all">
+                                Editar perfil
+                            </a>
+                        </div>
+                    {% endif %}
+                    <p class="text-sm text-gray-500">{{ student.pronouns }}</p>
                     <p class="text-muted">{{ student.email }}</p>
                     <p>{{ student.get_role_display }} de {{ student.studentprofile.get_year_display }}</p>
                 </div>
                 <div id="bio" class="col-start-4 col-span-3 row-start-2 -ml-24  -mt-2 border-baublack border-t-2 ">
+                    <span class="font-semibold">{{ student.birth_date }}</span><br>
                     {#                    <span class="-ml-2 font-semibold">Bio:</span><br>#}
                     {#                    <span class="ml-1">Lorem Ipsum Dolor Sit Amet Miau miau miau.....</span>#}
                 </div>
@@ -43,7 +55,7 @@
                     </div>
                 </div>
                 <div id="fichascontainer"
-                     class="mt-6 row-start-3 row-end-7 col-start-1 col-end-13 border-baublack border-t-4 px-2">
+                     class="mt-6 row-start-3 row-end-7 col-start-1 col-end-13 border-baublack border-t-4 px-0">
                     <div id="fichas"
                          class="mt-2 grid grid-cols-12 grid-rows-6 w-full h-full px-1 py-1 gap-x-3 gap-y-2 grid-flow-row">
                         {% for ficha in user_fichas %}
