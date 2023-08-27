@@ -14,31 +14,29 @@
             <div id="container-grid" class="grid grid-rows-6 grid-cols-12 w-full h-full px-6">
 
                 <div id="pfp"
-                     class="col-start-1 col-span-2 row-start-1 row-span-2 w-full h-full justify-items-center">
+                     class="col-start-1 col-span-2 row-start-1 row-span-2 w-full h-full justify-items-center self-center flex">
                     {% thumbnail student.avatar "400x400" crop="center" as im %}
-                        <img class="flex self-center scale-110 translate-y-8" src="{{ im.url }}" width="{{ im.width }}"
+                        <img class="flex self-center scale-110" src="{{ im.url }}" width="{{ im.width }}"
                              height="{{ im.height }}"
                              alt="{{ student.first_name }} avatar">
                     {% endthumbnail %}
                 </div>
                 <div id="data" class="col-start-4 col-span-4 row-start-1 row-span-2 pt-4 pl-3 -ml-28">
-                    <p class="font-medium text-3xl">{{ student.first_name }} {{ student.last_name }}</p>
-                    {% if request.user.pk == student.studentprofile.user.pk %}
-                        <div class="mt-2 mb-3">
+                    <div class="flex flex-row">
+
+                        <p class="font-medium text-3xl inline-block">{{ student.first_name }} {{ student.last_name }}</p>
+                        {% if request.user.pk == student.studentprofile.user.pk %}
                             <a href="{% url 'edit_user' student.studentprofile.user.pk %}"
-                               class="text-sm border-baublack border-2 rounded-full px-4 py-2 text-baublack hover:bg-bauyellow/80 duration-200 transition-all">
+                               class="ml-2 text-sm border-baublack border-2 rounded-full px-3 py-1.5 text-baublack hover:bg-bauyellow/80 duration-200 transition-all inline-block">
                                 Editar perfil
                             </a>
-                        </div>
-                    {% endif %}
+                        {% endif %}
+                    </div>
                     <p class="text-sm text-gray-500">{{ student.pronouns }}</p>
+                    <span class="text-sm text-gray-500">Cumpleaños: {{ student.birth_date }}</span>
                     <p class="text-muted">{{ student.email }}</p>
                     <p>{{ student.get_role_display }} de {{ student.studentprofile.get_year_display }}</p>
-                </div>
-                <div id="bio" class="col-start-4 col-span-3 row-start-2 -ml-24  -mt-2 border-baublack border-t-2 ">
-                    <span class="font-semibold">{{ student.birth_date }}</span><br>
-                    {#                    <span class="-ml-2 font-semibold">Bio:</span><br>#}
-                    {#                    <span class="ml-1">Lorem Ipsum Dolor Sit Amet Miau miau miau.....</span>#}
+                    <br>
                 </div>
 
                 <div id="keywordcontainer"
