@@ -2,17 +2,17 @@
 {% load static %}
 {% block title %}<title>Fichas</title>{% endblock %}
 {% block content %}
-    <div class="grid grid-cols-12 grid-rows-6 grid-flow-row-dense">
-        <div class="row-span-full col-start-1 col-end-2 my-1">
+    <div id="page" class="h-48 grid grid-flow-row-dense grid-cols-12 grid-rows-6">
+        <div class="col-start-1 col-end-2 row-span-full my-1 z-30">
             {% include 'components/sidebar.html' %}
         </div>
-        <div class="row-start-1 row-end-2 col-start-2 col-end-12 z-10">
+        <div class="col-start-2 col-end-12 row-start-1 row-end-2 container ">
             {% include 'components/header.html' with header_title='Fichas' %}
         </div>
 
 
         <div id="content"
-             class="p-4 flex grid-flow-row-dense gap-2 flex-wrap flex-row my-1 row-start-1 mt-12 auto-rows-auto col-start-2 col-end-12 justify-evenly items-center place-content-start"
+             class="col-start-2 col-end-12 row-start-1 my-1 mt-12 flex grid-flow-row-dense auto-rows-auto flex-row flex-wrap place-content-start items-center justify-evenly gap-2 p-4"
              x-data="{
                  {% for e in fichas %}
                      showInfo{{ forloop.counter0 }}: false,

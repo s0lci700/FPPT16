@@ -1,49 +1,50 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="w-screen h-screen mx-auto flex flex-col overflow-clip relative">
+    <div class="relative mx-auto flex h-screen w-screen flex-col overflow-clip">
 
         {% if user.is_authenticated %}
 
-            <div class="z-10 relative basis-2/12 border-baublack font-primary font-regular text-5xl text-center">
-                <span class="absolute bottom-0 inset-x-0 justify-self-end pb-3">Hola, <span
+            <div class="relative z-10 basis-2/12 text-center text-5xl border-baublack font-primary font-regular">
+                <span class="absolute inset-x-0 bottom-0 justify-self-end pb-3">Hola, <span
                         class="font-semibold">{{ user.first_name }} {{ user.last_name }}</span>!</span>
             </div>
-            <div class="z-30 basis-3/4 border-baublack border-t-4 flex flex-col gap-12 mx-auto container text-center my-auto">
-                <a class="bg-baublue font-primary text-white py-2 mx-auto mt-12  rounded-full px-4 hover:ring-baublack hover:ring-2"
+            <div class="container z-30 mx-auto my-auto flex basis-3/4 flex-col gap-12 border-t-4 text-center border-baublack">
+                <a class="mx-auto mt-12 rounded-full px-4 py-2 text-white bg-baublue font-primary hover:ring-baublack hover:ring-2"
                    href="{% url 'all_users' %}">Ir a la plataforma</a>
-                <a class="bg-baured font-primary text-white py-2 mx-auto rounded-full px-4 hover:ring-baublack hover:ring-2"
+                <a class="mx-auto rounded-full px-4 py-2 text-white bg-baured font-primary hover:ring-baublack hover:ring-2"
                    href="{% url 'logout' %}">Log Out</a>
             </div>
         {% else %}
 
-            <div class="z-30 relative basis-2/12 border-baublack font-primary font-regular text-5xl text-center">
-                <span class="absolute bottom-0 inset-x-0 justify-self-end pb-3">No has iniciado sesión</span>
+            <div class="relative z-30 basis-2/12 text-center text-5xl border-baublack font-primary font-regular">
+                <span class="absolute inset-x-0 bottom-0 justify-self-end pb-3">No has iniciado sesión</span>
             </div>
-            <div class="z-20 basis-3/4 border-baublack border-t-4 flex flex-col gap-12 mx-auto container text-center my-auto">
-            <a class="bg-baublue font-primary text-white py-2 mx-auto mt-12  rounded-full px-4 hover:ring-baublack hover:ring-2"
+            <div class="container z-20 mx-auto my-auto flex basis-3/4 flex-col gap-12 border-t-4 text-center border-baublack">
+            <a class="mx-auto mt-12 rounded-full px-4 py-2 text-white bg-baublue font-primary hover:ring-baublack hover:ring-2"
                href="{% url 'login' %}">Iniciar Sesión</a>
 
         {% endif %}
-        <div class="absolute -z-10 w-screen h-full left-0 bottom-0">
-            <svg class="absolute bottom-0 left-0 h-full -z-10 flex-1"
+        <div class="absolute bottom-0 left-0 -z-10 h-full w-screen">
+            <svg class="absolute bottom-0 left-0 -z-10 h-full flex-1"
                  width="1056" height="1024"
                  viewBox="0 0 1056 1024" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
-                <path d="M1056 1024C1056 458.46 583.213 0 0 0V1024H1056Z" fill="url(#paint0_linear_83_142)"/>
+                <path d="M1056 1024C1056 458.46 583.213 0 0 0V1024H1056Z" fill="url(#paint0_linear_83_142)"></path>
                 <defs>
                     <linearGradient id="paint0_linear_83_142" x1="61" y1="132.5" x2="528" y2="1295"
                                     gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#EA604C"/>
-                        <stop offset="0.414284" stop-color="#B73D2C"/>
-                        <stop offset="0.910832" stop-color="#A93C2D"/>
+                        <stop stop-color="#EA604C" offset="0"></stop>
+                        <stop offset="0.414284" stop-color="#B73D2C"></stop>
+                        <stop offset="0.910832" stop-color="#A93C2D"></stop>
                     </linearGradient>
                 </defs>
             </svg>
-            <svg class="right-0 -z-10 absolute" width="1061" height="1024" viewBox="0 0 1061 1024" fill="none"
+            <svg class="absolute right-0 -z-10" width="1061" height="1024" viewBox="0 0 1061 1024" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 0C0 565.54 475.026 1024 1061 1024V513.309C754.268 513.309 505.612 283.493 505.612 0H0Z"
-                      fill="#FEC223"/>
-                <path d="M740 0.000564289C740 193.281 912.047 297 1061 297L1061 0L740 0.000564289Z" fill="#454285"/>
+                      fill="#FEC223"></path>
+                <path d="M740 0.000564289C740 193.281 912.047 297 1061 297L1061 0L740 0.000564289Z"
+                      fill="#454285"></path>
             </svg>
         </div>
 

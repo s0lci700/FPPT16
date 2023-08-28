@@ -11,12 +11,12 @@
         <div class="container row-span-full col-start-1 col-end-2 my-1">
             {% include 'components/sidebar.html' %}
         </div>
-        <div class="row-start-1 row-end-2 col-start-2 col-end-12 z-10">
+        <div class="col-start-2 col-end-12 row-start-1 row-end-2 container">
             {% include 'components/header.html' with header_title='Alumnes' %}
         </div>
 
         <div id="content"
-             class="-mt-12 my-1 row-start-2 row-span-full col-start-3 col-end-12 grid grid-flow-col auto-cols-max auto-rows-max">
+             class="col-start-2 col-end-12 row-start-1 my-1 mt-12 flex grid-flow-row-dense auto-rows-auto flex-row flex-wrap place-content-start items-center justify-evenly gap-2 p-4">
             <!-- Students -->
             {% include 'components/user_list.html' with users=users|filter_by_role:"A" title="Alumnes" %}
         </div>
