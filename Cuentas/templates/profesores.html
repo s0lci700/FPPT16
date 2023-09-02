@@ -12,12 +12,13 @@
             {% include 'components/sidebar.html' %}
         </div>
 
-        <div class="row-start-1 row-end-2 col-start-2 col-end-12 z-10">
-            {% include 'components/header.html' with header_title='Profesores' %}
-        </div>
+
+        {% include 'components/header.html' with header_title='Profesores' %}
+
 
         <div id="content"
-             class="-mt-12 my-1 row-start-2 row-span-full col-start-3 col-end-12 grid grid-flow-col auto-cols-max auto-rows-max">
+             class="col-start-2 col-span-full row-start-1 mt-20 mr-8 row-span-full
+             items-start grid grid-rows-2 gap-3 h-full">
             <!-- Teachers -->
             {% include 'components/user_list.html' with users=users|filter_by_role:"P" title="Profesores" %}
         </div>

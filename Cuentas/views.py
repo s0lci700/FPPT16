@@ -3,14 +3,16 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, resolve
+from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from taggit.models import Tag
 
-from Fichas.models import Ficha
+from Fichas.models import Ficha, Assignment
 from .forms import CustomUserForm, LoginForm
 from .models import CustomUser
 
@@ -122,7 +124,14 @@ def landing_view(request):
 
 @login_required
 def home_view(request):
-    return render(request, "home.html")
+    assignments = Assignment.objects.all()
+
+    current_datetime = timezone.now()
+    context = {
+        "current_datetime": current_datetime,
+        "assignments": assignments,
+    }
+    return render(request, "home.html", context)
 
 
 # General List View with logic for different roles

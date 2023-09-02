@@ -3,12 +3,14 @@
 {% block title %}<title>Fichas</title>{% endblock %}
 {% block content %}
     <div id="page" class="h-48 grid grid-flow-row-dense grid-cols-12 grid-rows-6">
-        <div class="col-start-1 col-end-2 row-span-full my-1 z-30">
+        <div class="col-start-1 col-end-2 row-span-full my-1 z-30 ">
             {% include 'components/sidebar.html' %}
         </div>
-        <div class="col-start-2 col-end-12 row-start-1 row-end-2 container ">
+        {% if request.resolver_match.view_name == 'my-fichas' %}
+            {% include 'components/header.html' with header_title=request.user.first_name %}
+        {% else %}
             {% include 'components/header.html' with header_title='Fichas' %}
-        </div>
+        {% endif %}
 
 
         <div id="content"

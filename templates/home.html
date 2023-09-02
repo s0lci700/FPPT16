@@ -16,6 +16,29 @@
                 <span class="self-start font-primary font-bold text-4xl">
                     Hola {{ user.first_name }} {{ user.last_name }}!</span>
                 <span class="self-start">{% now "SHORT_DATETIME_FORMAT" %}</span>
+
+                {% for assignment in assignments %}
+                    {% if assignment.status == 'OPEN' %}
+                        <div>
+
+                            <div class="bg-gray-400 mb-1 rounded-xl">
+                                <a>{{ assignment.title }}</a>
+                                <p>
+                                    Status: {{ assignment.status }}
+                                </p>
+                                <!-- Add other information about the assignment here -->
+                                <div class="bg-bg-bau">
+                                    <span>
+                                    Desde: {{ assignment.time_window_start|date:"F j, Y, P" }}
+                                    Hasta: {{ assignment.time_window_end|date:"F j, Y, P" }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% empty %}
+                    <p>No assignments found.</p>
+                {% endfor %}
             </div>
         {% else %}
             <div class="mt-4 justify-between text-center row-start-1 col-start-3 col-end-12 flex-wrap mb-14 flex items-center px-6">

@@ -1,5 +1,15 @@
 from django import forms
-from .models import Ficha, Review
+from .models import Ficha, Review, Assignment
+
+
+class AssignmentForm(forms.ModelForm):
+    class Meta:
+        model = Assignment
+        fields = ["title", "description", "time_window_start", "time_window_end"]
+        widgets = {
+            "time_window_start": forms.DateTimeInput(attrs={"type": "datetime-local"}),
+            "time_window_end": forms.DateTimeInput(attrs={"type": "datetime-local"}),
+        }
 
 
 class FichaForm(forms.ModelForm):

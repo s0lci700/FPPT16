@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="relative mx-auto flex h-screen w-screen flex-col overflow-clip">
+    <div class="container relative flex h-screen w-screen flex-col overflow-clip mx-auto">
 
         {% if user.is_authenticated %}
 
@@ -24,10 +24,14 @@
                href="{% url 'login' %}">Iniciar Sesión</a>
 
         {% endif %}
-        <div class="absolute bottom-0 left-0 -z-10 h-full w-screen">
-            <svg class="absolute bottom-0 left-0 -z-10 h-full flex-1"
-                 width="1056" height="1024"
-                 viewBox="0 0 1056 1024" fill="none"
+        </div>
+
+        <div class="relative -z-20 w-screen flow-root">
+
+
+            <svg class="basis-1/2 absolute bottom-0 left-0 overflow-visible"
+                 width="1024" height="1024"
+                 viewBox="0 0 1024 1024" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
                 <path d="M1056 1024C1056 458.46 583.213 0 0 0V1024H1056Z" fill="url(#paint0_linear_83_142)"></path>
                 <defs>
@@ -39,7 +43,9 @@
                     </linearGradient>
                 </defs>
             </svg>
-            <svg class="absolute right-0 -z-10" width="1061" height="1024" viewBox="0 0 1061 1024" fill="none"
+            <svg class="basis-1/2 absolute bottom-0 right-0"
+                 width="1061" height="1024"
+                 viewBox="0 0 1061 1024" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 0C0 565.54 475.026 1024 1061 1024V513.309C754.268 513.309 505.612 283.493 505.612 0H0Z"
                       fill="#FEC223"></path>
@@ -49,7 +55,6 @@
         </div>
 
 
-        </div>
     </div>
-    {% include 'components/footer.html' %}
+    {#    {% include 'components/footer.html' %}#}
 {% endblock %}

@@ -1,13 +1,17 @@
+from datetime import datetime
+from django.utils import timezone
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
+from django.http import Http404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
 
 from Cuentas.models import StudentProfile
-from .forms import FichaForm
-from .models import Ficha
+from .forms import FichaForm, AssignmentForm
+from .models import Ficha, Assignment
 
 User = get_user_model()
 
@@ -38,6 +42,23 @@ class FichaCreateView(LoginRequiredMixin, CreateView):
     template_name = "ficha_create.html"
     form_class = FichaForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["assignment_id"] = self.kwargs.get("assignment_id")
+        return context
+
+    def get(self, request, *args, **kwargs):
+        assignment_id = self.kwargs.get("assignment_id")
+        assignment = get_object_or_404(Assignment, id=assignment_id)
+
+        current_datetime = timezone.now()
+        if (
+            assignment.time_window_start > current_datetime
+            or assignment.time_window_end < current_datetime
+        ):
+            raise Http404("La ficha no se puede crear en este momento")
+        return super().get(request, *args, **kwargs)
+
     def form_valid(self, form):
         ficha = form.save(commit=False)
         if "save_draft" in self.request.POST:
@@ -47,6 +68,11 @@ class FichaCreateView(LoginRequiredMixin, CreateView):
         student = self.request.user
         student_profile = StudentProfile.objects.get(user=student)
         ficha.student = student_profile
+
+        assignment_id = self.kwargs.get("assignment_id")
+        assignment = get_object_or_404(Assignment, id=assignment_id)
+        ficha.assignment = assignment
+
         ficha.save()
         return super().form_valid(form)
 
@@ -87,3 +113,37 @@ class FichaDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy("ficha-list")
+
+
+def assignment_list(request):
+    assignments = Assignment.objects.all()
+    current_datetime = timezone.now()
+    open_assignments = Assignment.objects.filter(
+        Q(
+            time_window_start__lte=current_datetime,
+            time_window_end__gte=current_datetime,
+        )
+        | Q(fichas__status="Publicado")
+    )
+    form = AssignmentForm()
+    context = {
+        "assignments": assignments,
+        "open_assignments": open_assignments,
+        "form": form,
+    }
+    return render(
+        request,
+        "assignment_list.html",
+        context,
+    )
+
+
+def create_assignment(request):
+    if request.method == "POST":
+        form = AssignmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("assignment-list")
+    else:
+        form = AssignmentForm()
+    return render(request, "components/ACreateModal.html", {"form": form})

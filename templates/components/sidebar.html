@@ -1,5 +1,5 @@
-<div class="fixed top-0 left-0 z-20 flex h-full flex-col pl-1 ring-4 ring-inset bg-bg-bau ring-baublack pr-0.5 min-w-[120px]">
-    <div id="sidebar" class="my-1 flex min-h-screen w-full flex-grow flex-col justify-between">
+<div class="fixed top-0 left-0 z-20 flex h-full flex-col pl-1 ring-4 ring-inset bg-bg-bau ring-baublack pr-0.5 min-w-[120px] -mr-[26px]">
+    <div id="sidebar" class="my-1 flex min-h-screen w-full flex-grow flex-col justify-between -mr-[26px]">
         <div id="sidebar-content" class="flex flex-grow flex-col gap-2 overflow-y-auto pr-1">
             <!-- MAIN URLS and ACCORDION -->
             <div id="urls" class="flex flex-col gap-0">
@@ -22,55 +22,65 @@
                     <div class="absolute top-0 right-0 bottom-0 left-0 h-full w-full translate-x-6 overflow-hidden bg-fixed opacity-0 transition duration-300 ease-in-out bg-baured hover:translate-x-0 hover:opacity-50"></div>
                 </a>
                 <!-- ACCORDION -->
-                <div class="flex h-20 w-full flex-col self-center">
-                    <!-- Container with fixed height using Tailwind CSS -->
-                    <div id="accordion" class="flex w-full self-center" x-data="{ open: false }">
-                        <div class="relative w-full flex-1 self-center justify-self-center">
-                            <button x-on:mouseenter="open = true; clearTimeout(timeout)"
-                                    x-on:mouseleave="timeout = setTimeout(() => { open = false }, 500)"
-                                    x-on:click.away="open = false"
-                                    x-on:click="open = !open"
-                                    class="flex h-20 w-full cursor-pointer items-center justify-center text-gray-500 transition-all hover:bg-zinc-400">
-                                <span class="text-base font-bold font-primary text-baublack">Fichas</span>
-                                <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="ml-4 h-5 w-5 transform transition-all duration-300"
-                                        :class="{'rotate-180': open}"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor">
-                                    <path
-                                            fill-rule="evenodd"
-                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                            clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
-                            <div x-show="open"
-                                 x-on:mouseenter="open = true; clearTimeout(timeout)"
-                                 x-on:mouseleave="timeout = setTimeout(() => { open = false }, 500)"
-                                 x-transition.enter.origin.top
-                                 x-transition.enter.duration.100ms
-                                 x-transition.leave.duration.500ms
-                                 x-cloak
-                                 class="w-full overflow-hidden transition-all duration-150 ease-in-out">
-                                <ul class="mt-0 mb-2 flex w-full flex-col justify-items-start space-y-1">
-                                    <li>
-                                        <a href="{% url 'my-fichas' pk=request.user.pk %}"
-                                           class="flex w-full cursor-pointer px-4 py-2 text-sm font-medium text-gray-500 transition-all hover:bg-zinc-300">
-                                            Mis Fichas
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'ficha-list' %}"
-                                           class="flex w-full cursor-pointer px-4 py-2 text-sm font-medium text-gray-500 transition-all hover:bg-zinc-300">
-                                            Fichas
-                                        </a>
-                                    </li>
-                                </ul>
+                {% if request.user.role == 'A' %}
+                    <div class="flex h-20 w-full flex-col self-center">
+                        <!-- Container with fixed height using Tailwind CSS -->
+                        <div id="accordion" class="flex w-full self-center" x-data="{ open: false }">
+                            <div class="relative w-full flex-1 self-center justify-self-center">
+                                <button x-on:mouseenter="open = true; clearTimeout(timeout)"
+                                        x-on:mouseleave="timeout = setTimeout(() => { open = false }, 500)"
+                                        x-on:click.away="open = false"
+                                        x-on:click="open = !open"
+                                        class="flex h-20 w-full cursor-pointer items-center justify-center text-gray-500 transition-all hover:bg-zinc-400">
+                                    <span class="text-base font-bold font-primary text-baublack">Fichas</span>
+                                    <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="ml-4 h-5 w-5 transform transition-all duration-300"
+                                            :class="{'rotate-180': open}"
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor">
+                                        <path
+                                                fill-rule="evenodd"
+                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                clip-rule="evenodd"></path>
+                                    </svg>
+                                </button>
+                                <div x-show="open"
+                                     x-on:mouseenter="open = true; clearTimeout(timeout)"
+                                     x-on:mouseleave="timeout = setTimeout(() => { open = false }, 500)"
+                                     x-transition.enter.origin.top
+                                     x-transition.enter.duration.100ms
+                                     x-transition.leave.duration.500ms
+                                     x-cloak
+                                     class="w-full overflow-hidden transition-all duration-150 ease-in-out">
+                                    <ul class="mt-0 mb-2 flex w-full flex-col justify-items-start space-y-1">
+                                        <li>
+                                            <a href="{% url 'my-fichas' pk=request.user.pk %}"
+                                               class="flex w-full cursor-pointer px-4 py-2 text-sm font-medium text-gray-500 transition-all hover:bg-zinc-300">
+                                                Mis Fichas
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'ficha-list' %}"
+                                               class="flex w-full cursor-pointer px-4 py-2 text-sm font-medium text-gray-500 transition-all hover:bg-zinc-300">
+                                                Fichas
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div x-cloak x-show="!open" class="h-10"></div> <!-- Placeholder -->
                             </div>
-                            <div x-cloak x-show="!open" class="h-10"></div> <!-- Placeholder -->
                         </div>
                     </div>
-                </div>
+                {% elif request.user.role == 'P' %}
+                    <a href="{% url 'assignment-list' %}"
+                       class="relative flex h-20 w-full items-center justify-center self-center overflow-hidden border-r-4 bg-cover bg-no-repeat text-center font-semibold border-bauyellow font-primary">
+                        Panel de Profesores
+                        <div class="absolute top-0 right-0 bottom-0 left-0 h-full w-full translate-x-6 overflow-hidden bg-fixed opacity-0 transition duration-300 ease-in-out bg-bauyellow hover:translate-x-0 hover:opacity-50"></div>
+                    </a>
+
+                {% endif %}
+
             </div>
         </div>
 
@@ -79,7 +89,7 @@
         <div id="shapes"
              class="mx-1 mb-2 flex flex-col items-center justify-evenly gap-4 py-2">
 
-            <a href="{% url 'ficha-create' %}"
+            <a href="{% url 'assignment-list' %}"
                class="w-20 h-10 rounded-lg flex text-baublack items-center justify-self-center text-center justify-center text-sm bg-bauyellow font-medium leading-3
                hover:bg-yellow-600 hover:scale-120 hover:text-zinc-50 hover:animate-pulse px-2 transition-all ">
                 Crear

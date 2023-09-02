@@ -1,0 +1,18 @@
+<div @click.outside="createModal = false">
+    <form method="post" action="{% url 'assignment-create' %}" hx-post="{% url 'assignment-create' %}"
+          hx-target="#assignment-list" hx-swap="beforeend"
+          class="container mx-auto flex flex-col justify-items-center bg-gray-400 p-10">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="flex flex-col self-start">
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+        {% endfor %}
+        <!-- Other fields -->
+        <button type="submit"
+                class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Create
+        </button>
+    </form>
+</div>

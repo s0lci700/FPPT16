@@ -1,8 +1,6 @@
 {% load thumbnail %}
-    <div class="">
-    <ul class="list-inside">
-        {% for user in users %}
-            {% include 'components/user_card.html' %}
-        {% endfor %}
-    </ul>
-    </div>
+<ul class="list-inside flex flex-row gap-x-1.5">
+    {% for user in users %}
+        {% include 'components/user_card.html' %}
+    {% endfor %}
+</ul>
