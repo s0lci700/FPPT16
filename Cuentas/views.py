@@ -91,7 +91,23 @@ class EditUser(UpdateView):
         return context
 
     def get_success_url(self):
-        return reverse_lazy("user_detail", kwargs={"pk": self.object.pk})
+        return reverse_lazy("Cuentas:user_detail", kwargs={"pk": self.object.pk})
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["email"] = self.object.email
+        initial["role"] = self.object.role
+        initial["birth_date"] = self.object.birth_date
+        # initial["year"] = self.object.year
+        return initial
+
+    def form_valid(self, form):
+        print("Form is valid")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        print("Form is not valid", form.errors)
+        return super().form_invalid(form)
 
 
 class DeleteUser(DeleteView, LoginRequiredMixin, UserPassesTestMixin):
@@ -176,9 +192,9 @@ class UserListView(ListView):
 def user_detail_redirect(request, pk):
     user = get_object_or_404(CustomUser, pk=pk)
     if user.role == "A":
-        return redirect("student_detail", pk=pk)
+        return redirect("Cuentas:student_detail", pk=pk)
     elif user.role == "P":
-        return redirect("teacher_detail", pk=pk)
+        return redirect("Cuentas:teacher_detail", pk=pk)
 
 
 class UserDetailView(DetailView):

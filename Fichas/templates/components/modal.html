@@ -1,6 +1,6 @@
 <div @click.outside="showModal = false" class="bg-white p-8 rounded shadow-lg">
     <p class="text-lg mb-4">¿Estás seguro de que quieres eliminar esta ficha? Esta accion es irreversible.</p>
-    <form action="{% url 'ficha-delete' ficha.id %}" method="post">
+    <form action="{% url 'Fichas:ficha-delete' ficha.student.user.id ficha.assignment.id %}" method="post">
         {% csrf_token %}
         <button name="confirm_delete" type="submit" class="px-4 py-2 bg-baured hover:bg-red-600 text-white rounded">
             ELIMINAR DE TODAS FORMAS

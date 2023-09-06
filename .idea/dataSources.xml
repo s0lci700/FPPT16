@@ -11,7 +11,7 @@
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
     <data-source source="LOCAL" name="db" uuid="7561e562-abc0-4f9e-a273-3e64616aafc8">
-      <driver-ref>sqlite.xerial</driver-ref>
+      <driver-ref>1e47324f-b844-4ab9-b5f3-513af33ff487</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:E:\Documentos\GitHub\fppt16\db.sqlite3</jdbc-url>

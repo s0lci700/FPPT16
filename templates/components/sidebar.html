@@ -11,12 +11,12 @@
                     <div class="absolute bottom-0 translate-x-6 hover:translate-x-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-baublue bg-fixed opacity-0 transition duration-300 ease-in-out
                     hover:opacity-50 "></div>
                 </a>
-                <a href="{% url 'alumni' %}"
+                <a href="{% url 'Cuentas:alumni' %}"
                    class="relative flex h-20 w-full items-center justify-center self-center overflow-hidden border-r-4 bg-cover bg-no-repeat text-center font-semibold border-bauyellow font-primary">
                     Alumnos
                     <div class="absolute top-0 right-0 bottom-0 left-0 h-full w-full translate-x-6 overflow-hidden bg-fixed opacity-0 transition duration-300 ease-in-out bg-bauyellow hover:translate-x-0 hover:opacity-50"></div>
                 </a>
-                <a href="{% url 'profesores' %}"
+                <a href="{% url 'Cuentas:profesores' %}"
                    class="relative flex h-20 w-full items-center justify-center self-center overflow-hidden border-r-4 bg-cover bg-no-repeat text-center font-semibold border-baured font-primary">
                     Profesores
                     <div class="absolute top-0 right-0 bottom-0 left-0 h-full w-full translate-x-6 overflow-hidden bg-fixed opacity-0 transition duration-300 ease-in-out bg-baured hover:translate-x-0 hover:opacity-50"></div>
@@ -55,13 +55,13 @@
                                      class="w-full overflow-hidden transition-all duration-150 ease-in-out">
                                     <ul class="mt-0 mb-2 flex w-full flex-col justify-items-start space-y-1">
                                         <li>
-                                            <a href="{% url 'my-fichas' pk=request.user.pk %}"
+                                            <a href="{% url 'Cuentas:my-fichas' pk=request.user.pk %}"
                                                class="flex w-full cursor-pointer px-4 py-2 text-sm font-medium text-gray-500 transition-all hover:bg-zinc-300">
                                                 Mis Fichas
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{% url 'ficha-list' %}"
+                                            <a href="{% url 'Fichas:ficha-list' %}"
                                                class="flex w-full cursor-pointer px-4 py-2 text-sm font-medium text-gray-500 transition-all hover:bg-zinc-300">
                                                 Fichas
                                             </a>
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                 {% elif request.user.role == 'P' %}
-                    <a href="{% url 'assignment-list' %}"
+                    <a href="{% url 'Fichas:assignment-list' %}"
                        class="relative flex h-20 w-full items-center justify-center self-center overflow-hidden border-r-4 bg-cover bg-no-repeat text-center font-semibold border-bauyellow font-primary">
                         Panel de Profesores
                         <div class="absolute top-0 right-0 bottom-0 left-0 h-full w-full translate-x-6 overflow-hidden bg-fixed opacity-0 transition duration-300 ease-in-out bg-bauyellow hover:translate-x-0 hover:opacity-50"></div>
@@ -89,20 +89,20 @@
         <div id="shapes"
              class="mx-1 mb-2 flex flex-col items-center justify-evenly gap-4 py-2">
 
-            <a href="{% url 'assignment-list' %}"
+            <a href="{% url 'Fichas:assignment-list' %}"
                class="w-20 h-10 rounded-lg flex text-baublack items-center justify-self-center text-center justify-center text-sm bg-bauyellow font-medium leading-3
                hover:bg-yellow-600 hover:scale-120 hover:text-zinc-50 hover:animate-pulse px-2 transition-all ">
                 Crear
                 ficha
             </a>
 
-            <a href="{% url 'user_detail' pk=request.user.id %}"
+            <a href="{% url 'Cuentas:user_detail' pk=request.user.id %}"
                class="w-20 h-20 flex items-center justify-self-center text-center justify-center text-white text-sm bg-baublue font-medium leading-3
                hover:bg-blue-600 hover:scale-120 hover:animate-pulse transition-all">
                 Mi Perfil
             </a>
 
-            <a href="{% url 'logout' %}"
+            <a href="{% url 'Cuentas:logout' %}"
                class="w-20 h-20 flex items-center justify-self-center text-center justify-center text-white text-sm bg-baured rounded-full font-medium leading-3
                hover:bg-red-600 hover:animate-pulse">
                 Cerrar Sesion

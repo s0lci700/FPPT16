@@ -1,6 +1,5 @@
 from django.contrib.auth.views import LogoutView
-from django.urls import path
-
+from django.urls import path, include  # Note the inclusion of 'include'
 from . import views
 from .views import (
     RegisterView,
@@ -16,9 +15,6 @@ urlpatterns = [
     # login, logout
     path("login/", views.login_view, name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
-    # general views
-    path("home/", views.home_view, name="home"),
-    path("", views.landing_view, name="landing"),
     # CUD views
     path("signup/", RegisterView.as_view(), name="signup"),
     path("user/<int:pk>/edit/", EditUser.as_view(), name="edit_user"),
@@ -35,4 +31,8 @@ urlpatterns = [
     path("all_users/", UserListView.as_view(), {"role": "all_users"}, name="all_users"),
     # listview for fichas by user
     path("user/<int:pk>/fichas/", MyFichasViews.as_view(), name="my-fichas"),
+    # Nested Fichas URLs
+    path(
+        "user/<int:pk>/fichas/", include(("Fichas.urls", "Fichas"))
+    ),  # This line will connect Cuentas and Fichas
 ]

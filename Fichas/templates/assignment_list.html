@@ -16,14 +16,36 @@
             {% if assignments %}
 
                 {% for assignment in assignments %}
-                    <div class="assignment-card bg-baublue/20 w-fit h-fit p-5">
-                        <h2>{{ assignment.title }}</h2>
-                        <p>{{ assignment.description }}</p>
-                        <p>{{ assignment.time_window_start }}</p>
-                        <p>{{ assignment.time_window_end }}</p>
+                    {% if assignment.is_open %}
+                        <div class="assignment-card bg-baublue w-fit h-fit p-5 rounded-md text-zinc-50 flex flex-col drop-shadow-lg">
+                            <h2 class="flex font-medium">{{ assignment.title }}</h2>
+                            <p class="flex font-normal">{{ assignment.description }}</p>
+                            <p class="flex font-thin text-sm">{{ assignment.time_window_start }}</p>
+                            <p class="flex font-thin text-sm">{{ assignment.time_window_end }}</p>
 
-                        <a href="{% url 'ficha-create' assignment.id %}" class="fill-button">Fill Ficha</a>
-                    </div>
+                            {% if assignment.ficha_filled %}
+                                <a href="{% url 'Fichas:ficha-update' request.user.id assignment.id %}"
+                                   class="rounded-md hover:bg-indigo-600 w-fit bg-baublue brightness-125 shadow-lg border-2 border-baublack py-1 px-2 text-zinc-50 text-sm mt-2 text-center transition-all">
+                                    Editar Ficha</a>
+                            {% else %}
+                                <a href="{% url 'Fichas:ficha-create' request.user.id assignment.id %}"
+                                   class="rounded-md hover:bg-indigo-600 w-fit bg-baublue brightness-125 shadow-lg border-2 border-baublack py-1 px-2 text-zinc-50 text-sm mt-2 text-center transition-all">
+                                    Llenar Ficha</a>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="assignment-card bg-baured w-fit h-fit p-5 rounded-md text-zinc-50 flex flex-col drop-shadow-lg saturate-50 font-thin text-sm">
+                            <h2 class="flex">{{ assignment.title }}</h2>
+                            <p class="flex">{{ assignment.description }}</p>
+                            <p class="flex ">{{ assignment.time_window_start }}</p>
+                            <p class="flex">{{ assignment.time_window_end }}</p>
+
+                            <a class="rounded-md border-2 border-baublack py-1 px-2 text-muted text-sm mt-2 text-center">
+                                Ficha Cerrada</a>
+                        </div>
+                    {% endif %}
+
+
                 {% endfor %}
             {% endif %}
             {% if user.role == 'P' %}

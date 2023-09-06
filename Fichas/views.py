@@ -12,6 +12,7 @@ from django.views.generic import CreateView, UpdateView, DeleteView
 from Cuentas.models import StudentProfile
 from .forms import FichaForm, AssignmentForm
 from .models import Ficha, Assignment
+from django.db.models import Count, Q, Case, When, BooleanField
 
 User = get_user_model()
 
@@ -32,9 +33,16 @@ def ficha_general_view(request):
     return render(request, "ficha_list.html", context)
 
 
-def ficha_detail_view(request, id):
-    ficha = get_object_or_404(Ficha, id=id)
-    return render(request, "ficha_detail.html", {"ficha": ficha})
+def ficha_detail_view(request, user_id, assignment_id):
+    ficha = get_object_or_404(
+        Ficha, student__user__id=user_id, assignment__id=assignment_id
+    )
+    print(user_id, assignment_id)
+    return render(
+        request,
+        "ficha_detail.html",
+        {"ficha": ficha, "user_id": user_id, "assignment_id": assignment_id},
+    )
 
 
 class FichaCreateView(LoginRequiredMixin, CreateView):
@@ -86,7 +94,11 @@ class FichaUpdateView(LoginRequiredMixin, UpdateView):
     form_class = FichaForm
 
     def get_object(self, queryset=None):
-        return get_object_or_404(Ficha, id=self.kwargs["id"])
+        return get_object_or_404(
+            Ficha,
+            student__user__id=self.kwargs["user_id"],
+            assignment__id=self.kwargs["assignment_id"],
+        )
 
     def form_valid(self, form):
         if not form.cleaned_data["main_image"]:
@@ -102,7 +114,11 @@ class FichaDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "ficha_delete_confirm.html"
 
     def get_object(self, queryset=None):
-        return get_object_or_404(Ficha, id=self.kwargs["id"])
+        return get_object_or_404(
+            Ficha,
+            student__user__id=self.kwargs["user_id"],
+            assignment__id=self.kwargs["assignment_id"],
+        )
 
     def post(self, request, *args, **kwargs):
         if "confirm_delete" in request.POST:
@@ -116,19 +132,28 @@ class FichaDeleteView(LoginRequiredMixin, DeleteView):
 
 
 def assignment_list(request):
-    assignments = Assignment.objects.all()
+    assignments = Assignment.objects.annotate(
+        ficha_filled=Case(
+            When(fichas__student__user=request.user, then=True),
+            default=False,
+            output_field=BooleanField(),
+        )
+    )
+
+    # You can still get open_assignments if needed
     current_datetime = timezone.now()
-    open_assignments = Assignment.objects.filter(
+    open_assignments = assignments.filter(
         Q(
             time_window_start__lte=current_datetime,
             time_window_end__gte=current_datetime,
         )
         | Q(fichas__status="Publicado")
     )
+
     form = AssignmentForm()
     context = {
-        "assignments": assignments,
-        "open_assignments": open_assignments,
+        "assignments": assignments,  # This now includes both open and closed assignments
+        "open_assignments": open_assignments,  # This is just open assignments
         "form": form,
     }
     return render(

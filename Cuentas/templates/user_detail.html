@@ -27,7 +27,7 @@
 
                         <p class="font-medium text-3xl inline-block">{{ user.first_name }} {{ user.last_name }}</p>
                         {% if request.user.pk == student.studentprofile.user.pk or request.user.pk == user.pk %}
-                            <a href="{% url 'edit_user' user.pk %}"
+                            <a href="{% url 'Cuentas:edit_user' user.pk %}"
                                class="ml-2 text-sm border-baublack border-2 rounded-full px-3 py-1.5 text-baublack hover:bg-bauyellow/80 duration-200 transition-all inline-block">
                                 Editar perfil
                             </a>

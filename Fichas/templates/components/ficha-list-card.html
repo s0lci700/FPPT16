@@ -1,7 +1,7 @@
 {% load thumbnail %}
 <div @mouseover="showInfo{{ forloop.counter0 }} = true"
      @mouseleave="showInfo{{ forloop.counter0 }} = false"
-     @click="window.location.href = '{% url 'ficha-detail' ficha.id %}'"
+     @click="window.location.href = '{% url 'Fichas:ficha-detail' ficha.student.user.id ficha.assignment.id %}'"
      class="relative text-center p-4 ring-2 ring-baublack w-64 h-64 cursor-pointer"
      id="card">
     <div id="card-content">

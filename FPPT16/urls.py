@@ -18,12 +18,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from Cuentas import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("Cuentas.urls")),
-    path("fichas/", include("Fichas.urls")),
+    path("cuentas/", include(("Cuentas.urls", "Cuentas"), namespace="cuentas")),
+    path("fichas/", include(("Fichas.urls", "Fichas"), namespace="fichas")),
     path("__reload__/", include("django_browser_reload.urls")),
+    # general views
+    path("home/", views.home_view, name="home"),
+    path("", views.landing_view, name="landing"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 admin.site.site_header = "FPPT16 Admin"

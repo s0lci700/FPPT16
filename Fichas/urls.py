@@ -11,11 +11,22 @@ from .views import (
 
 urlpatterns = [
     path("", ficha_general_view, name="ficha-list"),
-    path("create/<int:assignment_id>/", FichaCreateView.as_view(), name="ficha-create"),
-    path("<int:id>/", ficha_detail_view, name="ficha-detail"),
-    path("<int:id>/update/", FichaUpdateView.as_view(), name="ficha-update"),
-    path("<int:id>/delete/", FichaDeleteView.as_view(), name="ficha-delete"),
-    # path("<int:id>/delete-confirm/", ficha_delete_confirm, name="ficha-delete-confirm"),
+    path(
+        "<int:user_id>/create/<int:assignment_id>/",
+        FichaCreateView.as_view(),
+        name="ficha-create",
+    ),
+    path("<int:user_id>/<int:assignment_id>/", ficha_detail_view, name="ficha-detail"),
+    path(
+        "<int:user_id>/<int:assignment_id>/update/",
+        FichaUpdateView.as_view(),
+        name="ficha-update",
+    ),
+    path(
+        "<int:user_id>/<int:assignment_id>/delete/",
+        FichaDeleteView.as_view(),
+        name="ficha-delete",
+    ),
     path("assignment/", assignment_list, name="assignment-list"),
     path("assignment/create/", create_assignment, name="assignment-create"),
 ]

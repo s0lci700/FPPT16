@@ -49,8 +49,15 @@ class Ficha(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    @property
+    def linked_assignment_id(self):
+        return self.assignment.id
+
     def __str__(self):
         return self.title
+
+    class Meta:
+        unique_together = ("student", "assignment")
 
 
 class ComplementaryImage(models.Model):
