@@ -1,0 +1,12 @@
+<!-- assignment_card.html-->
+{% extends 'assignment_list.html' %}
+{% block assignment_block %}
+    <div class="assignment-card bg-baublue w-fit h-fit p-5 rounded-md text-zinc-50 flex flex-col drop-shadow-lg">
+        <h2 class="flex font-medium">{{ assignment.title }}</h2>
+        <p class="flex font-normal">{{ assignment.description }}</p>
+        <p class="flex font-thin text-sm">{{ assignment.time_window_start }}</p>
+        <p class="flex font-thin text-sm">{{ assignment.time_window_end }}</p>
+        <div></div>
+        <!-- The button goes here, but changes depending on the logic -->
+    </div>
+{% endblock %}

@@ -879,6 +879,14 @@ select{
   grid-column-start: auto;
 }
 
+.col-start-12{
+  grid-column-start: 12;
+}
+
+.col-start-10{
+  grid-column-start: 10;
+}
+
 .col-end-11{
   grid-column-end: 11;
 }
@@ -941,6 +949,14 @@ select{
 
 .row-start-5{
   grid-row-start: 5;
+}
+
+.row-start-7{
+  grid-row-start: 7;
+}
+
+.row-start-6{
+  grid-row-start: 6;
 }
 
 .row-end-2{
@@ -1358,6 +1374,10 @@ select{
   list-style-position: inside;
 }
 
+.auto-cols-max{
+  grid-auto-columns: max-content;
+}
+
 .grid-flow-row{
   grid-auto-flow: row;
 }
@@ -1384,6 +1404,10 @@ select{
 
 .grid-cols-12{
   grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.grid-cols-10{
+  grid-template-columns: repeat(10, minmax(0, 1fr));
 }
 
 .grid-rows-2{
@@ -1424,6 +1448,10 @@ select{
 
 .place-items-start{
   place-items: start;
+}
+
+.place-items-center{
+  place-items: center;
 }
 
 .content-evenly{
@@ -2081,6 +2109,10 @@ select{
 
 .decoration-wavy{
   text-decoration-style: wavy;
+}
+
+.accent-baublack{
+  accent-color: #23241E;
 }
 
 .opacity-0{

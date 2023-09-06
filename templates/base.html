@@ -9,6 +9,7 @@
     {% tailwind_css %}
     {% load static %}
     {% load thumbnail %}
+    {% load django_htmx %}
     <script defer src="{% static 'alpinejs/dist/cdn.min.js' %}"></script>
     <script src="{% static 'htmx.org/dist/htmx.min.js' %}"></script>
     <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
@@ -17,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 
-<body class="bg-bg-bau font-primary">
+<body class="bg-bg-bau font-primary" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
 {% block sidebar %}
 {% endblock %}
 

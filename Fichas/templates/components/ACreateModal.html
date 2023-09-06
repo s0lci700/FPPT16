@@ -1,12 +1,15 @@
+<!-- modal -->
+{% load widget_tweaks %}
 <div @click.outside="createModal = false">
-    <form method="post" action="{% url 'Fichas:assignment-create' %}" hx-post="{% url 'Fichas:assignment-create' %}"
+    <form method="post" hx-post="{% url 'Fichas:assignment-create' %}"
           hx-target="#assignment-list" hx-swap="beforeend"
-          class="container mx-auto flex flex-col justify-items-center bg-gray-400 p-10">
+          x-on:submit="createModal = false"
+          class="container rounded-xl mx-auto flex flex-col justify-items-center bg-baublue text-zinc-50 accent-baublack p-10">
         {% csrf_token %}
         {% for field in form %}
             <div class="flex flex-col self-start">
                 {{ field.label_tag }}
-                {{ field }}
+                {{ field | add_class:"text-baublack" }}
             </div>
         {% endfor %}
         <!-- Other fields -->
@@ -17,7 +20,9 @@
     </form>
     {% if form.errors %}
         {% for field, errors in form.errors.items %}
-            <div>{{ error }}</div>
+            {% for error in errors %}
+                <div>{{ error }}</div>
+            {% endfor %}
         {% endfor %}
     {% endif %}
 </div>

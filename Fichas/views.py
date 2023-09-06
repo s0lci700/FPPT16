@@ -1,13 +1,15 @@
+import logging
 from datetime import datetime
 from django.utils import timezone
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
+from render_block import render_block_to_string
 
 from Cuentas.models import StudentProfile
 from .forms import FichaForm, AssignmentForm
@@ -163,16 +165,47 @@ def assignment_list(request):
     )
 
 
+# In Fichas.views.py
 def create_assignment(request):
-    print("Function Triggered")  # Debugging
+    assignments = Assignment.objects.annotate(
+        ficha_filled=Case(
+            When(fichas__student__user=request.user, then=True),
+            default=False,
+            output_field=BooleanField(),
+        )
+    )
+    # You can still get open_assignments if needed
+    current_datetime = timezone.now()
+    open_assignments = assignments.filter(
+        Q(
+            time_window_start__lte=current_datetime,
+            time_window_end__gte=current_datetime,
+        )
+        | Q(fichas__status="Publicado")
+    )
     if request.method == "POST":
         form = AssignmentForm(request.POST)
         if form.is_valid():
-            print("Form is Valid")  # Debugging
-            form.save()
-            return redirect("assignment-list")
+            new_assignment = form.save()
+            context = {
+                "assignment": new_assignment,
+                "assignments": assignments,
+                "open_assignments": open_assignments,
+            }
+            html = render_block_to_string(
+                "assignment_list.html",
+                "assignment_block",
+                context,
+            )
+            return HttpResponse(html)
         else:
-            print("Form Errors:", form.errors)  # Debugging
+            return HttpResponse(status=400)
     else:
+        # This is for GET or any other method
         form = AssignmentForm()
-    return render(request, "components/ACreateModal.html", {"form": form})
+        context = {
+            "form": form,
+            "assignments": assignments,
+            "open_assignments": open_assignments,
+        }
+        return render(request, "assignment_list.html", context)
