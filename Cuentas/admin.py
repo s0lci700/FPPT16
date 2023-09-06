@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.db import models
 
 from .models import CustomUser
 from .models import StudentProfile, TeacherProfile
@@ -21,8 +23,26 @@ class TeacherProfileInline(admin.StackedInline):
         verbose_name_plural = "Perfiles de profesores"
 
 
+class CustomUserCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = CustomUser
+        fields = ("email",)
+
+
+class CustomUserChangeForm(UserChangeForm):
+    class Meta:
+        model = CustomUser
+        fields = (
+            "email",
+            "password",
+            "role",
+        )
+
+
 class UserAdmin(DefaultUserAdmin):
-    list_display = ("email", "first_name", "last_name", "role")
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
+    list_display = ("id", "first_name", "last_name", "email", "role")
     list_filter = ("role", "is_staff", "is_superuser")
     search_fields = ("email", "first_name", "last_name")
     ordering = ("last_name", "first_name", "role")
@@ -43,6 +63,15 @@ class UserAdmin(DefaultUserAdmin):
             },
         ),
     )
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": ("email", "password1", "password2", "role"),
+            },
+        ),
+    )
     readonly_fields = ("last_login", "date_joined")
 
     inlines = [StudentProfileInline, TeacherProfileInline]
@@ -59,6 +88,13 @@ class UserAdmin(DefaultUserAdmin):
             ]
         else:
             return []
+
+    def save_model(self, request, obj, form, change):
+        if not obj.username:
+            max_id = CustomUser.objects.all().aggregate(models.Max("id"))["id__max"]
+            new_id = (max_id or 0) + 1
+            obj.username = f"user_{new_id}"
+        obj.save()
 
 
 admin.site.register(CustomUser, UserAdmin)

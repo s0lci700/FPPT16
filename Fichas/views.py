@@ -85,7 +85,7 @@ class FichaCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy("ficha-list")
+        return reverse_lazy("Fichas:ficha-list")
 
 
 class FichaUpdateView(LoginRequiredMixin, UpdateView):
@@ -106,7 +106,7 @@ class FichaUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy("ficha-list")
+        return reverse_lazy("Fichas:ficha-list")
 
 
 class FichaDeleteView(LoginRequiredMixin, DeleteView):
@@ -164,11 +164,15 @@ def assignment_list(request):
 
 
 def create_assignment(request):
+    print("Function Triggered")  # Debugging
     if request.method == "POST":
         form = AssignmentForm(request.POST)
         if form.is_valid():
+            print("Form is Valid")  # Debugging
             form.save()
             return redirect("assignment-list")
+        else:
+            print("Form Errors:", form.errors)  # Debugging
     else:
         form = AssignmentForm()
     return render(request, "components/ACreateModal.html", {"form": form})

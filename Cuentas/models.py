@@ -1,4 +1,5 @@
 from django.contrib.auth.base_user import BaseUserManager
+import uuid
 
 
 from django.db import models
@@ -17,7 +18,13 @@ class CustomUserManager(BaseUserManager):
         if not email:
             raise ValueError("The Email field must be set")
         email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
+
+        # Generate a new username
+        max_id = CustomUser.objects.all().aggregate(models.Max("id"))["id__max"]
+        new_id = (max_id or 0) + 1
+        username = f"user_{new_id}"
+
+        user = self.model(email=email, username=username, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -26,6 +33,24 @@ class CustomUserManager(BaseUserManager):
         # Assuming that email is the unique identifier for your user model
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
+
+        # Prompt for role if not provided
+        role = extra_fields.get("role", None)
+        if role is None:
+            role = (
+                input("Role [A=Alumno, P=Profesor, NS=No especificado]: ")
+                .strip()
+                .upper()
+            )
+            while role not in dict(CustomUser.ROLE_CHOICES).keys():
+                print("Invalid choice. Try again.")
+                role = (
+                    input("Role [A=Alumno, P=Profesor, NS=No especificado]: ")
+                    .strip()
+                    .upper()
+                )
+            extra_fields["role"] = role
+
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -54,7 +79,7 @@ class CustomUser(AbstractUser):
         help_text="Correo electrónico del usuario",
     )
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["role"]
+    REQUIRED_FIELDS = ["role", "first_name", "last_name"]
 
     first_name = models.CharField(
         max_length=50, blank=True, verbose_name="Nombre", help_text="Nombre del usuario"
@@ -88,6 +113,14 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return f"{self.first_name + ' ' + self.last_name}"
+
+    def save(self, *args, **kwargs):
+        if self.username is None:
+            # Generate a new username
+            max_id = CustomUser.objects.all().aggregate(models.Max("id"))["id__max"]
+            new_id = (max_id or 0) + 1
+            self.username = f"user_{new_id}"
+        super(CustomUser, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ["last_name", "first_name", "role"]
