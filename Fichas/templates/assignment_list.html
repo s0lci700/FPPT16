@@ -3,7 +3,7 @@
 
 
 {% block content %}
-    <div x-data="{createModal: false}"
+    <div x-data="{createModal: false,updateModal:false}"
          class="grid h-full grid-cols-12 grid-rows-6 font-primary">
         <div class="container col-start-1 col-end-2 row-span-full my-1">
             {% include 'components/sidebar.html' %}
@@ -47,7 +47,9 @@
                                                 Llenar Ficha</a>
                                         {% endif %}
                                     {% else %}
-                                        <a>...</a>
+                                        <a @click="updateModal = true"
+                                           class="mt-2 w-fit rounded-md border-2 px-2 py-1 text-center text-sm text-zinc-50 shadow-lg brightness-125 transition-all bg-baublue border-baublack hover:bg-indigo-600">
+                                            Update Assignment</a>
                                     {% endif %}
                                 </div>
                             </div>
@@ -69,7 +71,11 @@
                      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" aria-hidden="true">
                     {% include 'components/ACreateModal.html' %}
                 </div>
+                <div id="updateModal" x-show="updateModal" x-transition.opacity
+                     x-cloak
+                     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" aria-hidden="true">
+                {% include 'components/updateModal.html' %}
             {% endif %}
+            </div>
         </div>
-    </div>
 {% endblock %}

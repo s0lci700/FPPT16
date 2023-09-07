@@ -209,3 +209,22 @@ def create_assignment(request):
             "open_assignments": open_assignments,
         }
         return render(request, "assignment_list.html", context)
+
+
+class AssignmentDeleteView(LoginRequiredMixin, DeleteView):
+    model = Assignment
+    template_name = "assignment_delete_confirm.html"
+    success_url = reverse_lazy("Fichas:assignment-list")
+
+    def get_queryset(self):
+        return Assignment.objects.filter(pk=self.kwargs["pk"])
+
+
+class AssignmentUpdateView(LoginRequiredMixin, UpdateView):
+    model = Assignment
+    form_class = AssignmentForm
+    template_name = "assignment_update.html"
+    success_url = reverse_lazy("Fichas:assignment-list")
+
+    def get_queryset(self):
+        return Assignment.objects.filter(pk=self.kwargs["pk"])
