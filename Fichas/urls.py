@@ -9,6 +9,8 @@ from .views import (
     ficha_detail_view,
     assignment_list,
     create_assignment,
+    assignment_update_view,
+    assignment_delete_view,
 )
 
 urlpatterns = [
@@ -31,4 +33,14 @@ urlpatterns = [
     ),
     path("assignment/", assignment_list, name="assignment-list"),
     path("assignment/create/", create_assignment, name="assignment-create"),
+    path(
+        "assignment/<int:assignment_id>/update/",
+        assignment_update_view,
+        name="assignment-update",
+    ),
+    path(
+        "assignment/<int:assignment_id>/delete/",
+        assignment_delete_view,
+        name="assignment-delete",
+    ),
 ]

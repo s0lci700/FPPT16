@@ -1,0 +1,29 @@
+<!-- This is the card that is used to display the currently open assignments in assignment_list.html -->
+<!-- open_assignment.html -->
+<div class="col-span-2 row-span-1 flex h-fit w-fit flex-col rounded-md p-5 text-zinc-50 drop-shadow-lg assignment-card bg-baublue"
+     x-id="['assignment-card']">
+    <h2 class="flex font-medium">{{ assignment.title }}</h2>
+    <p class="flex font-normal">{{ assignment.id }}</p>
+    <p class="flex font-normal">{{ assignment.description }}</p>
+    <p class="flex text-sm font-thin">{{ assignment.time_window_start }}</p>
+    <p class="flex text-sm font-thin">{{ assignment.time_window_end }}</p>
+    <div>
+        <!-- The button goes here, but changes depending on the logic -->
+        {% if request.user.role == 'A' %}
+            {% if assignment.ficha_filled %}
+                <a href="{% url 'Fichas:ficha-update' request.user.id assignment.id %}"
+                   class="mt-2 w-fit cursor-pointer rounded-md border-2 px-2 py-1 text-center text-sm text-zinc-50 shadow-lg brightness-125 transition-all bg-baublue border-baublack hover:bg-indigo-600">
+                    Editar Ficha</a>
+            {% else %}
+                <a href="{% url 'Fichas:ficha-create' request.user.id assignment.id %}"
+                   class="mt-2 w-fit cursor-pointer rounded-md border-2 px-2 py-1 text-center text-sm text-zinc-50 shadow-lg brightness-125 transition-all bg-baublue border-baublack hover:bg-indigo-600">
+                    Llenar Ficha</a>
+            {% endif %}
+        {% elif request.user.role == 'P' %}
+            <a @click="updateModal = true; assignmentId = '{{ assignment.id }}'"
+               class="mt-2 w-fit rounded-md border-2 px-2 py-1 text-center text-sm text-zinc-50 shadow-lg brightness-125 transition-all bg-baublue border-baublack hover:bg-indigo-600 cursor-pointer">
+                Update Assignment
+            </a>
+        {% endif %}
+    </div>
+</div>

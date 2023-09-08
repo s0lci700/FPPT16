@@ -2,8 +2,10 @@
 {% extends 'base.html' %}
 
 
+
 {% block content %}
-    <div x-data="{createModal: false,updateModal:false}"
+    <!-- Main div -->
+    <div x-data="{createModal: false, updateModal: false, assignmentId: null }"
          class="grid h-full grid-cols-12 grid-rows-6 font-primary">
         <div class="container col-start-1 col-end-2 row-span-full my-1">
             {% include 'components/sidebar.html' %}
@@ -18,64 +20,40 @@
                    hover:animate-pulse hover:bg-blue-700 transition-all">Nueva
                     Instancia de ficha</a>
             </div>
+
         {% endif %}
 
 
-        <!-- assignment_list.html -->
+        <!-- assignment-list div -->
         <div id="assignment-list"
              class="col-start-2 col-span-full row-start-1 mt-20 mr-8 row-span-full
              items-start grid grid-cols-10 grid-rows-5 gap-3 h-full w-full grid-flow-col auto-cols-max auto-rows-auto">
-            {% if assignments %}
-                {% for assignment in assignments %}
-                    {% block assignment_block %}
-                        {% if assignment.is_open %}
-                            <div class="col-span-2 row-span-1 flex h-fit w-fit flex-col rounded-md p-5 text-zinc-50 drop-shadow-lg assignment-card bg-baublue">
-                                <h2 class="flex font-medium">{{ assignment.title }}</h2>
-                                <p class="flex font-normal">{{ assignment.description }}</p>
-                                <p class="flex text-sm font-thin">{{ assignment.time_window_start }}</p>
-                                <p class="flex text-sm font-thin">{{ assignment.time_window_end }}</p>
-                                <div>
-                                    <!-- The button goes here, but changes depending on the logic -->
-                                    {% if request.user.role == 'A' %}
-                                        {% if assignment.ficha_filled %}
-                                            <a href="{% url 'Fichas:ficha-update' request.user.id assignment.id %}"
-                                               class="mt-2 w-fit rounded-md border-2 px-2 py-1 text-center text-sm text-zinc-50 shadow-lg brightness-125 transition-all bg-baublue border-baublack hover:bg-indigo-600">
-                                                Editar Ficha</a>
-                                        {% else %}
-                                            <a href="{% url 'Fichas:ficha-create' request.user.id assignment.id %}"
-                                               class="mt-2 w-fit rounded-md border-2 px-2 py-1 text-center text-sm text-zinc-50 shadow-lg brightness-125 transition-all bg-baublue border-baublack hover:bg-indigo-600">
-                                                Llenar Ficha</a>
-                                        {% endif %}
-                                    {% else %}
-                                        <a @click="updateModal = true"
-                                           class="mt-2 w-fit rounded-md border-2 px-2 py-1 text-center text-sm text-zinc-50 shadow-lg brightness-125 transition-all bg-baublue border-baublack hover:bg-indigo-600">
-                                            Update Assignment</a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="col-span-2 row-span-1 flex h-fit w-fit flex-col rounded-md p-5 text-zinc-50 drop-shadow-lg saturate-50 assignment-card bg-baured">
-                                <h2 class="flex font-medium">{{ assignment.title }}</h2>
-                                <p class="flex font-normal">{{ assignment.description }}</p>
-                                <p class="flex text-sm font-thin">{{ assignment.time_window_start }}</p>
-                                <p class="flex text-sm font-thin">{{ assignment.time_window_end }}</p>
-                            </div>
-                        {% endif %}
-                    {% endblock %}
-                {% endfor %}
-            {% endif %}
-
-            {% if user.role == 'P' %}
-                <div id="creationModal" x-show="createModal" x-transition.opacity
-                     x-cloak
-                     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" aria-hidden="true">
-                    {% include 'components/ACreateModal.html' %}
-                </div>
-                <div id="updateModal" x-show="updateModal" x-transition.opacity
-                     x-cloak
-                     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" aria-hidden="true">
-                {% include 'components/updateModal.html' %}
-            {% endif %}
-            </div>
+            {% for assignment in assignments %}
+                {% if assignment.is_open %}
+                    {% include "components/open_assignment.html" %}
+                {% else %}
+                    {% include "components/closed_assignment.html" %}
+                {% endif %}
+            {% endfor %}
         </div>
+
+        <!-- modals -->
+        {% if request.user.role == 'P' %}
+            <!-- Assignment Creation Modal  -->
+            <div id="creationModal" x-show="createModal" x-transition.opacity
+                 x-cloak
+                 class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+                 aria-hidden="true">
+                {% include 'components/ACreateModal.html' %}
+            </div>
+            <!-- Assignment Update Modal -->
+            <div id="update-modal" x-show="updateModal" x-transition.opacity
+                 x-cloak
+                 class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+                 aria-hidden="true">
+                {% include 'components/updateModal.html' %}
+            </div>
+
+        {% endif %}
+    </div>
 {% endblock %}

@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
@@ -193,8 +193,8 @@ def create_assignment(request):
                 "open_assignments": open_assignments,
             }
             html = render_block_to_string(
-                "assignment_list.html",
-                "assignment_block",
+                "open_assignment.html",
+                ["assignment_block", "closed_assignment"],
                 context,
             )
             return HttpResponse(html)
@@ -211,20 +211,26 @@ def create_assignment(request):
         return render(request, "assignment_list.html", context)
 
 
-class AssignmentDeleteView(LoginRequiredMixin, DeleteView):
-    model = Assignment
-    template_name = "assignment_delete_confirm.html"
-    success_url = reverse_lazy("Fichas:assignment-list")
+def assignment_update_view(request, assignment_id):
+    assignment = get_object_or_404(Assignment, id=assignment_id)
+    form = AssignmentForm(instance=assignment)
+    context = {
+        "form": form,
+        "assignment": assignment,
+    }
+    return render(request, "components/updateModal.html", context)
 
-    def get_queryset(self):
-        return Assignment.objects.filter(pk=self.kwargs["pk"])
 
-
-class AssignmentUpdateView(LoginRequiredMixin, UpdateView):
-    model = Assignment
-    form_class = AssignmentForm
-    template_name = "assignment_update.html"
-    success_url = reverse_lazy("Fichas:assignment-list")
-
-    def get_queryset(self):
-        return Assignment.objects.filter(pk=self.kwargs["pk"])
+def assignment_delete_view(request, assignment_id):
+    assignment = get_object_or_404(Assignment, id=assignment_id)
+    if request.method == "POST":
+        if "confirm_delete" in request.POST:
+            assignment.delete()
+            return redirect("Fichas:assignment-list")
+        else:
+            return redirect("Fichas:assignment-list")
+    else:
+        context = {
+            "assignment": assignment,
+        }
+        return render(request, "assignment_delete_confirm.html", context)
