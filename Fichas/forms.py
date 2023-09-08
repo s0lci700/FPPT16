@@ -1,15 +1,34 @@
 from django import forms
 from .models import Ficha, Review, Assignment
+from django.contrib.admin.widgets import AdminDateWidget, AdminTimeWidget
 
 
 class AssignmentForm(forms.ModelForm):
+    time_window_start_date = forms.DateField(
+        widget=AdminDateWidget(
+            attrs={
+                "format": format("%d/%m/%Y"),
+                "type": "date",
+            }
+        )
+    )
+    time_window_end_date = forms.DateField(
+        widget=AdminDateWidget(
+            attrs={
+                "format": format("%d/%m/%Y"),
+                "type": "date",
+            }
+        )
+    )
+
     class Meta:
         model = Assignment
-        fields = ["title", "description", "time_window_start", "time_window_end"]
-        widgets = {
-            "time_window_start": forms.DateTimeInput(attrs={"type": "datetime-local"}),
-            "time_window_end": forms.DateTimeInput(attrs={"type": "datetime-local"}),
-        }
+        fields = [
+            "title",
+            "description",
+            "time_window_start_date",
+            "time_window_end_date",
+        ]
 
 
 class FichaForm(forms.ModelForm):

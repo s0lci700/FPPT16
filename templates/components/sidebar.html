@@ -73,7 +73,7 @@
                         </div>
                     </div>
                 {% elif request.user.role == 'P' %}
-                    <a href="{% url 'Fichas:assignment-list' %}"
+                    <a href="{% url 'Fichas:assignment' %}"
                        class="relative flex h-20 w-full items-center justify-center self-center overflow-hidden border-r-4 bg-cover bg-no-repeat text-center font-semibold border-bauyellow font-primary">
                         Panel de Profesores
                         <div class="absolute top-0 right-0 bottom-0 left-0 h-full w-full translate-x-6 overflow-hidden bg-fixed opacity-0 transition duration-300 ease-in-out bg-bauyellow hover:translate-x-0 hover:opacity-50"></div>
@@ -89,7 +89,7 @@
         <div id="shapes"
              class="mx-1 mb-2 flex flex-col items-center justify-evenly gap-4 py-2">
 
-            <a href="{% url 'Fichas:assignment-list' %}"
+            <a href="{% url 'Fichas:assignment' %}"
                class="w-20 h-10 rounded-lg flex text-baublack items-center justify-self-center text-center justify-center text-sm bg-bauyellow font-medium leading-3
                hover:bg-yellow-600 hover:scale-120 hover:text-zinc-50 hover:animate-pulse px-2 transition-all ">
                 Crear

@@ -1,0 +1,8 @@
+<!-- components/assignment-list.html -->
+{% for assignment in assignments %}
+    {% if assignment.is_open %}
+        {% include "components/open_assignment.html" %}
+    {% else %}
+        {% include "components/closed_assignment.html" %}
+    {% endif %}
+{% endfor %}

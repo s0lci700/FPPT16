@@ -10,41 +10,31 @@
         </div>
 
 
-
-        {% if user.is_authenticated %}
-            <div class="mt-10 text-center row-start-1 col-start-2 col-span-2 place-items-start flex-col flex items-center px-6">
+        <div class="mt-10 text-start row-start-1 col-start-2 col-span-full place-items-start flex-col flex px-6">
+            {% if user.is_authenticated %}
                 <span class="self-start font-primary font-bold text-4xl">
                     Hola {{ user.first_name }} {{ user.last_name }}!</span>
-                <span class="self-start">{% now "SHORT_DATETIME_FORMAT" %}</span>
-
-                {% for assignment in assignments %}
-                    {% if assignment.status == 'OPEN' %}
-                        <div>
-
-                            <div class="bg-gray-400 mb-1 rounded-xl">
-                                <a>{{ assignment.title }}</a>
-                                <p>
-                                    Status: {{ assignment.status }}
-                                </p>
-                                <!-- Add other information about the assignment here -->
-                                <div class="bg-bg-bau">
-                                    <span>
-                                    Desde: {{ assignment.time_window_start|date:"F j, Y, P" }}
-                                    Hasta: {{ assignment.time_window_end|date:"F j, Y, P" }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                {% empty %}
-                    <p>No assignments found.</p>
-                {% endfor %}
-            </div>
-        {% else %}
-            <div class="mt-4 justify-between text-center row-start-1 col-start-3 col-end-12 flex-wrap mb-14 flex items-center px-6">
+                <span class="self-start flex-1 inline-flex whitespace-nowrap">Hoy es: {{ weekday }} {{ day_number }} de {{ month }}, {{ year }}</span>
+                <span class="self-start flex-1 inline w-[500px]">Hay
+                    <a href="{% url 'Fichas:assignment' %}"
+                       class="text-blue-500 decoration-wavy decoration-sky-400 underline hover:text-sky-400 transition-all duration-500 hover:decoration-baublue"> {{ open_non_filled_fichas }} fichas </a> disponibles para llenar.</span>
+                {% if closest_assignment %}
+                    <span class="self-start flex-1 inline">La ficha más próxima a cerrar es
+                        <a href="{% url "Fichas:ficha-create" request.user.id closest_assignment.id %}"
+                           class="text-baublack decoration-wavy decoration-baured font-bold capitalize underline hover:text-baured transition-all duration-500 hover:decoration-red-400">
+                            {{ closest_assignment.title }}</a> el día
+                        <a class="text-baublack decoration-wavy decoration-bauyellow underline hover:text-baublue transition-all duration-500 hover:decoration-red-400 font-normal">
+                            {{ closest_assignment.time_window_end|date }}</a>
+                    </span>
+                {% else %}
+                    <span class="self-start flex-1 inline-flex whitespace-nowrap">No hay fichas próximas a cerrar.</span>
+                {% endif %}
+                </div>
+            {% else %}
+                <div class="mt-4 justify-between text-center row-start-1 col-start-3 col-end-12 flex-wrap mb-14 flex items-center px-6">
                 <h1 class="text-center">you shouldnt be here</h1>
+            {% endif %}
             </div>
-        {% endif %}
     </div>
 {% endblock %}
 

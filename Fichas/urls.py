@@ -7,10 +7,11 @@ from .views import (
     FichaDeleteView,
     ficha_general_view,
     ficha_detail_view,
-    assignment_list,
+    assignment_index,
     create_assignment,
-    assignment_update_view,
     assignment_delete_view,
+    assignment_list,
+    edit_assignment,
 )
 
 urlpatterns = [
@@ -31,15 +32,16 @@ urlpatterns = [
         FichaDeleteView.as_view(),
         name="ficha-delete",
     ),
-    path("assignment/", assignment_list, name="assignment-list"),
+    path("assignment/", assignment_index, name="assignment"),
+    path("assignment/list/", assignment_list, name="assignment-list"),
     path("assignment/create/", create_assignment, name="assignment-create"),
     path(
-        "assignment/<int:assignment_id>/update/",
-        assignment_update_view,
+        "assignment/<int:pk>/update/",
+        edit_assignment,
         name="assignment-update",
     ),
     path(
-        "assignment/<int:assignment_id>/delete/",
+        "assignment/<int:pk>/delete/",
         assignment_delete_view,
         name="assignment-delete",
     ),

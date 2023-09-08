@@ -1,20 +1,21 @@
-import logging
+from django.core.exceptions import ValidationError
+import locale
 from datetime import datetime
-from django.utils import timezone
 
+import pytz
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
-from django.http import Http404, HttpResponse, JsonResponse
+from django.core.exceptions import ValidationError
+from django.db.models import Q, Case, When, BooleanField
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import CreateView, UpdateView, DeleteView
-from render_block import render_block_to_string
 
 from Cuentas.models import StudentProfile
 from .forms import FichaForm, AssignmentForm
 from .models import Ficha, Assignment
-from django.db.models import Count, Q, Case, When, BooleanField
 
 User = get_user_model()
 
@@ -70,21 +71,41 @@ class FichaCreateView(LoginRequiredMixin, CreateView):
         return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
-        ficha = form.save(commit=False)
-        if "save_draft" in self.request.POST:
-            ficha.status = "Borrador"
-        else:
-            ficha.status = "Publicado"
+        print("Attempting to save Ficha with:")
+        print("StudentID:", self.request.user.id)
+        print("AssignmentID:", self.kwargs.get("assignment_id"))
+        # Existing code
         student = self.request.user
         student_profile = StudentProfile.objects.get(user=student)
-        ficha.student = student_profile
-
         assignment_id = self.kwargs.get("assignment_id")
         assignment = get_object_or_404(Assignment, id=assignment_id)
-        ficha.assignment = assignment
 
-        ficha.save()
-        return super().form_valid(form)
+        # Check if a Ficha with the same student and assignment already exists
+        existing_ficha = Ficha.objects.filter(
+            student=student_profile, assignment=assignment
+        ).first()
+
+        if existing_ficha:
+            # If it exists, you can either update it, ignore it, or handle as per your requirement.
+            # For now, I'm throwing a ValidationError. You can customize this part.
+            raise ValidationError(
+                "A Ficha with this student and assignment already exists."
+            )
+        else:
+            # If it doesn't exist, create a new Ficha
+            ficha = form.save(commit=False)
+            if "save_draft" in self.request.POST:
+                ficha.status = "Borrador"
+            else:
+                ficha.status = "Publicado"
+
+            ficha.student = student_profile
+            ficha.assignment = assignment
+
+            # Save the new Ficha
+            ficha.save()
+
+            return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy("Fichas:ficha-list")
@@ -133,6 +154,26 @@ class FichaDeleteView(LoginRequiredMixin, DeleteView):
         return reverse_lazy("ficha-list")
 
 
+def assignment_index(request):
+    chile = pytz.timezone("America/Santiago")
+    chile_time = datetime.now(chile)
+
+    locale.setlocale(locale.LC_TIME, "es_ES.UTF-8")  # Set locale to Spanish
+    weekday = chile_time.strftime("%A")  # Gives day of the week
+    day_number = chile_time.day  # Gives the day number
+    month = chile_time.strftime("%B")  # Gives the month
+    year = chile_time.year  # Gives the year
+
+    context = {
+        "weekday": weekday,
+        "day_number": day_number,
+        "month": month,
+        "year": year,
+        # ... your other context data
+    }
+    return render(request, "assignment_index.html", context)
+
+
 def assignment_list(request):
     assignments = Assignment.objects.annotate(
         ficha_filled=Case(
@@ -160,7 +201,7 @@ def assignment_list(request):
     }
     return render(
         request,
-        "assignment_list.html",
+        "components/assignment-list.html",
         context,
     )
 
@@ -192,14 +233,12 @@ def create_assignment(request):
                 "assignments": assignments,
                 "open_assignments": open_assignments,
             }
-            html = render_block_to_string(
-                "open_assignment.html",
-                ["assignment_block", "closed_assignment"],
-                context,
-            )
-            return HttpResponse(html)
-        else:
-            return HttpResponse(status=400)
+            if request.htmx:
+                return render(
+                    request,
+                    "components/assignment-list.html",
+                    context,
+                )
     else:
         # This is for GET or any other method
         form = AssignmentForm()
@@ -208,21 +247,51 @@ def create_assignment(request):
             "assignments": assignments,
             "open_assignments": open_assignments,
         }
-        return render(request, "assignment_list.html", context)
+        if request.htmx:
+            return render(request, "components/create-assignment-form.html", context)
+        else:
+            return render(request, "assignment_index.html", context)
 
 
-def assignment_update_view(request, assignment_id):
-    assignment = get_object_or_404(Assignment, id=assignment_id)
-    form = AssignmentForm(instance=assignment)
-    context = {
-        "form": form,
-        "assignment": assignment,
-    }
-    return render(request, "components/updateModal.html", context)
+def edit_assignment(request, pk):
+    assignment = get_object_or_404(Assignment, pk=pk)
+    if request.method == "POST":
+        print("POST")
+        form = AssignmentForm(request.POST, instance=assignment)
+        if request.htmx:
+            print("HTMX")
+            if form.is_valid():
+                form.save()
+                return redirect("Fichas:assignment-list")
+        else:
+            print("No htmx")
+            if form.is_valid():
+                form.save()
+                return redirect("Fichas:assignment-list")
+    else:
+        print("GET")
+        form = AssignmentForm(instance=assignment)
+        if request.htmx:
+            print("HTMX")
+            return render(
+                request,
+                "components/update-assignment-form.html",
+                {"form": form, "assignment": assignment},
+            )
+        else:
+            print("No htmx")
+            return render(
+                request,
+                "assignment_update.html",
+                {
+                    "form": form,
+                    "assignment": assignment,
+                },
+            )
 
 
-def assignment_delete_view(request, assignment_id):
-    assignment = get_object_or_404(Assignment, id=assignment_id)
+def assignment_delete_view(request, pk):
+    assignment = get_object_or_404(Assignment, pk=pk)
     if request.method == "POST":
         if "confirm_delete" in request.POST:
             assignment.delete()

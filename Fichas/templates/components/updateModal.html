@@ -9,11 +9,10 @@
      class="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50"
      aria-hidden="true">
     <form method="post"
-          hx-post="{% url 'Fichas:assignment-update' assignmentId as assignment_id %}"
           x-on:submit="updateModal = false"
           @click.outside="updateModal = false"
           class="container mx-auto flex flex-col justify-items-center rounded-xl p-10 text-zinc-50 bg-baublue accent-baublack">
-        <span class="text-white">{{ assignment_id }}</span>
+        <span class="text-white">miau</span>
         <!-- ... rest of the form ... -->
         {% csrf_token %}
         {% for field in form %}

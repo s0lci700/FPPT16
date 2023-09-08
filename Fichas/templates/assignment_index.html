@@ -5,37 +5,46 @@
 
 {% block content %}
     <!-- Main div -->
-    <div x-data="{createModal: false, updateModal: false, assignmentId: null }"
+    <div x-data="{createModal: false, updateModal: false}"
          class="grid h-full grid-cols-12 grid-rows-6 font-primary">
         <div class="container col-start-1 col-end-2 row-span-full my-1">
             {% include 'components/sidebar.html' %}
         </div>
 
-
+        <!-- header -->
         {% include 'components/header.html' with header_title='Assignments' %}
         {% if request.user.role == 'P' %}
-            <div class="col-span-2 col-end-12 row-start-1 mr-8 flex h-fit w-fit flex-1 mt-1">
+            <div class="col-start-2 col-end-13 row-start-1 mr-9 flex h-fit flex-1 mt-1 bg-none justify-evenly">
+                <a class="place-self-start whitespace-nowrap flex mt-1.5">Hoy
+                    es: {{ weekday }} {{ day_number }}
+                    de {{ month }}, {{ year }}</a>
                 <a @click="createModal = true"
+                   hx-get="{% url 'Fichas:assignment-create' %}"
+                   hx-target="#creationModal"
+                   hx-trigger="click"
                    class="cursor-pointer rounded-full px-3 py-2 text-center text-sm font-thin text-zinc-50 bg-baublue
-                   hover:animate-pulse hover:bg-blue-700 transition-all">Nueva
+                   hover:animate-pulse hover:bg-blue-700 w-[150px} transition-all flex">Nueva
                     Instancia de ficha</a>
             </div>
-
+        {% else %}
+            <div class="col-start-2 col-end-13 row-start-1 mr-9 flex h-fit flex-1 mt-1 bg-none justify-start">
+                <a class="place-self-start whitespace-nowrap flex mt-1.5">Hoy
+                    es: {{ weekday }} {{ day_number }}
+                    de {{ month }}, {{ year }}</a>
+            </div>
         {% endif %}
 
 
         <!-- assignment-list div -->
+
+
         <div id="assignment-list"
-             class="col-start-2 col-span-full row-start-1 mt-20 mr-8 row-span-full
-             items-start grid grid-cols-10 grid-rows-5 gap-3 h-full w-full grid-flow-col auto-cols-max auto-rows-auto">
-            {% for assignment in assignments %}
-                {% if assignment.is_open %}
-                    {% include "components/open_assignment.html" %}
-                {% else %}
-                    {% include "components/closed_assignment.html" %}
-                {% endif %}
-            {% endfor %}
+             class="col-start-2 col-span-11 row-start-1 mt-20 mr-8 row-span-full
+     grid grid-rows-4 grid-cols-7 gap-4"
+             hx-get="{% url 'Fichas:assignment-list' %}" hx-trigger="load">
+            <p>Loading...</p>
         </div>
+
 
         <!-- modals -->
         {% if request.user.role == 'P' %}
@@ -51,9 +60,7 @@
                  x-cloak
                  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
                  aria-hidden="true">
-                {% include 'components/updateModal.html' %}
             </div>
-
         {% endif %}
     </div>
 {% endblock %}
