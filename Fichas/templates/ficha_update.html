@@ -1,34 +1,80 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 {% block title %}
     <title>Editar Ficha</title>
 {% endblock %}
 
 {% block content %}
-    <div x-data="{showModal: false}" class="grid grid-cols-12 h-full font-primary">
+    <div x-data="{showModal: false}" class="grid grid-cols-12 h-fit font-primary">
         <div class="container row-span-full col-start-1 col-end-2 my-1">
             {% include 'components/sidebar.html' %}
         </div>
 
-        <div id='content' class="w-full h-full col-start-3 col-end-12 flex justify-center items-center p-6">
-            <img class="h-auto max-w-sm mr-4" src="{{ ficha.main_image.url }}" alt="ficha main image">
+        <div id='content' class="w-full col-start-3 col-end-12 flex justify-center items-center p-6">
             <form action="{% url 'Fichas:ficha-update' ficha.student.user.id ficha.assignment.id %}" method="post"
-                  enctype="multipart/form-data">
+                  enctype="multipart/form-data"
+                  class="grid grid-rows-4 grid-cols-6 gap-2">
                 {% csrf_token %}
-                <div>{{ form.title }} <br> {{ form.main_image }}</div>
-                <div>{{ form.description }} </div>
-                <div>{{ form.analysis }} </div>
-                <div>{{ form.references }} </div>
-                <div>{{ form.keywords }}</div>
-                <div>{{ form.misc }} </div>
-                <div class="flex flex-row gap-x-2 mt-6">
-                    {% include 'components/button.html' with bg_button='bg-baublue' extra_classes="hover:bg-blue-600" name='update' button_type="submit" button_text="Actualizar" %}
-                    {#                    {% url 'ficha-delete-confirm' ficha.id as delete_confirm_url %}#}
-                    <button @click="showModal = true" class="px-4 py-2 bg-baured hover:bg-red-600 text-white rounded"
-                            type="button">Eliminar
-                    </button>
-                    <a href="{% url 'Fichas:ficha-list' %}"
-                       class="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded">Cancelar</a>
+                <div class="col-start-1 col-end-2 row-start-1 row-end-2">
+                    <img class="self-center flex flex-1 h-auto max-w-sm mr-4" src="{{ ficha.main_image.url }}"
+                         alt="ficha main image">
+                    <span class="flex items-center">{{ ficha.main_image.name }}</span>
+                    <div class="flex items-center">
+                        {% render_field form.main_image %}
+                    </div>
                 </div>
+
+
+                <!-- Description Section -->
+                <div class="col-span-full row-start-2 row-span-full">
+                    <div class="flex-1 h-fit">
+                        <label class="text-lg font-semibold" for="title">Titulo</label>
+                        {% render_field form.title id='title' class='w-full h-full rounded-md ring-inset' %}
+                    </div>
+                    <hr>
+
+                    <div class="flex-1 h-fit">
+                        <label class="text-lg font-semibold" for="description">Descripción</label>
+                        {% render_field form.description id='description' class='w-full h-full rounded-md ring-inset' %}
+                    </div>
+                    <!-- Analisis Operacional -->
+                    <div class="flex-1 h-fit">
+                        <label for="analysis"
+                               class="text-lg font-semibold">Analisis</label>
+                        {% render_field form.analysis id="analysis" class='w-full h-full rounded-md ring-inset' %}
+                    </div>
+                    <!-- Analisis Referencial -->
+                    <div class="flex-1 h-fit">
+                        <label for="referencial"
+                               class="text-lg font-semibold">Analisis Referencial</label>
+                        {% render_field form.references id="referencial" class='w-full h-full rounded-md ring-inset' %}
+                    </div>
+                    <!-- Palabras Claves / Tags -->
+                    <div class="flex-1 h-fit">
+                        <label for="keywords"
+                               class="flex-1 text-sm font-medium leading-6 text-gray-900">Palabras Clave</label>
+                        {% render_field form.keywords id="keywords" class='w-full h-full rounded-md ring-inset' %}
+                    </div>
+                    <hr>
+                    <!-- Información Adicional -->
+                    <div class="flex-1 h-fit">
+                        <label for="misc"
+                               class="flex-1 text-sm font-medium leading-6 text-gray-900">Informacion Adicional</label>
+                        {% render_field form.misc id="misc" class='w-full h-full rounded-md ring-inset' %}
+                    </div>
+                    <div class="flex flex-row gap-x-2 mt-6">
+                        {% include 'components/button.html' with bg_button='bg-baublue' extra_classes="hover:bg-blue-600" name='update' button_type="submit" button_text="Actualizar" %}
+                        {#                    {% url 'ficha-delete-confirm' ficha.id as delete_confirm_url %}#}
+                        <button @click="showModal = true"
+                                class="px-4 py-2 bg-baured hover:bg-red-600 text-white rounded"
+                                type="button">Eliminar
+                        </button>
+                        <a href="{% url 'Fichas:ficha-list' %}"
+                           class="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded">Cancelar</a>
+                    </div>
+                </div>
+
+
             </form>
         </div>
         <!-- Include the delete modal here -->

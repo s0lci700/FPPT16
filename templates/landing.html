@@ -9,9 +9,9 @@
                         class="font-semibold">{{ user.first_name }} {{ user.last_name }}</span>!</span>
             </div>
             <div class="container z-30 mx-auto my-auto flex basis-3/4 flex-col gap-12 border-t-4 text-center border-baublack">
-                <a class="mx-auto mt-12 rounded-full px-4 py-2 text-white bg-baublue font-primary hover:ring-baublack hover:ring-2"
+                <a class="mx-auto mt-12 rounded-full px-4 py-2 text-white bg-baublue font-primary hover:ring-blue-700 hover:ring-2 ring-inset transition-all duration-500 hover:bg-blue-600"
                    href="{% url 'Cuentas:all_users' %}">Ir a la plataforma</a>
-                <a class="mx-auto rounded-full px-4 py-2 text-white bg-baured font-primary hover:ring-baublack hover:ring-2 transition-all"
+                <a class="mx-auto rounded-full px-4 py-2 text-white bg-baured font-primary hover:ring-baured hover:ring-2 ring-inset transition-all duration-500 hover:bg-red-600"
                    href="{% url 'Cuentas:logout' %}">Log Out</a>
             </div>
         {% else %}

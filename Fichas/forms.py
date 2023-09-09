@@ -31,8 +31,12 @@ class AssignmentForm(forms.ModelForm):
         ]
 
 
+class CustomFileInput(forms.ClearableFileInput):
+    template_name = "components/custom_file_input.html"
+
+
 class FichaForm(forms.ModelForm):
-    main_image = forms.ImageField(required=False)
+    main_image = forms.ImageField(widget=CustomFileInput)
 
     class Meta:
         model = Ficha
@@ -48,7 +52,11 @@ class FichaForm(forms.ModelForm):
         ]
         widgets = {
             "title": forms.TextInput(
-                attrs={"placeholder": "Título de la ficha", "label": "Título"}
+                attrs={
+                    "rows": 2,
+                    "placeholder": "Título de la ficha",
+                    "label": "Título",
+                }
             ),
             "description": forms.Textarea(
                 attrs={

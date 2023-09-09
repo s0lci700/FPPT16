@@ -1,8 +1,11 @@
-<!-- This is the card that is used to display the currently open assignments in assignment_list.html -->
-<!-- open_assignment.html -->
-
-<div class="col-span-1 row-span-1 flex flex-col rounded-md p-5 text-zinc-50 drop-shadow-lg w-[200px] h-[250px] bg-baublue"
+<div class="relative col-span-1 row-span-1 flex flex-col rounded-md p-5 text-zinc-50 drop-shadow-lg w-[200px] h-[250px]
+     {% if assignment.ficha_filled %} bg-blue-800 {% else %} bg-baublue {% endif %}"
      id="assignment-{{ assignment.id }}">
+
+    {% if assignment.ficha_filled %}
+        <i class="absolute top-3 right-3 text-green-500 fas fa-check"></i>
+    {% endif %}
+
     <div class="flex flex-col">
         <span class="text-xs font-normal">ID: {{ assignment.id }}</span>
         <span class="flex flex-grow items-center justify-center text-center font-medium capitalize">{{ assignment.title }}</span>
@@ -13,12 +16,13 @@
         <p class="text-xs font-thin leading-tight">Inicio:<br>{{ assignment.time_window_start| date }}</p>
         <p class="text-xs font-thin leading-tight">Final:<br>{{ assignment.time_window_end| date }}</p>
     </div>
-    <div class="mt-2">
-        <!-- The button goes here, but changes depending on the logic -->
+
+    <div class="mt-2 flex justify-center">
+        <!-- The button goes here, not affected by opacity -->
         {% if request.user.role == 'A' %}
             {% if assignment.ficha_filled %}
                 <a href="{% url 'Fichas:ficha-update' request.user.id assignment.id %}"
-                   class="mt-2 w-fit cursor-pointer rounded-md border-2 px-2 py-1 text-center text-sm text-zinc-50 shadow-lg brightness-125 transition-all bg-baublue border-baublack hover:bg-indigo-600">
+                   class="mt-2 w-fit cursor-pointer rounded-md border-2 bg-blue-600 px-2 py-1 text-center text-sm text-zinc-50 shadow-lg transition-all border-baublack hover:bg-blue-700 hover:brightness-125">
                     Editar Ficha</a>
             {% else %}
                 <a href="{% url 'Fichas:ficha-create' request.user.id assignment.id %}"

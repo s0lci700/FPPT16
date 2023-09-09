@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
+{% load static %}
 {% block title %}
     <title>Crear Ficha</title>
 {% endblock %}
@@ -16,61 +17,54 @@
                   enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="space-y-6">
-                    <!-- Image Upload Section -->
-                    <div x-data="{ imagePreview: '' }">
-                        <label class="text-lg font-semibold" for="cover-photo">Imagen Principal</label>
-                        <div class="mt-1 flex items-center">
-                            {% render_field form.main_image x-ref="imageInput" type="file" id="cover-photo" name="cover-photo" class="hidden" x-on:change="const reader = new FileReader(); reader.onload = (e) => imagePreview = e.target.result; reader.readAsDataURL($refs.imageInput.files[0])" %}
-                            <button x-on:click="$refs.imageInput.click()" type="button"
-                                    class="px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700">Subir
-                                Imagen
-                            </button>
-                            <template x-if="imagePreview">
-                                <img x-bind:src="imagePreview" class="ml-4 h-20 w-20 rounded-md">
-                            </template>
+                    <label class="text-lg font-semibold" for="main-image">Imagen Principal</label>
+                    <div class="mt-1 flex items-center">
+                        <div>
+
+                            {% render_field form.main_image %}
                         </div>
                     </div>
-                    <!-- Title Section -->
-                    <div>
-                        <label class="text-lg font-semibold" for="title">Titulo</label>
-                        <input type="text" id="title" name="title"
-                               class="mt-1 w-full rounded-lg border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                               placeholder="Titulo de la Obra">
-                    </div>
-                    <hr>
-
-
-                    <!-- Description Section -->
-                    <div class="flex-1 h-fit">
-                        <label class="text-lg font-semibold" for="description">Descripción</label>
-                        {% render_field form.description id='description' type='text-input' class='w-full h-full rounded-md ring-inset' %}
-                    </div>
-                    <!-- Analisis Operacional -->
-                    <div class="flex-1 h-fit">
-                        <label for="analysis"
-                               class="text-lg font-semibold">Analisis</label>
-                        {% render_field form.analysis id="analysis" type="text-input" class='w-full h-full rounded-md ring-inset' %}
-                    </div>
-                    <!-- Analisis Referencial -->
-                    <div class="flex-1 h-fit">
-                        <label for="referencial"
-                               class="text-lg font-semibold">Analisis Referencial</label>
-                        {% render_field form.references id="referencial" type="text-input" class='w-full h-full rounded-md ring-inset' %}
-                    </div>
-                    <!-- Palabras Claves / Tags -->
-                    <div class="flex-1 h-fit">
-                        <label for="keywords"
-                               class="flex-1 text-sm font-medium leading-6 text-gray-900">Palabras Clave</label>
-                        {% render_field form.keywords id="keywords" type="text-input" class='w-full h-full rounded-md ring-inset' %}
-                    </div>
-                    <hr>
-                    <!-- Información Adicional -->
-                    <div class="flex-1 h-fit">
-                        <label for="misc"
-                               class="flex-1 text-sm font-medium leading-6 text-gray-900">Informacion Adicional</label>
-                        {% render_field form.misc id="misc" type="text-input" class='w-full h-full rounded-md ring-inset' %}
-                    </div>
                 </div>
+                <div>
+                    <label class="text-lg font-semibold" for="title">Titulo</label>
+                    <input type="text" id="title" name="title"
+                           class="mt-1 w-full rounded-lg border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                           placeholder="Titulo de la Obra">
+                </div>
+                <hr>
+
+
+                <!-- Description Section -->
+                <div class="flex-1 h-fit">
+                    <label class="text-lg font-semibold" for="description">Descripción</label>
+                    {% render_field form.description id='description' type='text-input' class='w-full h-full rounded-md ring-inset' %}
+                </div>
+                <!-- Analisis Operacional -->
+                <div class="flex-1 h-fit">
+                    <label for="analysis"
+                           class="text-lg font-semibold">Analisis</label>
+                    {% render_field form.analysis id="analysis" type="text-input" class='w-full h-full rounded-md ring-inset' %}
+                </div>
+                <!-- Analisis Referencial -->
+                <div class="flex-1 h-fit">
+                    <label for="referencial"
+                           class="text-lg font-semibold">Analisis Referencial</label>
+                    {% render_field form.references id="referencial" type="text-input" class='w-full h-full rounded-md ring-inset' %}
+                </div>
+                <!-- Palabras Claves / Tags -->
+                <div class="flex-1 h-fit">
+                    <label for="keywords"
+                           class="flex-1 text-sm font-medium leading-6 text-gray-900">Palabras Clave</label>
+                    {% render_field form.keywords id="keywords" type="text-input" class='w-full h-full rounded-md ring-inset' %}
+                </div>
+                <hr>
+                <!-- Información Adicional -->
+                <div class="flex-1 h-fit">
+                    <label for="misc"
+                           class="flex-1 text-sm font-medium leading-6 text-gray-900">Informacion Adicional</label>
+                    {% render_field form.misc id="misc" type="text-input" class='w-full h-full rounded-md ring-inset' %}
+                </div>
+        
                 <!-- Buttons -->
                 <div class="flex justify-end space-x-4">
                     <button type="submit" name="publish"

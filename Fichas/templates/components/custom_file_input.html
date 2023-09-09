@@ -1,0 +1,22 @@
+<!-- custom_file_input.html -->
+{% load static %}
+
+<div x-data="{ fileName: '' }">
+    <input type="file"
+           name="{{ widget.name }}"
+           id="{{ widget.id }}"
+           x-ref="imageInput"
+           class="hidden"
+           x-on:change="fileName = $refs.imageInput.files[0].name"
+    >
+    <button x-on:click="$refs.imageInput.click()" type="button"
+            class="px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700">
+        Subir Imagen
+    </button>
+    <template x-if="fileName">
+        <div class="ml-4 flex items-center">
+            <i class="fas fa-check-circle text-green-500"></i>
+            <span class="ml-2" x-text="fileName"></span>
+        </div>
+    </template>
+</div>

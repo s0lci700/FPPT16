@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.admin.widgets import AdminDateWidget
+
 from .models import CustomUser, StudentProfile
 
 
@@ -19,6 +21,10 @@ class CustomUserForm(forms.ModelForm):
         (CUARTO, "Cuarto Año"),
     ]
     year = forms.ChoiceField(choices=year_choices, required=False)
+    birth_date = forms.DateField(
+        widget=forms.TextInput(attrs={"class": "date-picker"}),
+        input_formats=["%d/%m/%Y"],
+    )
 
     class Meta:
         model = CustomUser
@@ -34,7 +40,6 @@ class CustomUserForm(forms.ModelForm):
         ]
 
         widgets = {
-            "birth_date": forms.DateInput(attrs={"type": "date"}),
             "avatar": forms.FileInput(attrs={"type": "file"}),
         }
 
