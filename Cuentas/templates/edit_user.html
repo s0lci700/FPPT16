@@ -16,7 +16,9 @@
         </div>
         <div class="container col-start-3 col-end-12 row-start-1 row-end-4 ml-2 mt-16 flex-col">
 
-            <form action="{% url 'Cuentas:edit_user' user.pk %}"
+            <form hx-post="{% url 'Cuentas:edit_user' user.pk %}"
+                  x-on:submit="editModal = false"
+                  @click.outside="editModal = false"
                   method="post"
                   enctype="multipart/form-data"
                   class="container grid h-fit grid-cols-12 gap-y-2 gap-x-1.5">
@@ -55,13 +57,16 @@
                         </div>
                         <div class="flex-col">
                             <label for="bday" class="text-sm font-medium leading-6 text-gray-900">Cumpleaños</label>
-                            {% render_field form.birth_date type="date" name="bday" id="bday" class="cursor-pointer rounded-r-lg flex w-full border bg-zinc-50 px-2 pl-1 placeholder:text-gray-400 text-gray-900 py-1.5 min-w-[200px] focus:ring-0 sm:text-sm" %}
+                            {% render_field form.birth_date name="bday" id="bday" class="cursor-pointer rounded-r-lg flex w-full border bg-zinc-50 px-2 pl-1 placeholder:text-gray-400 text-gray-900 py-1.5 min-w-[200px] focus:ring-0 sm:text-sm" %}
                         </div>
                     </div>
                 </div>
                 <div class="col-start-4 col-span-1 row-start-4 flex-1 ml-12 mt-4">
-                    <input type="submit" value="Submit"
-                           class="rounded-full border-2 px-3 py-2 border-baublack bg-baublue font-primary text-sm h-fit w-auto self-end cursor-pointer hover:bg-blue-600 text-zinc-50 transition-all ease-in-out duration-300">
+                    <button @
+                            type="submit"
+                            class="rounded-full border-2 px-3 py-2 border-baublack bg-baublue font-primary text-sm h-fit w-auto self-end cursor-pointer hover:bg-blue-600 text-zinc-50 transition-all ease-in-out duration-300">
+                        Guardar
+                    </button>
                 </div>
             </form>
 

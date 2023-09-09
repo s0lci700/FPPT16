@@ -2,18 +2,18 @@ from django.contrib.auth.views import LogoutView
 from django.urls import path, include  # Note the inclusion of 'include'
 from . import views
 from .views import (
-    RegisterView,
-    EditUser,
-    DeleteUser,
     UserListView,
     UserDetailView,
     user_detail_redirect,
     MyFichasViews,
 )
+from .auth_views import login_view
+from .crud_views import RegisterView, EditUser, DeleteUser
+
 
 urlpatterns = [
     # login, logout
-    path("login/", views.login_view, name="login"),
+    path("login/", login_view, name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
     # CUD views
     path("signup/", RegisterView.as_view(), name="signup"),

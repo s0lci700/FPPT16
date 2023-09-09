@@ -1,60 +1,93 @@
 {% extends 'base.html' %}
 {% load thumbnail %}
 
-{% block title %}<title>{{ user.email }}</title>{% endblock %}
+{% block title %}<title>{{ user.first_name }}</title>{% endblock %}
 
 {% block content %}
-    <div id="nav-sidebar" class="grid grid-cols-12 grid-rows-6 h-full font-primary">
+    <div id="nav-sidebar" class="grid grid-cols-12 grid-rows-6 h-full font-primary"
+         x-data="{'editModal': false}">
         <div class="container row-span-full col-start-1 col-end-2 my-1">
             {% include 'components/sidebar.html' %}
         </div>
 
-        <div id="content" class="col-start-2 col-end-13 row-start-1 row-end-7 my-1 mx-2 p-4">
+        <div id="content" class="col-start-2 col-end-13 row-start-1 row-end-7 mx-2 p-4 mt-6">
 
-            <div id="container-grid" class="grid grid-rows-6 grid-cols-12 w-full h-full">
-                <div id="pfp" class="col-start-1 col-end-4 row-start-1 row-span-2">
-                    {% thumbnail user.avatar "300x300" crop="center" as im %}
-                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
+            <div id="container-grid" class="grid grid-rows-6 grid-cols-12 w-full h-full px-6">
+
+                <div id="pfp"
+                     class="col-start-1 col-span-2 row-start-1 row-span-2 w-full h-full justify-items-center self-center flex">
+                    {% thumbnail user.avatar "400x400" crop="center" as im %}
+                        <img class="flex self-center scale-110 hover:scale-105 transition-all ease-in-out duration-300"
+                             src="{{ im.url }}" width="{{ im.width }}"
+                             height="{{ im.height }}"
                              alt="{{ user.first_name }} avatar">
                     {% endthumbnail %}
                 </div>
-                <div id="data" class="col-start-4 col-span-4 row-start-1 row-span-1 pt-4 pl-3 -ml-28">
-                    <p class="font-medium text-3xl">{{ user.first_name }} {{ user.last_name }}</p>
+                <div id="data" class="col-start-4 col-span-4 row-start-1 row-span-2 pt-4 pl-3 -ml-28">
+                    <div class="flex flex-row">
+
+                        <p class="font-medium text-3xl inline-block">{{ user.first_name }} {{ user.last_name }}</p>
+                        {% if request.user.pk == student.studentprofile.user.pk or request.user.pk == user.pk %}
+                            <a hx-get="{% url 'Cuentas:edit_user' user.pk %}"
+                               hx-target="#edit-modal"
+                               @click="editModal = true"
+                               hx-swap="innerHTML"
+                               class="ml-2 text-sm border-baublack border-2 rounded-full px-3 py-1.5 text-baublack hover:bg-bauyellow/80 duration-200 transition-all inline-block">
+                                Editar perfil
+                            </a>
+                        {% endif %}
+                    </div>
+                    <p class="text-sm text-gray-500">{{ user.pronouns }}</p>
+                    <span class="text-sm text-gray-500">Cumpleaños: {{ user.birth_date }}</span>
                     <p class="text-muted">{{ user.email }}</p>
-                    <p>{{ user.get_role_display }} de {{ user.studentprofile.get_year_display }}</p>
+                    {% if user.role == 'A' %}
+                        <p>{{ user.studentprofile.get_role_display }}
+                            de {{ student.studentprofile.get_year_display }}</p>
+                    {% elif user.role == 'P' %}
+                        <p>{{ user.get_role_display }}</p>
+                    {% endif %}
+                    <br>
                 </div>
-                <div id="bio" class="col-start-4 col-span-3 row-start-2 -ml-24  -mt-2 border-baublack border-t-2 ">
-                    <span class="-ml-2 font-semibold">Bio:</span><br>
-                    <span class="ml-1">Lorem Ipsum Dolor Sit Amet Miau miau miau.....</span>
-                </div>
-                <div id="keywordcontainer"
-                     class="w-full h-full col-start-7 col-span-6 row-start-1 row-span-2 px-4 pt-4">
-                    <div id="keywords"
-                         class="border-baublack border-2 w-full h-full px-4 py-4 grid grid-cols-12 grid-rows-6 grid-flow-row gap-2 content-evenly text-xs">
-                        <div id="keywords-title"
-                             class=" border-baublack mb-3 border-b-2 col-span-full row-span-1 row-start-1 font-primary text-lg text-center -mt-2 ">
-                            Palabras Clave
-                        </div>
-                        {#                      for keyword in keywords#}
-                        <div id="keyword"
-                             class="bg-zinc-100 rounded-full col-start-auto col-span-2 row-span-1 flex-1 text-center w-full h-full">
-                            <p class="flex-1 mt-1.5">Video</p></div>
-                    </div>
-                </div>
-                <div id="fichascontainer"
-                     class="mt-6 row-start-3 row-end-7 col-start-1 col-end-13 border-baublack border-t-4 px-2">
-                    <div id="fichas"
-                         class="mt-2 grid grid-cols-12 grid-rows-6 w-full h-full px-1 py-1 gap-x-3 gap-y-2 grid-flow-row">
-                        {% for ficha in user_fichas %}
-                            {% include "components/ficha-card.html" %}
-                        {% empty %}
-                            <div id="ficha-card"
-                                 class="bg-slate-200 col-span-2 row-span-3 flex flex-col pt-3 px-1 border-baublack border-2 text-center">
-                                <span>empty</span>
+
+                {% if user.role == 'A' %}
+                    <div id="keywordcontainer"
+                         class="w-full h-full col-start-7 col-span-6 row-start-1 row-span-2 px-4 pt-4">
+                        <div id="keywords"
+                             class="border-baublack border-2 w-full h-full px-4 py-4 grid grid-cols-12 grid-rows-6 grid-flow-row gap-2 content-evenly text-xs">
+                            <div id="keywords-title"
+                                 class="border-baublack mb-3 border-b-2 col-span-full row-span-1 row-start-1 font-primary text-lg text-center -mt-2 ">
+                                <span class="font-semibold">Palabras Clave</span>
                             </div>
-                        {% endfor %}
+                            {% for tag in tags %}
+                                {% include 'components/tag.html' %}
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
+                    <div id="fichascontainer"
+                         class="mt-6 row-start-3 row-end-7 col-start-1 col-end-13 border-baublack border-t-4 px-0">
+                        <div id="fichas"
+                             class="mt-2 grid grid-cols-12 grid-rows-6 w-full h-full px-1 py-1 gap-x-3 gap-y-2 grid-flow-row">
+                            {% for ficha in user_fichas %}
+                                {% include "components/ficha-card.html" %}
+                            {% empty %}
+                                <div id="ficha-card"
+                                     class="bg-slate-200 col-span-2 row-span-3 flex flex-col pt-3 px-1 border-baublack border-2 text-center">
+                                    <span>empty</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div x-show="editModal"
+             x-transition.opacity
+             x-cloak
+             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center container" aria-hidden="true">
+            <div id="edit-modal"
+                 class="bg-bg-bau w-fit h-1/2 content rounded-xl border-2 border-baublue p-4 content-center"
+                 @click.outside="editModal = false">
+
             </div>
         </div>
     </div>

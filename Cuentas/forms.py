@@ -22,8 +22,10 @@ class CustomUserForm(forms.ModelForm):
     ]
     year = forms.ChoiceField(choices=year_choices, required=False)
     birth_date = forms.DateField(
-        widget=forms.TextInput(attrs={"class": "date-picker"}),
-        input_formats=["%d/%m/%Y"],
+        widget=forms.TextInput(
+            attrs={"class": "date-picker", "type": "date", "placeholder": "dd/mm/yyyy"}
+        ),
+        required=False,
     )
 
     class Meta:
@@ -31,9 +33,7 @@ class CustomUserForm(forms.ModelForm):
         fields = [
             "first_name",
             "last_name",
-            "email",
             "role",
-            "avatar",
             "avatar",
             "birth_date",
             "pronouns",
@@ -46,9 +46,14 @@ class CustomUserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user", None)
         instance = kwargs.get("instance")
-        if instance and instance.studentprofile:
+        if instance and hasattr(instance, "studentprofile") and instance.studentprofile:
             initial = kwargs.get("initial", {})
             initial["year"] = instance.studentprofile.year
+            kwargs["initial"] = initial
+        elif (
+            instance and hasattr(instance, "teacherprofile") and instance.teacherprofile
+        ):
+            initial = kwargs.get("initial", {})
             kwargs["initial"] = initial
 
         super().__init__(*args, **kwargs)

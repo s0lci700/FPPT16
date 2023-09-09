@@ -12,7 +12,7 @@
         </div>
 
         <!-- header -->
-        {% include 'components/header.html' with header_title='Assignments' %}
+        {% include 'components/header.html' with header_title='Encargos' %}
         {% if request.user.role == 'P' %}
             <div class="col-start-2 col-end-13 row-start-1 mr-9 flex h-fit flex-1 mt-1 bg-none justify-evenly">
                 <a class="place-self-start whitespace-nowrap flex mt-1.5">Hoy
@@ -23,8 +23,7 @@
                    hx-target="#creationModal"
                    hx-trigger="click"
                    class="cursor-pointer rounded-full px-3 py-2 text-center text-sm font-thin text-zinc-50 bg-baublue
-                   hover:animate-pulse hover:bg-blue-700 w-[150px} transition-all flex">Nueva
-                    Instancia de ficha</a>
+                   hover:animate-pulse hover:bg-blue-700 w-[150px} transition-all flex">Nuevo encargo</a>
             </div>
         {% else %}
             <div class="col-start-2 col-end-13 row-start-1 mr-9 flex h-fit flex-1 mt-1 bg-none justify-start">

@@ -1,194 +1,39 @@
-import locale
-from datetime import datetime
-
-import pytz
-from django.contrib import messages
-from django.contrib.auth import get_user_model
-from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.db.models import Q
+from django.contrib.auth import get_user_model, get_user
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy, resolve
-from django.utils import timezone
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import resolve
 from django.views.generic import DetailView, ListView
-from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from taggit.models import Tag
 
-from Fichas.models import Ficha, Assignment
-from .forms import CustomUserForm, LoginForm
+from Fichas.models import Ficha
 from .models import CustomUser
 
 User = get_user_model()
 
 
-# AUTH VIEWS
-def login_view(request):
-    form = LoginForm(request.POST or None)
-    if request.method == "POST":
-        if form.is_valid():
-            email = form.cleaned_data.get("email")
-            password = form.cleaned_data.get("password")
-
-            try:
-                user = CustomUser.objects.get(email=email)
-                if user.check_password(password):
-                    login(request, user)
-                    messages.success(request, "You are now logged in.")
-                    return redirect("landing")
-                else:
-                    messages.error(request, "Invalid email or password.")
-            except CustomUser.DoesNotExist:
-                messages.error(request, "Invalid email or password.")
-
-    context = {"form": form}
-    return render(request, "login.html", context)
-
-
-# CRUD views
-class RegisterView(CreateView):
-    form_class = CustomUserForm
-    model = CustomUser
-    template_name = "register_view.html"
-
-    def form_valid(self, form):
-        user = form.save()
-        return super().form_valid(form)
-
-
-class UserProfileView(DetailView):
-    model = CustomUser
-    template_name = "user_detail.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        role = self.object.role
-        if role == "A":
-            student_profile = (
-                self.object.studentprofile
-            )  # Access the StudentProfile object
-            context[
-                "year"
-            ] = (
-                student_profile.year
-            )  # Access the year attribute from the StudentProfile object
-        elif role == "P":
-            teacher_profile = self.object.teacherprofile
-        return context
-
-
-class EditUser(UpdateView):
-    model = CustomUser
-    form_class = CustomUserForm
-    template_name = "edit_user.html"
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["user"] = self.request.user
-        return kwargs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = CustomUser.objects.get(pk=self.object.pk)
-        context["user"] = user
-        return context
-
-    def get_success_url(self):
-        return reverse_lazy("Cuentas:user_detail", kwargs={"pk": self.object.pk})
-
-    def get_initial(self):
-        initial = super().get_initial()
-        initial["email"] = self.object.email
-        initial["role"] = self.object.role
-        initial["birth_date"] = self.object.birth_date
-        # initial["year"] = self.object.year
-        return initial
-
-    def form_valid(self, form):
-        print("Form is valid")
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        print("Form is not valid", form.errors)
-        return super().form_invalid(form)
-
-
-class DeleteUser(DeleteView, LoginRequiredMixin, UserPassesTestMixin):
-    model = CustomUser
-    success_url = reverse_lazy("landing")
-    template_name = "user_confirm_delete.html"
-
-    def test_func(self):
-        return self.request.user == self.get_object() or self.request.user.is_staff
-
-    def delete(self, request, *args, **kwargs):
-        messages.success(request, "User deleted.")
-        return super().delete(request, *args, **kwargs)
-
-
-# class UploadFichaView(FormView):
-#     form_class = FichaForm
-#     template_name = "upload_ficha.html"
-#
-#     def form_valid(self, form):
-#         return super().form_valid(form)
-
-
-# General views
-
-
-def landing_view(request):
-    return render(request, "landing.html")
-
-
-@login_required
-def home_view(request):
-    assignments = Assignment.objects.all()
-    current_datetime = timezone.now()
-
-    # Count of open, non-filled fichas by user
-    open_non_filled_fichas = (
-        Assignment.objects.filter(
-            time_window_start__lte=current_datetime,
-            time_window_end__gte=current_datetime,
-        )
-        .exclude(fichas__student__user=request.user)
-        .count()
-    )
-    # Find the assignment with the closest end time that's still open and not filled by the user
-    closest_assignment = (
-        Assignment.objects.filter(time_window_end__gte=current_datetime)  # Still open
-        .exclude(fichas__student__user=request.user)  # Not yet filled by the user
-        .order_by("time_window_end")  # Order by end time
-        .first()
-    )  # Take the first one, which will be the closest
-
-    chile = pytz.timezone("America/Santiago")
-    chile_time = datetime.now(chile)
-
-    locale.setlocale(locale.LC_TIME, "es_ES.UTF-8")  # Set locale to Spanish
-    weekday = chile_time.strftime("%A")  # Gives day of the week
-    day_number = chile_time.day  # Gives the day number
-    month = chile_time.strftime("%B")  # Gives the month
-    year = chile_time.year  # Gives the year
-
-    context = {
-        "current_datetime": current_datetime,
-        "assignments": assignments,
-        "weekday": weekday,
-        "day_number": day_number,
-        "month": month,
-        "year": year,
-        "open_non_filled_fichas": open_non_filled_fichas,
-        "closest_assignment": closest_assignment,  # Add this line
-    }
-
-    return render(request, "home.html", context)
-
-
 # General List View with logic for different roles
 class UserListView(ListView):
+    """
+    UserListView
+
+    A class-based view for displaying a list of users with different roles.
+
+    Attributes:
+    - context_object_name: The name of the variable to be used in the template to refer to the user list.
+    - context: A dictionary containing the different user roles as keys and corresponding user objects as values.
+
+    Methods:
+    - get_template_names(): Returns the template name based on the role parameter specified in the URL.
+    - get_queryset(): Returns the queryset of users based on the role parameter specified in the URL.
+    - get_context_data(**kwargs): Adds additional context to the default context_data method.
+
+    Example Usage:
+    ```python
+    user_list_view = UserListView.as_view()
+    ```
+    """
+
     context_object_name = "users"
     context = {
         "alumni": CustomUser.objects.filter(role="A"),
@@ -227,6 +72,14 @@ class UserListView(ListView):
 
 # Detail views
 def user_detail_redirect(request, pk):
+    """
+    Redirects the user detail page based on the role of the user.
+
+    :param request: The HTTP request object.
+    :param pk: The primary key of the user.
+    :return: A redirect response to the appropriate user detail page.
+
+    """
     user = get_object_or_404(CustomUser, pk=pk)
     if user.role == "A":
         return redirect("Cuentas:student_detail", pk=pk)
@@ -235,11 +88,33 @@ def user_detail_redirect(request, pk):
 
 
 class UserDetailView(DetailView):
+    """
+    Class UserDetailView
+
+    A view that displays detailed information about a user.
+
+    Inherits From:
+        - django.views.generic.DetailView
+
+    Attributes:
+        - model (CustomUser): The model class to use for retrieving the user object.
+        - template_name (str): The name of the template used to render the view.
+
+    Methods:
+        - get_object(queryset=None): Retrieves the user object based on the URL name and primary key.
+        - get_context_data(**kwargs): Adds additional context data to be used in the template.
+
+    """
+
     model = CustomUser
     template_name = "user_detail.html"
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get("pk")
+        user = super().get_object(queryset=queryset)
+        print("PK: ", pk)
+        print("User: ", user)
+
         # Determine the role based on the URL name
         url_name = resolve(self.request.path_info).url_name
         if url_name == "student_detail":
@@ -251,6 +126,10 @@ class UserDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Print the information of the user in the current session
+        session_user = get_user(self.request)
+        print("Viewed User: ", self.object)
+        print("Session User: ", session_user, session_user.pk, session_user.role)
         if self.object.role == "A":
             student_profile = self.object.studentprofile
             user_fichas = student_profile.user_ficha.all()
@@ -261,10 +140,28 @@ class UserDetailView(DetailView):
             context["student"] = student
         elif self.object.role == "P":
             teacher_profile = self.object.teacherprofile
+            context["teacher"] = teacher_profile
         return context
 
 
 class MyFichasViews(ListView, LoginRequiredMixin):
+    """
+
+    This class represents a view for displaying a list of Fichas objects belonging to the logged-in user.
+
+    :class: MyFichasViews
+    :inherits: ListView, LoginRequiredMixin
+
+    Attributes:
+        - model (Ficha): specifies the model class to use for retrieving the Ficha objects.
+        - template_name (str): the name of the template to use for rendering the list view.
+        - context_object_name (str): the name to use for the list of Ficha objects in the template context.
+
+    Methods:
+        - get_queryset(): returns a queryset of Ficha objects belonging to the logged-in user.
+
+    """
+
     model = Ficha
     template_name = "ficha_list.html"
     context_object_name = "fichas"
