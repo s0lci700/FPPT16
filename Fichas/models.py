@@ -1,9 +1,38 @@
 from django.db import models
 from django.utils import timezone
 from taggit.managers import TaggableManager
+import os
+
+
+def upload_to(instance, filename):
+    return os.path.join(
+        "student",
+        str(instance.student.id),
+        "ficha",
+        str(instance.ficha.id),
+        "images",
+        filename,
+    )
 
 
 # Create your models here.
+class FichaImage(models.Model):
+    ficha = models.ForeignKey("Ficha", on_delete=models.CASCADE, related_name="images")
+    student = models.ForeignKey("Cuentas.StudentProfile", on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=upload_to)
+    attributes = models.CharField(
+        max_length=20,
+        choices=[
+            ("MAIN", "main"),
+            ("FOTO", "fotograma"),
+            ("COMP", "complementaria"),
+            ("REF", "referencia"),
+            ("O", "otra"),
+        ],
+    )
+
+    def __str__(self):
+        return self.ficha.title + " - " + self.image.name
 
 
 class Assignment(models.Model):
@@ -40,7 +69,7 @@ class Ficha(models.Model):
         Assignment, on_delete=models.CASCADE, related_name="fichas"
     )
     title = models.CharField(max_length=50)
-    main_image = models.ImageField(upload_to="fichas/images/", blank=True, null=True)
+    main_image = models.ImageField(upload_to=upload_to, blank=True, null=True)
     description = models.TextField(blank=True)
     analysis = models.TextField(blank=True)
     references = models.TextField(blank=True)

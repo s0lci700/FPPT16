@@ -36,29 +36,30 @@
 
                 <!-- Teachers -->
                 <div id="profesores"
-                     class="row-start-1 flex flex-row  border-4 p-1 border-baublue relative text-zinc-50">
-                    <div class="absolute left-0 inset-0 mr-12 h-full w-24 items-center justify-center bg-baublue">
+                     class="row-start-1 flex flex-row  border-4 p-1 border-baured relative text-zinc-50">
+                    <div class="absolute left-0 inset-0 mr-12 h-full w-24 items-center justify-center bg-baured">
                         <a href="{% url 'Cuentas:profesores' %}"
                            class="flex self-center text-center w-full h-full items-center justify-center
                            hover:underline decoration-wavy decoration-zinc-50 transition-all">
                             Profesores
                         </a>
                     </div>
-                    <div class="ml-24">
+                    <div class="ml-24 text-baublack">
                         {% include 'components/user_list.html' with users=users|filter_by_role:"P" title="Profesores" %}
                     </div>
                 </div>
                 <!-- Others -->
-                <div id="otros" class="row-start-1 flex flex-row  border-4 p-1 border-baured relative">
-                    <div class="absolute left-0 inset-0 mr-12 h-full w-24 flex items-center justify-center bg-baured">
-                 <span class="flex self-center text-center w-full h-full items-center justify-center">
-                    Otros
-                </span>
-                    </div>
-                    <div class="ml-24">
-                        {% include 'components/user_list.html' with users=users|filter_by_role:"NS" title="Otros" %}
-                    </div>
-                </div>
+                {#                #}
+                {#                <div id="otros" class="row-start-1 flex flex-row  border-4 p-1 border-baured relative">#}
+                {#                    <div class="absolute left-0 inset-0 mr-12 h-full w-24 flex items-center justify-center bg-baured">#}
+                {#                 <span class="flex self-center text-center w-full h-full items-center justify-center">#}
+                {#                    Otros#}
+                {#                </span>#}
+                {#                    </div>#}
+                {#                    <div class="ml-24">#}
+                {#                        {% include 'components/user_list.html' with users=users|filter_by_role:"NS" title="Otros" %}#}
+                {#                    </div>#}
+                {#                </div>#}
             </div>
         </div>
     </div>

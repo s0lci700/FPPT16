@@ -16,11 +16,16 @@
             <form action="{% url 'Fichas:ficha-create' request.user.id assignment_id %}" method="post"
                   enctype="multipart/form-data">
                 {% csrf_token %}
+                <!-- Ficha Image Section -->
                 <div class="space-y-6">
-                    <label class="text-lg font-semibold" for="main-image">Imagen Principal</label>
+                    <label class="text-lg font-semibold" for="ficha-image">Imagenes</label>
+
+                    <div class="mt-1 flex items-start flex-col">
+                        {{ fichaimageformset.management_form }}
+                        {% render_field fichaimageformset %}
+                    </div>
                     <div class="mt-1 flex items-center">
                         <div>
-
                             {% render_field form.main_image %}
                         </div>
                     </div>
@@ -64,7 +69,7 @@
                            class="flex-1 text-sm font-medium leading-6 text-gray-900">Informacion Adicional</label>
                     {% render_field form.misc id="misc" type="text-input" class='w-full h-full rounded-md ring-inset' %}
                 </div>
-        
+
                 <!-- Buttons -->
                 <div class="flex justify-end space-x-4">
                     <button type="submit" name="publish"

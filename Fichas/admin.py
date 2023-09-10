@@ -1,6 +1,18 @@
 from django.contrib import admin
-from .models import Ficha, Review, Assignment, ComplementaryImage, Keywords
+from .models import Ficha, Review, Assignment, ComplementaryImage, Keywords, FichaImage
 from django.utils.html import format_html
+
+
+class FichaImageInline(admin.TabularInline):
+    model = FichaImage
+    fields = (
+        "id",
+        "image",
+        "attributes",
+    )
+    readonly_fields = ("id",)
+    can_delete = False
+    max_num = 0
 
 
 class FichaAdmin(admin.ModelAdmin):
@@ -15,6 +27,7 @@ class FichaAdmin(admin.ModelAdmin):
     )
     list_filter = ("status",)
     search_fields = ["title", "description"]
+    inlines = [FichaImageInline]
 
 
 class ReviewAdmin(admin.ModelAdmin):
@@ -105,6 +118,10 @@ class ComplementaryImageAdmin(admin.ModelAdmin):
     list_display = ("ficha", "images")
 
 
+class FichaImageAdmin(admin.ModelAdmin):
+    list_display = ("ficha", "image")
+
+
 class KeywordsAdmin(admin.ModelAdmin):
     list_display = ("name",)
 
@@ -116,3 +133,4 @@ admin.site.register(Review, ReviewAdmin)
 admin.site.register(Assignment, AssignmentAdmin)
 admin.site.register(ComplementaryImage, ComplementaryImageAdmin)
 admin.site.register(Keywords, KeywordsAdmin)
+admin.site.register(FichaImage, FichaImageAdmin)

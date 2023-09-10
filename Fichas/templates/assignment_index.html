@@ -48,14 +48,14 @@
         <!-- modals -->
         {% if request.user.role == 'P' %}
             <!-- Assignment Creation Modal  -->
-            <div id="creationModal" x-show="createModal" x-transition.opacity
+            <div id="creationModal" x-show="createModal" x-transition.opacity.duration.300ms
                  x-cloak
                  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
                  aria-hidden="true">
                 {% include 'components/ACreateModal.html' %}
             </div>
             <!-- Assignment Update Modal -->
-            <div id="update-modal" x-show="updateModal" x-transition.opacity
+            <div id="update-modal" x-show="updateModal" x-transition.opacity.duration.300ms
                  x-cloak
                  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
                  aria-hidden="true">

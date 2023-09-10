@@ -1,6 +1,7 @@
 from django import forms
-from .models import Ficha, Review, Assignment
+from .models import Ficha, Review, Assignment, FichaImage
 from django.contrib.admin.widgets import AdminDateWidget, AdminTimeWidget
+from django.forms import modelformset_factory
 
 
 class AssignmentForm(forms.ModelForm):
@@ -33,6 +34,23 @@ class AssignmentForm(forms.ModelForm):
 
 class CustomFileInput(forms.ClearableFileInput):
     template_name = "components/custom_file_input.html"
+
+
+class FichaImageForm(forms.ModelForm):
+    class Meta:
+        model = FichaImage
+        fields = ["image", "attributes"]
+        widgets = {
+            "attributes": forms.Select(
+                attrs={
+                    "label": "Tipo de imagen",
+                }
+            ),
+            "image": CustomFileInput(),
+        }
+
+
+# add a fichaimage inlineformset to fichaform
 
 
 class FichaForm(forms.ModelForm):

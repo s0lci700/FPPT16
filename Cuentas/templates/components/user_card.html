@@ -1,11 +1,13 @@
 {% load thumbnail %}
 
 <a href="{% url 'Cuentas:user_detail' user.pk %}">
-    {% if user.studentprofile.year == '4' %}
-        <li class="border-baublack border-4 p-2 text-center my-1 bg-zinc-100 bg-opacity-30 self-center hover:rounded-lg hover:border-baublue duration-200 transition-all">
-            {% elif user.studentprofile.year == '3' %}
-        <li class="border-baublack border-4 p-2 text-center my-1 bg-zinc-100 bg-opacity-30 self-center hover:rounded-lg hover:border-bauyellow duration-200 transition-all">
-            {% else %}
+    {% if user.role == 'A' %}
+        {% if user.studentprofile.year == '4' %}
+            <li class="border-baublack border-4 p-2 text-center my-1 bg-zinc-100 bg-opacity-30 self-center hover:rounded-lg hover:border-baublue duration-200 transition-all">
+                {% elif user.studentprofile.year == '3' %}
+            <li class="border-baublack border-4 p-2 text-center my-1 bg-zinc-100 bg-opacity-30 self-center hover:rounded-lg hover:border-bauyellow duration-200 transition-all">
+        {% endif %}
+    {% else %}
         <li class="border-baublack border-4 p-2 text-center my-1 bg-zinc-100 bg-opacity-30 self-center hover:rounded-lg hover:border-baured duration-200 transition-all">
     {% endif %}
 

@@ -34,6 +34,16 @@
                         <img class="self-start" src="{{ im.url }}" alt="ficha image">
                     {% endthumbnail %}
                 </a>
+                {% for image in fichaimages %}
+                    <ul>
+                        <li>
+                            <img src="{{ image.image.url }}">
+                        </li>
+                        <li>
+                            {{ image.attributes }}
+                        </li>
+                    </ul>
+                {% endfor %}
                 <!-- Ficha.descripcion -->
                 <ul id="text-content-container"
                     class="flex flex-col items-center list-inside gap-y-0.5 mt-2 w-full h-fit text-justify">
