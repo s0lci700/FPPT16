@@ -74,20 +74,52 @@ class FichaCreateView(BaseFichaView, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["assignment_id"] = self.kwargs.get("assignment_id")
+        assignment_id = self.kwargs.get("assignment_id")
+        user_id = self.request.user.id
+        context["assignment_id"] = assignment_id
+        context["user_id"] = user_id
+
+        # Initialize an empty queryset
+        queryset = FichaImage.objects.none()
+
+        try:
+            ficha_id = get_object_or_404(
+                Ficha, student__user__id=user_id, assignment__id=assignment_id
+            ).id
+            queryset = FichaImage.objects.filter(
+                user=user_id, ficha=ficha_id, assignment=assignment_id
+            )
+        except Http404:
+            # Ficha doesn't exist yet, so the queryset remains empty
+            pass
+
         if self.request.POST:
             context["fichaimageformset"] = FichaImageFormSet(
-                self.request.POST, self.request.FILES, prefix="fichaimage"
+                self.request.POST,
+                self.request.FILES,
+                prefix="fichaimage",
+                queryset=queryset,
             )
         else:
-            context["fichaimageformset"] = FichaImageFormSet(prefix="fichaimage")
+            context["fichaimageformset"] = FichaImageFormSet(
+                prefix="fichaimage",
+                queryset=queryset,
+            )
+
         return context
 
     def post(self, request, *args, **kwargs):
+        assignment_id = self.kwargs.get("assignment_id")
+        user_id = self.request.user.id
+
         form = self.get_form()
         formset = FichaImageFormSet(
-            request.POST, request.FILES, queryset=FichaImage.objects.none()
+            request.POST,
+            request.FILES,
+            queryset=FichaImage.objects.none(),  # Empty queryset for new Ficha
         )
+        print(form)
+        print(formset)
         if form.is_valid() and formset.is_valid():
             ficha = form.save()
             for inline_form in formset:
@@ -115,6 +147,8 @@ class FichaCreateView(BaseFichaView, CreateView):
             {
                 "form": form,
                 "formset": formset,
+                "assignment_id": assignment_id,
+                "user_id": user_id,
             },
         )
 
@@ -130,6 +164,8 @@ class FichaCreateView(BaseFichaView, CreateView):
             or assignment.time_window_end < current_datetime
         ):
             raise Http404("La ficha no se puede crear en este momento")
+        print(form)
+        print(formset)
         return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
