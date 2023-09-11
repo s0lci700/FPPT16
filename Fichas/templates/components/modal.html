@@ -1,12 +1,12 @@
-<div @click.outside="showModal = false" class="bg-white p-8 rounded shadow-lg">
-    <p class="text-lg mb-4">¿Estás seguro de que quieres eliminar esta ficha? Esta accion es irreversible.</p>
+<div @click.outside="showModal = false" class="rounded bg-white p-8 shadow-lg">
+    <p class="mb-4 text-lg">¿Estás seguro de que quieres eliminar esta ficha? Esta accion es irreversible.</p>
     <form action="{% url 'Fichas:ficha-delete' ficha.student.user.id ficha.assignment.id %}" method="post">
         {% csrf_token %}
-        <button name="confirm_delete" type="submit" class="px-4 py-2 bg-baured hover:bg-red-600 text-white rounded">
+        <button name="confirm_delete" type="submit" class="rounded px-4 py-2 text-white bg-baured hover:bg-red-600">
             ELIMINAR DE TODAS FORMAS
         </button>
         <button @click="showModal = false" type="button"
-                class="bg-baublue px-4 py-2  hover:bg-blue-600 text-white rounded">CANCELAR
+                class="rounded px-4 py-2 text-white bg-baublue hover:bg-blue-600">CANCELAR
         </button>
     </form>
 </div>

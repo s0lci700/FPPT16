@@ -12,9 +12,9 @@
             </a>
 
             <img src="{{ user.avatar.url }}" alt="avatar"
-                 class="h-fit resize mt-20">
+                 class="mt-20 h-fit resize">
         </div>
-        <div class="container col-start-3 col-end-12 row-start-1 row-end-4 ml-2 mt-16 flex-col">
+        <div class="container col-start-3 col-end-12 row-start-1 row-end-4 mt-16 ml-2 flex-col">
 
             <form hx-post="{% url 'Cuentas:edit_user' user.pk %}"
                   x-on:submit="editModal = false"
@@ -24,13 +24,13 @@
                   class="container grid h-fit grid-cols-12 gap-y-2 gap-x-1.5">
                 {% csrf_token %}
                 {#                <label for="title" class="flex text-sm font-medium leading-6 text-gray-900">Titulo</label>#}
-                <div class="container col-start-1 col-end-4 row-span-1 w-full mt-1">
+                <div class="container col-start-1 col-end-4 row-span-1 mt-1 w-full">
                     <label
                             class="mb-0 block text-sm font-medium text-gray-900 dark:text-white" for="file_input">
                         Sube una imagen
                     </label>
-                    {% render_field form.avatar class="file:cursor-pointer file:-mx-2 file:mr-2 w-fit hover:file:bg-blue-600 file:overflow-hidden transition-all file:rounded-none rounded-full file:border-none border-2 bg-zinc-50 px-2 file:py-2 text-sm file:text-white file:-my-[0.32rem] file:bg-baublue border-baublack" id="file_input" type="file" %}
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300 leading-tight" id="file_input_help">
+                    {% render_field form.avatar class="file:-mx-2 file:mr-2 w-fit file:cursor-pointer file:overflow-hidden file:rounded-none rounded-full border-2 file:border-none bg-zinc-50 px-2 file:py-2 text-sm file:text-white transition-all file:-my-[0.32rem] file:bg-baublue border-baublack hover:file:bg-blue-600" id="file_input" type="file" %}
+                    <p class="mt-1 text-sm leading-tight text-gray-500 dark:text-gray-300" id="file_input_help">
                         SVG, PNG, JPG or GIF (MAX. 800x400px).
                     </p>
                 </div>
@@ -38,12 +38,12 @@
                     <div class="flex flex-row space-x-2">
                         <div class="flex-col">
 
-                            <label for="fname" class=" text-sm font-medium leading-6 text-gray-900">Nombre</label>
-                            {% render_field form.first_name type="text" name="fname" id="fname" class="flex rounded-r-lg border-baublack border border-spacing-0.5 w-1/2 bg-zinc-50 px-2 pl-1 placeholder:text-gray-400 text-gray-900 py-1.5 min-w-[200px] focus:ring-0 sm:text-sm" placeholder="Nombre" %}
+                            <label for="fname" class="text-sm font-medium leading-6 text-gray-900">Nombre</label>
+                            {% render_field form.first_name type="text" name="fname" id="fname" class="flex w-1/2 rounded-r-lg border bg-zinc-50 px-2 pl-1 placeholder:text-gray-400 text-gray-900 border-baublack border-spacing-0.5 py-1.5 min-w-[200px] focus:ring-0 sm:text-sm" placeholder="Nombre" %}
                         </div>
                         <div class="flex-col">
                             <label for="lname" class="flex text-sm font-medium leading-6 text-gray-900">Apellido</label>
-                            {% render_field form.last_name type="text" name="lname" id="lname" class="flex rounded-r-lg border-baublack border border-spacing-0.5 w-1/2 bg-zinc-50 px-2 pl-1 placeholder:text-gray-400 text-gray-900 py-1.5 min-w-[200px] focus:ring-0 sm:text-sm" placeholder="Apellido" %}
+                            {% render_field form.last_name type="text" name="lname" id="lname" class="flex w-1/2 rounded-r-lg border bg-zinc-50 px-2 pl-1 placeholder:text-gray-400 text-gray-900 border-baublack border-spacing-0.5 py-1.5 min-w-[200px] focus:ring-0 sm:text-sm" placeholder="Apellido" %}
 
                         </div>
                     </div>
@@ -52,19 +52,19 @@
                     <div class="flex flex-row space-x-2">
                         <div class="flex-col">
                             <label for="pronouns"
-                                   class=" text-sm font-medium leading-6 text-gray-900">Pronombres</label>
-                            {% render_field form.pronouns type="text" name="pronouns" id="pronouns" class="rounded-r-lg border-baublack border border-spacing-0.5 flex w-full bg-zinc-50 px-2 pl-1 placeholder:text-gray-400 text-gray-900 py-1.5 min-w-[200px] focus:ring-0 sm:text-sm" placeholder="Pronombres" %}
+                                   class="text-sm font-medium leading-6 text-gray-900">Pronombres</label>
+                            {% render_field form.pronouns type="text" name="pronouns" id="pronouns" class="flex w-full rounded-r-lg border bg-zinc-50 px-2 pl-1 placeholder:text-gray-400 text-gray-900 border-baublack border-spacing-0.5 py-1.5 min-w-[200px] focus:ring-0 sm:text-sm" placeholder="Pronombres" %}
                         </div>
                         <div class="flex-col">
                             <label for="bday" class="text-sm font-medium leading-6 text-gray-900">Cumpleaños</label>
-                            {% render_field form.birth_date name="bday" id="bday" class="cursor-pointer rounded-r-lg flex w-full border bg-zinc-50 px-2 pl-1 placeholder:text-gray-400 text-gray-900 py-1.5 min-w-[200px] focus:ring-0 sm:text-sm" %}
+                            {% render_field form.birth_date name="bday" id="bday" class="flex w-full cursor-pointer rounded-r-lg border bg-zinc-50 px-2 pl-1 placeholder:text-gray-400 text-gray-900 py-1.5 min-w-[200px] focus:ring-0 sm:text-sm" %}
                         </div>
                     </div>
                 </div>
-                <div class="col-start-4 col-span-1 row-start-4 flex-1 ml-12 mt-4">
+                <div class="col-span-1 col-start-4 row-start-4 mt-4 ml-12 flex-1">
                     <button @
                             type="submit"
-                            class="rounded-full border-2 px-3 py-2 border-baublack bg-baublue font-primary text-sm h-fit w-auto self-end cursor-pointer hover:bg-blue-600 text-zinc-50 transition-all ease-in-out duration-300">
+                            class="h-fit w-auto cursor-pointer self-end rounded-full border-2 px-3 py-2 text-sm text-zinc-50 transition-all duration-300 ease-in-out border-baublack bg-baublue font-primary hover:bg-blue-600">
                         Guardar
                     </button>
                 </div>

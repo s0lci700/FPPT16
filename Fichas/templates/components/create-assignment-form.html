@@ -2,7 +2,7 @@
 <form method="post" hx-post="{% url 'Fichas:assignment-create' %}"
       x-on:submit="createModal = false"
       @click.outside="createModal = false"
-      class="container rounded-xl mx-auto flex flex-col justify-items-center bg-baublue text-zinc-50 accent-baublack p-10 w-fit">
+      class="container mx-auto flex w-fit flex-col justify-items-center rounded-xl p-10 text-zinc-50 bg-baublue accent-baublack">
     {% csrf_token %}
     {% for field in form %}
         <div class="flex flex-col self-start">
@@ -12,7 +12,7 @@
     {% endfor %}
     <!-- Other fields -->
     <button type="submit"
-            class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            class="mt-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
         Create
     </button>
 </form>

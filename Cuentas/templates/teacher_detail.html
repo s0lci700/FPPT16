@@ -4,26 +4,26 @@
 {% block title %}<title>{{ user.email }}</title>{% endblock %}
 
 {% block content %}
-    <div id="nav-sidebar" class="grid grid-cols-12 grid-rows-6 h-full font-primary">
-        <div class="container row-span-full col-start-1 col-end-2 my-1">
+    <div id="nav-sidebar" class="grid h-full grid-cols-12 grid-rows-6 font-primary">
+        <div class="container col-start-1 col-end-2 row-span-full my-1">
             {% include 'components/sidebar.html' %}
         </div>
 
-        <div id="content" class="col-start-2 col-end-13 row-start-1 row-end-7 my-1 mx-2 p-4">
+        <div id="content" class="col-start-2 col-end-13 row-start-1 row-end-7 mx-2 my-1 p-4">
 
-            <div id="container-grid" class="grid grid-rows-6 grid-cols-12 w-full h-full">
-                <div id="pfp" class="col-start-1 col-end-4 row-start-1 row-span-2">
+            <div id="container-grid" class="grid h-full w-full grid-cols-12 grid-rows-6">
+                <div id="pfp" class="col-start-1 col-end-4 row-span-2 row-start-1">
                     {% thumbnail user.avatar "300x300" crop="center" as im %}
                         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
                              alt="{{ user.first_name }} avatar">
                     {% endthumbnail %}
                 </div>
-                <div id="data" class="col-start-4 col-span-4 row-start-1 row-span-1 pt-4 pl-3 -ml-28">
-                    <p class="font-medium text-3xl">{{ user.first_name }} {{ user.last_name }}</p>
+                <div id="data" class="col-span-4 col-start-4 row-span-1 row-start-1 -ml-28 pt-4 pl-3">
+                    <p class="text-3xl font-medium">{{ user.first_name }} {{ user.last_name }}</p>
                     <p class="text-muted">{{ user.email }}</p>
                     <p>{{ user.get_role_display }}</p>
                 </div>
-                <div id="bio" class="col-start-4 col-span-3 row-start-2 -ml-24  -mt-2 border-baublack border-t-2 ">
+                <div id="bio" class="col-span-3 col-start-4 row-start-2 -mt-2 -ml-24 border-t-2 border-baublack">
                     <span class="-ml-2 font-semibold">Bio:</span><br>
                     <span class="ml-1">Lorem Ipsum Dolor Sit Amet Miau miau miau.....</span>
                 </div>

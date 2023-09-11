@@ -36,16 +36,24 @@ class CustomFileInput(forms.ClearableFileInput):
     template_name = "components/custom_file_input.html"
 
 
+imgChoices = (
+    ("MAIN", "main"),
+    ("FOTO", "fotograma"),
+    ("COMP", "complementaria"),
+    ("REF", "referencia"),
+    ("O", "otra"),
+)
+
+
 class FichaImageForm(forms.ModelForm):
+    attributes = forms.ChoiceField(
+        choices=imgChoices, label="Tipo de imagen", widget=forms.Select()
+    )
+
     class Meta:
         model = FichaImage
         fields = ["image", "attributes"]
         widgets = {
-            "attributes": forms.Select(
-                attrs={
-                    "label": "Tipo de imagen",
-                }
-            ),
             "image": CustomFileInput(),
         }
 

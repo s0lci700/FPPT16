@@ -4,36 +4,36 @@
 {% endblock %}
 
 {% block content %}
-    <div class="grid grid-cols-12 grid-rows-6 h-full font-primary">
-        <div class="container row-span-full col-start-1 col-end-2 my-1">
+    <div class="grid h-full grid-cols-12 grid-rows-6 font-primary">
+        <div class="container col-start-1 col-end-2 row-span-full my-1">
             {% include 'components/sidebar.html' %}
         </div>
 
 
-        <div class="mt-10 text-start row-start-1 col-start-2 col-span-full place-items-start flex-col flex px-6">
+        <div class="col-span-full col-start-2 row-start-1 mt-10 flex flex-col place-items-start px-6 text-start">
             {% if user.is_authenticated %}
-                <span class="self-start font-primary font-bold text-4xl">
+                <span class="self-start text-4xl font-bold font-primary">
                     Hola {{ user.first_name }} {{ user.last_name }}!</span>
-                <span class="self-start flex-1 inline-flex whitespace-nowrap">Hoy es: {{ weekday }} {{ day_number }} de {{ month }}, {{ year }}</span>
+                <span class="inline-flex flex-1 self-start whitespace-nowrap">Hoy es: {{ weekday }} {{ day_number }} de {{ month }}, {{ year }}</span>
                 {% if request.user.role == 'A' %}
-                    <span class="self-start flex-1 inline w-[500px]">Hay
+                    <span class="inline flex-1 self-start w-[500px]">Hay
                     <a href="{% url 'Fichas:assignment' %}"
-                       class="text-blue-500 decoration-wavy decoration-sky-400 underline hover:text-sky-400 transition-all duration-500 hover:decoration-baublue"> {{ open_non_filled_fichas }} fichas </a> disponibles para llenar.</span>
+                       class="text-blue-500 underline decoration-sky-400 decoration-wavy transition-all duration-500 hover:decoration-baublue hover:text-sky-400"> {{ open_non_filled_fichas }} fichas </a> disponibles para llenar.</span>
                     {% if closest_assignment %}
-                        <span class="self-start flex-1 inline">La ficha más próxima a cerrar es
+                        <span class="inline flex-1 self-start">La ficha más próxima a cerrar es
                         <a href="{% url "Fichas:ficha-create" request.user.id closest_assignment.id %}"
-                           class="text-baublack decoration-wavy decoration-baured font-bold capitalize underline hover:text-baured transition-all duration-500 hover:decoration-red-400">
+                           class="font-bold capitalize underline decoration-wavy transition-all duration-500 text-baublack decoration-baured hover:text-baured hover:decoration-red-400">
                             {{ closest_assignment.title }}</a> el día
-                        <a class="text-baublack decoration-wavy decoration-bauyellow underline hover:text-baublue transition-all duration-500 hover:decoration-red-400 font-normal">
+                        <a class="font-normal underline decoration-wavy transition-all duration-500 text-baublack decoration-bauyellow hover:text-baublue hover:decoration-red-400">
                             {{ closest_assignment.time_window_end|date }}</a>
                     </span>
                     {% else %}
-                        <span class="self-start flex-1 inline-flex whitespace-nowrap">No hay fichas próximas a cerrar.</span>
+                        <span class="inline-flex flex-1 self-start whitespace-nowrap">No hay fichas próximas a cerrar.</span>
                     {% endif %}
                     </div>
                 {% endif %}
             {% else %}
-                <div class="mt-4 justify-between text-center row-start-1 col-start-3 col-end-12 flex-wrap mb-14 flex items-center px-6">
+                <div class="col-start-3 col-end-12 row-start-1 mt-4 mb-14 flex flex-wrap items-center justify-between px-6 text-center">
                 <h1 class="text-center">you shouldnt be here</h1>
             {% endif %}
             </div>

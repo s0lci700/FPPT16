@@ -5,7 +5,7 @@
 
 
 {% block content %}
-    <div class="grid grid-cols-12 grid-rows-6 h-full font-primary"
+    <div class="grid h-full grid-cols-12 grid-rows-6 font-primary"
          x-data="{'editModal': false,'submitted':false}"
          x-init="$watch('submitted',value => {if (value === true) {
          console.log(submitted, submitted.value);
@@ -13,33 +13,33 @@
          window.location.reload();
          }, 1000);
          }})">
-        <div class="container row-span-full col-start-1 col-end-2 my-1">
+        <div class="container col-start-1 col-end-2 row-span-full my-1">
             {% include 'components/sidebar.html' %}
         </div>
 
-        <div id="content" class="col-start-2 col-end-13 row-start-1 row-end-7 mx-2 p-4 mt-6">
+        <div id="content" class="col-start-2 col-end-13 row-start-1 row-end-7 mx-2 mt-6 p-4">
 
-            <div id="container-grid" class="grid grid-rows-6 grid-cols-12 w-full h-full px-6">
+            <div id="container-grid" class="grid h-full w-full grid-cols-12 grid-rows-6 px-6">
 
                 <div id="pfp"
-                     class="col-start-1 col-span-2 row-start-1 row-span-2 w-full h-full justify-items-center self-center flex">
+                     class="col-span-2 col-start-1 row-span-2 row-start-1 flex h-full w-full justify-items-center self-center">
                     {% thumbnail customuser.avatar "400x400" crop="center" as im %}
-                        <img class="flex self-center scale-110 hover:scale-105 transition-all ease-in-out duration-300"
+                        <img class="flex scale-110 self-center transition-all duration-300 ease-in-out hover:scale-105"
                              src="{{ im.url }}" width="{{ im.width }}"
                              height="{{ im.height }}"
                              alt="{{ customuser.first_name }} avatar">
                     {% endthumbnail %}
                 </div>
-                <div id="data" class="col-start-4 col-span-4 row-start-1 row-span-2 pt-4 pl-3 -ml-28">
+                <div id="data" class="col-span-4 col-start-4 row-span-2 row-start-1 -ml-28 pt-4 pl-3">
                     <div class="flex flex-row">
 
-                        <p class="font-medium text-3xl inline-block">{{ customuser.first_name }} {{ customuser.last_name }}</p>
+                        <p class="inline-block text-3xl font-medium">{{ customuser.first_name }} {{ customuser.last_name }}</p>
                         {% if request.user.pk == customuser.pk %}
                             <a hx-get="{% url 'Cuentas:edit_user' customuser.pk %}"
                                hx-target="#edit-modal"
                                @click="editModal = true"
                                hx-swap="innerHTML"
-                               class="ml-2 text-sm border-baublack border-2 rounded-full px-3 py-1.5 text-baublack hover:bg-bauyellow/80 duration-200 transition-all inline-block">
+                               class="ml-2 inline-block rounded-full border-2 px-3 text-sm transition-all duration-200 border-baublack py-1.5 text-baublack hover:bg-bauyellow/80">
                                 Editar perfil
                             </a>
                         {% endif %}
@@ -60,11 +60,11 @@
 
                 {% if customuser.role == 'A' %}
                     <div id="keywordcontainer"
-                         class="w-full h-full col-start-7 col-span-6 row-start-1 row-span-2 px-4 pt-4">
+                         class="col-span-6 col-start-7 row-span-2 row-start-1 h-full w-full px-4 pt-4">
                         <div id="keywords"
-                             class="border-baublack border-2 w-full h-full px-4 py-4 grid grid-cols-12 grid-rows-6 grid-flow-row gap-2 content-evenly text-xs">
+                             class="grid h-full w-full grid-flow-row grid-cols-12 grid-rows-6 content-evenly gap-2 border-2 px-4 py-4 text-xs border-baublack">
                             <div id="keywords-title"
-                                 class="border-baublack mb-3 border-b-2 col-span-full row-span-1 row-start-1 font-primary text-lg text-center -mt-2 ">
+                                 class="col-span-full row-span-1 row-start-1 -mt-2 mb-3 border-b-2 text-center text-lg border-baublack font-primary">
                                 <span class="font-semibold">Palabras Clave</span>
                             </div>
                             {% for tag in tags %}
@@ -73,14 +73,14 @@
                         </div>
                     </div>
                     <div id="fichascontainer"
-                         class="mt-6 row-start-3 row-end-7 col-start-1 col-end-13 border-baublack border-t-4 px-0">
+                         class="col-start-1 col-end-13 row-start-3 row-end-7 mt-6 border-t-4 px-0 border-baublack">
                         <div id="fichas"
-                             class="mt-2 grid grid-cols-12 grid-rows-6 w-full h-full px-1 py-1 gap-x-3 gap-y-2 grid-flow-row">
+                             class="mt-2 grid h-full w-full grid-flow-row grid-cols-12 grid-rows-6 gap-x-3 gap-y-2 px-1 py-1">
                             {% for ficha in user_fichas %}
                                 {% include "components/ficha-card.html" %}
                             {% empty %}
                                 <div id="ficha-card"
-                                     class="bg-slate-200 col-span-2 row-span-3 flex flex-col pt-3 px-1 border-baublack border-2 text-center">
+                                     class="col-span-2 row-span-3 flex flex-col border-2 bg-slate-200 px-1 pt-3 text-center border-baublack">
                                     <span>empty</span>
                                 </div>
                             {% endfor %}
@@ -92,8 +92,8 @@
         <div x-show="editModal"
              x-transition.opacity.duration.500ms
              x-cloak
-             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" aria-hidden="true">
-            <div id="edit-modal" class="bg-bg-bau w-1/3 h-1/2 content rounded-xl border-2 border-baublue p-4"
+             class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" aria-hidden="true">
+            <div id="edit-modal" class="h-1/2 w-1/3 rounded-xl border-2 p-4 bg-bg-bau content border-baublue"
                  @click.outside="editModal = false">
 
             </div>

@@ -1,13 +1,13 @@
 <!-- components/ficha-card.html -->
 {% load thumbnail %}
-<a class="col-span-2 row-span-2 border-baublack border-2 hover:border-bauyellow transition-all"
+<a class="col-span-2 row-span-2 border-2 transition-all border-baublack hover:border-bauyellow"
    href="{% url 'Fichas:ficha-detail' ficha.student.user.id ficha.assignment.id %}">
-    <div id="ficha-card" class="h-full w-full relative text-center flex flex-col pt-3 px-1">
+    <div id="ficha-card" class="relative flex h-full w-full flex-col px-1 pt-3 text-center">
         <span class="font-bold">{{ ficha.title }}</span>
         {% thumbnail ficha.main_image "150x150" crop="top" as MI %}
             <img class="w-fit self-center" src="{{ MI.url }}" width="{{ MI.width }}" height="{{ MI.height }}"
                  alt="{{ ficha.title }} main image">
         {% endthumbnail %}
-        <span class="text-sm text-muted absolute bottom-0 self-center">{{ ficha.updated_at }}</span>
+        <span class="absolute bottom-0 self-center text-sm text-muted">{{ ficha.updated_at }}</span>
     </div>
 </a>

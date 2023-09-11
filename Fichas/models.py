@@ -16,19 +16,22 @@ def upload_to(instance, filename):
 
 
 # Create your models here.
+imgChoices = (
+    ("MAIN", "main"),
+    ("FOTO", "fotograma"),
+    ("COMP", "complementaria"),
+    ("REF", "referencia"),
+    ("O", "otra"),
+)
+
+
 class FichaImage(models.Model):
     ficha = models.ForeignKey("Ficha", on_delete=models.CASCADE, related_name="images")
     student = models.ForeignKey("Cuentas.StudentProfile", on_delete=models.CASCADE)
     image = models.ImageField(upload_to=upload_to)
     attributes = models.CharField(
         max_length=20,
-        choices=[
-            ("MAIN", "main"),
-            ("FOTO", "fotograma"),
-            ("COMP", "complementaria"),
-            ("REF", "referencia"),
-            ("O", "otra"),
-        ],
+        choices=imgChoices,
     )
 
     def __str__(self):
@@ -87,23 +90,6 @@ class Ficha(models.Model):
 
     class Meta:
         unique_together = ("student", "assignment")
-
-
-class ComplementaryImage(models.Model):
-    ficha = models.ForeignKey(
-        Ficha, on_delete=models.CASCADE, related_name="complementary_images"
-    )
-    images = models.ImageField(upload_to="images/")
-
-    def __str__(self):
-        return self.ficha.title + " - " + self.images.name
-
-
-class Keywords(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
 
 
 class Review(models.Model):

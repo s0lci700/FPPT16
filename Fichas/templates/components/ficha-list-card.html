@@ -2,22 +2,22 @@
 <div @mouseover="showInfo{{ forloop.counter0 }} = true"
      @mouseleave="showInfo{{ forloop.counter0 }} = false"
      @click="window.location.href = '{% url 'Fichas:ficha-detail' ficha.student.user.id ficha.assignment.id %}'"
-     class="relative text-center p-4 ring-2 ring-baublack w-64 h-64 cursor-pointer"
+     class="relative h-64 w-64 cursor-pointer p-4 text-center ring-2 ring-baublack"
      id="card">
     <div id="card-content">
-        <span class="bg-bauyellow z-10 w-full h-full inset-0 font-primary font-semibold hover:text-baublue cursor-pointer truncate block">{{ ficha.title }}</span>
+        <span class="inset-0 z-10 block h-full w-full cursor-pointer truncate font-semibold bg-bauyellow font-primary hover:text-baublue">{{ ficha.title }}</span>
         {% thumbnail ficha.main_image "150x150" crop="top" as MI %}
-            <img class="self-center mx-auto h-32 w-32 object-cover my-2" src="{{ MI.url }}"
+            <img class="mx-auto my-2 h-32 w-32 self-center object-cover" src="{{ MI.url }}"
                  alt="{{ ficha.title }} main image">
         {% endthumbnail %}
         <ul class="px-4">
-            <li class="border-baublack border-b-2 truncate font-bold">{{ ficha.student.user.first_name }} {{ ficha.student.user.last_name }}</li>
+            <li class="truncate border-b-2 font-bold border-baublack">{{ ficha.student.user.first_name }} {{ ficha.student.user.last_name }}</li>
         </ul>
     </div>
 
     <div id="info" x-show="showInfo{{ forloop.counter0 }}"
          x-transition.opacity.duration.300ms
-         class="bg-zinc-100 absolute w-full h-full inset-0 flex flex-col justify-center items-center">
+         class="absolute inset-0 flex h-full w-full flex-col items-center justify-center bg-zinc-100">
         <span class="text-muted">{{ ficha.updated_at }}<br>{{ ficha.status }}</span>
     </div>
 </div>

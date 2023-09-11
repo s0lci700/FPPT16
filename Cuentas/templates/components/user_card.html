@@ -3,15 +3,15 @@
 <a href="{% url 'Cuentas:user_detail' user.pk %}">
     {% if user.role == 'A' %}
         {% if user.studentprofile.year == '4' %}
-            <li class="border-baublack border-4 p-2 text-center my-1 bg-zinc-100 bg-opacity-30 self-center hover:rounded-lg hover:border-baublue duration-200 transition-all">
+            <li class="my-1 self-center border-4 bg-zinc-100 bg-opacity-30 p-2 text-center transition-all duration-200 border-baublack hover:border-baublue hover:rounded-lg">
                 {% elif user.studentprofile.year == '3' %}
-            <li class="border-baublack border-4 p-2 text-center my-1 bg-zinc-100 bg-opacity-30 self-center hover:rounded-lg hover:border-bauyellow duration-200 transition-all">
+            <li class="my-1 self-center border-4 bg-zinc-100 bg-opacity-30 p-2 text-center transition-all duration-200 border-baublack hover:border-bauyellow hover:rounded-lg">
         {% endif %}
     {% else %}
-        <li class="border-baublack border-4 p-2 text-center my-1 bg-zinc-100 bg-opacity-30 self-center hover:rounded-lg hover:border-baured duration-200 transition-all">
+        <li class="my-1 self-center border-4 bg-zinc-100 bg-opacity-30 p-2 text-center transition-all duration-200 border-baublack hover:border-baured hover:rounded-lg">
     {% endif %}
 
-    <div class="relative flex h-full w-full flex-col items-center justify-center px-1 pt-1.5 text-center">
+    <div class="relative flex h-full w-full flex-col items-center justify-center px-1 text-center pt-1.5">
         <span>{{ user.first_name }} <b>{{ user.last_name }}</b></span>
         <hr>
         {% thumbnail user.avatar "200x200" crop="center" as im %}

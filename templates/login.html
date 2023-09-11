@@ -2,14 +2,14 @@
 {% block title %}<title>Log In</title>{% endblock %}
 {% block content %}
 
-    <div class="grid grid-cols-12 grid-rows-5 w-screen px-3 gap-0.5">
+    <div class="grid w-screen grid-cols-12 grid-rows-5 px-3 gap-0.5">
         <div class="col-start-1 col-end-3 row-start-1 row-end-6 border-4 border-baublack"></div>
         <div class="col-start-11 col-end-13 row-start-1 row-end-6 border-4 border-baublack"></div>
-        <div class="col-start-3 col-end-6 row-start-1 row-end-3 border-baublack border-4 container px-4 py-6">
-            <span class="font-primary font-semibold text-2xl mb-6"> Inicia Sesion </span>
+        <div class="container col-start-3 col-end-6 row-start-1 row-end-3 border-4 px-4 py-6 border-baublack">
+            <span class="mb-6 text-2xl font-semibold font-primary"> Inicia Sesion </span>
 
-            <div class="grid grid-cols-1 grid-rows-4 flex-col text-center justify-center place-content-between">
-                <div class="col-span-full row-start-2 row-end-4 justify-evenly flex-col flex">
+            <div class="grid grid-cols-1 grid-rows-4 flex-col place-content-between justify-center text-center">
+                <div class="col-span-full row-start-2 row-end-4 flex flex-col justify-evenly">
 
                     <form method="post" class="flex flex-col justify-evenly">
                         {% csrf_token %}
@@ -18,12 +18,12 @@
                         {{ form.password }}
                         <br>
                         <button type="submit" value="Login"
-                                class="row-span-1 col-span-full ring-2 ring-baublack font-primary bg-baublue text-white rounded-full mb-6">
+                                class="col-span-full row-span-1 mb-6 rounded-full text-white ring-2 ring-baublack font-primary bg-baublue">
                             Log In
                         </button>
                     </form>
-                    <a class="font-primary font-medium justify-self-center text-blue-500">Contactar al Admin</a>
-                    <div class="flex-wrap row-start-1 row-span-1 col-span-1">
+                    <a class="justify-self-center font-medium text-blue-500 font-primary">Contactar al Admin</a>
+                    <div class="col-span-1 row-span-1 row-start-1 flex-wrap">
                         {% if form.errors %}
                             {% for error in form.non_field_errors %}
                                 <div class="text-red-500">{{ error }}</div>
@@ -34,14 +34,14 @@
             </div>
         </div>
 
-        <div class="relative col-start-6 col-end-11 row-start-1 row-end-3 border-4 border-baublack overflow-clip">
+        <div class="relative col-start-6 col-end-11 row-start-1 row-end-3 overflow-clip border-4 border-baublack">
             <div class="flex flex-shrink">
-            <span class="flex font-primary text-8xl font-semibold px-36 pb-3 pt-5">
+            <span class="flex px-36 pt-5 pb-3 text-8xl font-semibold font-primary">
                 FPP
                 <a class="font-black text-bauyellow">/</a>T16
             </span>
             </div>
-            <svg class="absolute bottom-0 inset-x-2 right-0 w-full scale-x-110" viewBox="-10 0 830 380"
+            <svg class="absolute inset-x-2 right-0 bottom-0 w-full scale-x-110" viewBox="-10 0 830 380"
                  width="100%"
                  fill="none"
                  xmlns="http://www.w3.org/2000/svg">
@@ -50,8 +50,8 @@
             </svg>
         </div>
 
-        <div class="col-start-3 col-end-6 row-start-3 row-end-5 border-baublack border-4 bg-baublue"></div>
-        <div class="relative col-start-6 col-end-11 row-start-3 row-end-5 border-4 border-baublack overflow-clip">
+        <div class="col-start-3 col-end-6 row-start-3 row-end-5 border-4 border-baublack bg-baublue"></div>
+        <div class="relative col-start-6 col-end-11 row-start-3 row-end-5 overflow-clip border-4 border-baublack">
             <svg class="absolute right-0 scale-x-110" width="390" height="390" viewBox="0 0 390 390"
                  fill="none"
                  xmlns="http://www.w3.org/2000/svg">
@@ -60,7 +60,7 @@
                       fill="#FEC223"></path>
             </svg>
         </div>
-        <div class=" row-start-5 row-end-6 col-start-3 col-end-11 border-baublack border-4">
+        <div class="col-start-3 col-end-11 row-start-5 row-end-6 border-4 border-baublack">
 
         </div>
     </div>

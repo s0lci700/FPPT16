@@ -4,7 +4,7 @@
       hx-post="{% url 'Fichas:assignment-update' assignment.pk %}"
       x-on:submit="updateModal = false"
       @click.outside="updateModal = false"
-      class="container mx-auto flex flex-col justify-items-center rounded-xl p-10 text-zinc-50 bg-baublue accent-baublack w-fit">
+      class="container mx-auto flex w-fit flex-col justify-items-center rounded-xl p-10 text-zinc-50 bg-baublue accent-baublack">
     <span class="text-white">ID:{{ assignment.pk }}</span>
     <!-- ... rest of the form ... -->
     {% csrf_token %}

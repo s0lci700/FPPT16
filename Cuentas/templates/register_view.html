@@ -3,12 +3,12 @@
 {% block content %}
     <div class="container">
         <div class="col">
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_div }}
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_div }}
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <button type='reset' class="btn btn-danger">Cancel</button>
-        </form>
+            </form>
             <div class="col">
             </div>
         </div>

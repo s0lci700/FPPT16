@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="grid grid-cols-12 grid-rows-6 h-full font-primary">
+    <div class="grid h-full grid-cols-12 grid-rows-6 font-primary">
         {% include 'components/header.html' with header_title='toddys' %}
         <div class="container col-start-1 col-end-2 row-span-full my-1">
             {% include 'components/sidebar.html' %}
@@ -18,10 +18,10 @@
              class="col-start-2 col-span-full row-start-1 mt-20 mr-8 row-span-full
              items-start grid grid-rows-2 gap-3 h-full">
             <!-- Students -->
-            <div class="flex flex-col h-full justify-evenly">
+            <div class="flex h-full flex-col justify-evenly">
 
-                <div id="alumnes" class="row-start-1 flex flex-row  border-4 p-1 border-bauyellow relative">
-                    <div class="absolute left-0 inset-0 mr-12 h-full w-24 flex items-center justify-center bg-bauyellow">
+                <div id="alumnes" class="relative row-start-1 flex flex-row border-4 p-1 border-bauyellow">
+                    <div class="absolute inset-0 left-0 mr-12 flex h-full w-24 items-center justify-center bg-bauyellow">
                         <a href="{% url 'Cuentas:alumni' %}"
                            class="flex self-center text-center w-full h-full items-center justify-center
                            hover:underline decoration-wavy decoration-blue-600 transition-all">
@@ -36,8 +36,8 @@
 
                 <!-- Teachers -->
                 <div id="profesores"
-                     class="row-start-1 flex flex-row  border-4 p-1 border-baured relative text-zinc-50">
-                    <div class="absolute left-0 inset-0 mr-12 h-full w-24 items-center justify-center bg-baured">
+                     class="relative row-start-1 flex flex-row border-4 p-1 text-zinc-50 border-baured">
+                    <div class="absolute inset-0 left-0 mr-12 h-full w-24 items-center justify-center bg-baured">
                         <a href="{% url 'Cuentas:profesores' %}"
                            class="flex self-center text-center w-full h-full items-center justify-center
                            hover:underline decoration-wavy decoration-zinc-50 transition-all">
@@ -50,9 +50,9 @@
                 </div>
                 <!-- Others -->
                 {#                #}
-                {#                <div id="otros" class="row-start-1 flex flex-row  border-4 p-1 border-baured relative">#}
-                {#                    <div class="absolute left-0 inset-0 mr-12 h-full w-24 flex items-center justify-center bg-baured">#}
-                {#                 <span class="flex self-center text-center w-full h-full items-center justify-center">#}
+                {#                <div id="otros" class="relative row-start-1 flex flex-row border-4 p-1 border-baured">#}
+                {#                    <div class="absolute inset-0 left-0 mr-12 flex h-full w-24 items-center justify-center bg-baured">#}
+                {#                 <span class="flex h-full w-full items-center justify-center self-center text-center">#}
                 {#                    Otros#}
                 {#                </span>#}
                 {#                    </div>#}

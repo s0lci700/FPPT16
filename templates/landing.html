@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="container relative flex h-screen w-screen flex-col overflow-clip mx-auto">
+    <div class="container relative mx-auto flex h-screen w-screen flex-col overflow-clip">
 
         {% if user.is_authenticated %}
 
@@ -9,9 +9,9 @@
                         class="font-semibold">{{ user.first_name }} {{ user.last_name }}</span>!</span>
             </div>
             <div class="container z-30 mx-auto my-auto flex basis-3/4 flex-col gap-12 border-t-4 text-center border-baublack">
-                <a class="mx-auto mt-12 rounded-full px-4 py-2 text-white bg-baublue font-primary hover:ring-blue-700 hover:ring-2 ring-inset transition-all duration-500 hover:bg-blue-600"
+                <a class="mx-auto mt-12 rounded-full px-4 py-2 text-white ring-inset transition-all duration-500 bg-baublue font-primary hover:bg-blue-600 hover:ring-2 hover:ring-blue-700"
                    href="{% url 'Cuentas:all_users' %}">Ir a la plataforma</a>
-                <a class="mx-auto rounded-full px-4 py-2 text-white bg-baured font-primary hover:ring-baured hover:ring-2 ring-inset transition-all duration-500 hover:bg-red-600"
+                <a class="mx-auto rounded-full px-4 py-2 text-white ring-inset transition-all duration-500 bg-baured font-primary hover:ring-baured hover:bg-red-600 hover:ring-2"
                    href="{% url 'Cuentas:logout' %}">Log Out</a>
             </div>
         {% else %}
@@ -20,14 +20,14 @@
                 <span class="absolute inset-x-0 bottom-0 justify-self-end pb-3">No has iniciado sesión</span>
             </div>
             <div class="container z-30 mx-auto my-auto flex basis-3/4 flex-col gap-12 border-t-4 text-center border-baublack">
-                <a class="mx-auto mt-12 rounded-full px-4 py-2 text-white bg-baublue font-primary hover:ring-baublack hover:ring-2 transition-all"
+                <a class="mx-auto mt-12 rounded-full px-4 py-2 text-white transition-all bg-baublue font-primary hover:ring-baublack hover:ring-2"
                    href="{% url 'Cuentas:login' %}">Iniciar Sesión</a>
             </div>
         {% endif %}
     </div>
 
     <div class="relative -z-20 w-screen">
-        <svg class="basis-1/2 absolute bottom-0 left-0 overflow-visible"
+        <svg class="absolute bottom-0 left-0 basis-1/2 overflow-visible"
              width="1024" height="1024"
              viewBox="0 0 1024 1024" fill="none"
              xmlns="http://www.w3.org/2000/svg">
@@ -41,7 +41,7 @@
                 </linearGradient>
             </defs>
         </svg>
-        <svg class="basis-1/2 absolute bottom-0 right-0"
+        <svg class="absolute right-0 bottom-0 basis-1/2"
              width="1061" height="1024"
              viewBox="0 0 1061 1024" fill="none"
              xmlns="http://www.w3.org/2000/svg">

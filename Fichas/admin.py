@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Ficha, Review, Assignment, ComplementaryImage, Keywords, FichaImage
+from .models import Ficha, Review, Assignment, FichaImage
 from django.utils.html import format_html
 
 
@@ -25,7 +25,7 @@ class FichaAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
-    list_filter = ("status",)
+    list_filter = ["status", "student", "assignment"]
     search_fields = ["title", "description"]
     inlines = [FichaImageInline]
 
@@ -114,16 +114,8 @@ class AssignmentAdmin(admin.ModelAdmin):
     ficha_count.short_description = "Fichas Llenadas"
 
 
-class ComplementaryImageAdmin(admin.ModelAdmin):
-    list_display = ("ficha", "images")
-
-
 class FichaImageAdmin(admin.ModelAdmin):
-    list_display = ("ficha", "image")
-
-
-class KeywordsAdmin(admin.ModelAdmin):
-    list_display = ("name",)
+    list_display = ("ficha", "image", "attributes", "student")
 
 
 # Register your models here
@@ -131,6 +123,4 @@ admin.site.site_header = "Administración de las Fichas"
 admin.site.register(Ficha, FichaAdmin)
 admin.site.register(Review, ReviewAdmin)
 admin.site.register(Assignment, AssignmentAdmin)
-admin.site.register(ComplementaryImage, ComplementaryImageAdmin)
-admin.site.register(Keywords, KeywordsAdmin)
 admin.site.register(FichaImage, FichaImageAdmin)
