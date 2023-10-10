@@ -7,24 +7,20 @@
 {% endblock %}
 
 {% block content %}
-    <div class="grid h-full grid-cols-12 grid-rows-6 font-primary">
-        <div class="container col-start-1 col-end-2 row-span-full my-1">
+    <div class="grid h-full grid-cols-12 font-primary">
+        <div class="col-span-1">
             {% include 'components/sidebar.html' %}
+        </div>
+        <div class="col-start-2 col-span-full">
+            {% include 'components/header.html' with header_title='Profesores' %}
         </div>
 
 
-        {% include 'components/header.html' with header_title='Profesores' %}
-
-
         <div id="content"
-             class="col-start-2 col-span-full row-start-1 mt-20 mr-8 row-span-full
-             items-start grid grid-rows-2 gap-3 h-full">
+             class="col-start-2 col-span-full
+             items-start grid grid-rows-2 gap-3 pr-2">
             <!-- Teachers -->
             {% include 'components/user_list.html' with users=users|filter_by_role:"P" title="Profesores" %}
         </div>
     </div>
 {% endblock content %}
-
-{% block footer %}
-    {% include 'components/footer.html' %}
-{% endblock %}

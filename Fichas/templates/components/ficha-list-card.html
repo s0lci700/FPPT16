@@ -2,7 +2,7 @@
 <div @mouseover="showInfo{{ forloop.counter0 }} = true"
      @mouseleave="showInfo{{ forloop.counter0 }} = false"
      @click="window.location.href = '{% url 'Fichas:ficha-detail' ficha.student.user.id ficha.assignment.id %}'"
-     class="relative h-64 w-64 cursor-pointer p-4 text-center ring-2 ring-baublack"
+     class="relative cursor-pointer p-2 text-center ring-2 ring-baublack col-span-1 row-span-1 aspect-[1/1]"
      id="card">
     <div id="card-content">
         <span class="inset-0 z-10 block h-full w-full cursor-pointer truncate font-semibold bg-bauyellow font-primary hover:text-baublue">{{ ficha.title }}</span>

@@ -2,8 +2,8 @@
 {% load static %}
 {% block title %}<title>Fichas</title>{% endblock %}
 {% block content %}
-    <div id="page" class="grid h-48 grid-flow-row-dense grid-cols-12 grid-rows-6">
-        <div class="z-30 col-start-1 col-end-2 row-span-full my-1">
+    <div id="page" class="grid grid-cols-12">
+        <div class="col-span-1 row-span-full my-1">
             {% include 'components/sidebar.html' %}
         </div>
         {% if request.resolver_match.view_name == 'my-fichas' %}
@@ -11,10 +11,8 @@
         {% else %}
             {% include 'components/header.html' with header_title='Fichas' %}
         {% endif %}
-
-
         <div id="content"
-             class="col-start-2 col-end-12 row-start-1 my-1 mt-12 flex grid-flow-row-dense auto-rows-auto flex-row flex-wrap place-content-start items-center justify-evenly gap-2 p-4"
+             class="col-start-2 col-span-full grid-flow-row-dense grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mr-4"
              x-data="{
                  {% for e in fichas %}
                      showInfo{{ forloop.counter0 }}: false,
@@ -25,8 +23,4 @@
             {% endfor %}
         </div>
     </div>
-{% endblock %}
-
-{% block footer %}
-    {% include 'components/footer.html' %}
 {% endblock %}

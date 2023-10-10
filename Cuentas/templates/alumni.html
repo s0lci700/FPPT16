@@ -7,43 +7,40 @@
 {% endblock %}
 
 {% block content %}
-    <div class="grid h-full grid-cols-12 grid-rows-6 font-primary">
+    <div class="grid h-full grid-cols-12 font-primary">
+        <div class="col-span-1">
+            {% include 'components/sidebar.html' %}
+        </div>
+        <div class="col-start-2 col-span-full">
+            {% include 'components/header.html' with header_title='Alumnes' %}
+        </div>
 
-    {% include 'components/header.html' with header_title='Alumnes' %}
 
-    <div class="container col-start-1 col-end-2 row-span-full my-1">
-        {% include 'components/sidebar.html' %}
-    </div>
+        <div id="content"
+             class="col-start-2 col-span-full
+             items-start grid grid-rows-2 gap-3 pr-2">
 
-    <div id="content"
-         class="col-start-2 col-span-full row-start-1 mt-20 mr-8 row-span-full
-             items-start grid grid-rows-2 gap-3 h-full">
-
-        <div id="tercero" class="relative row-start-1 flex flex-row border-4 p-1 border-bauyellow">
-            <div class="absolute inset-0 left-0 mr-12 flex h-full w-24 items-center justify-center bg-bauyellow">
+            <div id="tercero" class="relative row-span-1 flex flex-row border-4 p-1 border-bauyellow">
+                <div class="absolute inset-0 left-0 mr-12 flex h-full w-24 items-center justify-center bg-bauyellow">
                  <span class="flex h-full w-full items-center justify-center self-center text-center">
                     TERCERO
                 </span>
+                </div>
+                <div class="ml-24">
+                    {% include 'components/user_list.html' with users=users|filter_by_year:"3" %}
+                </div>
             </div>
-            <div class="ml-24">
-                {% include 'components/user_list.html' with users=users|filter_by_year:"3" %}
-            </div>
-        </div>
 
-        <div id="cuarto" class="relative row-start-2 flex flex-row border-4 p-1 border-baublue">
-            <div class="absolute inset-0 left-0 mr-12 flex h-full w-24 items-center justify-center text-zinc-50 bg-baublue">
+            <div id="cuarto" class="relative row-span-1 flex flex-row border-4 p-1 border-baublue">
+                <div class="absolute inset-0 left-0 mr-12 flex h-full w-24 items-center justify-center text-zinc-50 bg-baublue">
                 <span class="flex h-full w-full items-center justify-center self-center text-center">
                     CUARTO
                 </span>
+                </div>
+                <div class="ml-24">
+                    {% include 'components/user_list.html' with users=users|filter_by_year:"4" %}
+                </div>
             </div>
-            <div class="ml-24">
-                {% include 'components/user_list.html' with users=users|filter_by_year:"4" %}
-            </div>
+
         </div>
-
-    </div>
 {% endblock content %}
-
-{% block footer %}
-    {% include 'components/footer.html' %}
-{% endblock %}
