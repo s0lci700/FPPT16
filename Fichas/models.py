@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from datetime import datetime
 from taggit.managers import TaggableManager
 import os
 
@@ -9,7 +10,7 @@ def upload_to(instance, filename):
         "student",
         str(instance.student.id),
         "ficha",
-        str(instance.ficha.id),
+        str(instance.id),
         "images",
         filename,
     )
@@ -38,15 +39,23 @@ class FichaImage(models.Model):
         return self.ficha.title + " - " + self.image.name
 
 
+def get_default_start_date():
+    return timezone.now().date()
+
+
 class Assignment(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    time_window_start = models.DateTimeField()
-    time_window_end = models.DateTimeField()
+    time_window_start = models.DateField(default=get_default_start_date)
+    time_window_end = models.DateField()
 
     def is_open(self):
-        current_datetime = timezone.now()
-        return self.time_window_start < current_datetime < self.time_window_end
+        current_datetime = timezone.now().date()
+
+        if self.time_window_start is None or self.time_window_end is None:
+            return False
+
+        return self.time_window_start <= current_datetime <= self.time_window_end
 
     @property
     def status(self):

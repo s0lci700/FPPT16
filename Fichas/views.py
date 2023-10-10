@@ -4,7 +4,6 @@ from datetime import datetime
 import pytz
 from django.contrib.auth import get_user_model
 from django.db.models import Q, Case, When, BooleanField
-from django.forms import modelformset_factory
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -12,12 +11,9 @@ from django.utils import timezone
 from django.views.generic import CreateView, UpdateView, DeleteView
 
 from Cuentas.models import StudentProfile
-from .forms import FichaForm, AssignmentForm, FichaImageForm
-from .models import Ficha, Assignment, FichaImage
+from .forms import FichaForm, AssignmentForm
+from .models import Ficha, Assignment
 
-FichaImageFormSet = modelformset_factory(
-    FichaImage, form=FichaImageForm, extra=1, can_delete=True
-)
 User = get_user_model()
 
 
@@ -78,34 +74,6 @@ class FichaCreateView(BaseFichaView, CreateView):
         user_id = self.request.user.id
         context["assignment_id"] = assignment_id
         context["user_id"] = user_id
-
-        # Initialize an empty queryset
-        queryset = FichaImage.objects.none()
-
-        try:
-            ficha_id = get_object_or_404(
-                Ficha, student__user__id=user_id, assignment__id=assignment_id
-            ).id
-            queryset = FichaImage.objects.filter(
-                user=user_id, ficha=ficha_id, assignment=assignment_id
-            )
-        except Http404:
-            # Ficha doesn't exist yet, so the queryset remains empty
-            pass
-
-        if self.request.POST:
-            context["fichaimageformset"] = FichaImageFormSet(
-                self.request.POST,
-                self.request.FILES,
-                prefix="fichaimage",
-                queryset=queryset,
-            )
-        else:
-            context["fichaimageformset"] = FichaImageFormSet(
-                prefix="fichaimage",
-                queryset=queryset,
-            )
-
         return context
 
     def post(self, request, *args, **kwargs):
@@ -113,32 +81,21 @@ class FichaCreateView(BaseFichaView, CreateView):
         user_id = self.request.user.id
 
         form = self.get_form()
-        formset = FichaImageFormSet(
-            request.POST,
-            request.FILES,
-            queryset=FichaImage.objects.none(),  # Empty queryset for new Ficha
-        )
         print(form)
-        print(formset)
-        if form.is_valid() and formset.is_valid():
-            ficha = form.save()
-            for inline_form in formset:
-                if inline_form.cleaned_data:
-                    image = inline_form.cleaned_data["image"]
-                    attributes = inline_form.cleaned_data["attributes"]
-                    FichaImage.objects.create(
-                        ficha=ficha, image=image, attributes=attributes
-                    )
-            return redirect("Fichas:ficha-list")
+        if form.is_valid():
+            ficha = form.save(commit=False)
+            ficha.student_id = user_id
+            ficha.assignment_id = assignment_id
+            ficha.save()
+            return redirect(
+                "Fichas:ficha-create", user_id=user_id, assignment_id=assignment_id
+            )  # changed here
         else:
-            handle_form_errors(form, formset)
+            handle_form_errors(form)
             form = FichaForm()
-            formset = FichaImageFormSet(queryset=FichaImage.objects.none())
 
             print("Form is not valid")
             for error in form.errors:
-                print(error)
-            for error in formset.errors:
                 print(error)
 
         return render(
@@ -146,7 +103,6 @@ class FichaCreateView(BaseFichaView, CreateView):
             "ficha_create.html",
             {
                 "form": form,
-                "formset": formset,
                 "assignment_id": assignment_id,
                 "user_id": user_id,
             },
@@ -154,18 +110,16 @@ class FichaCreateView(BaseFichaView, CreateView):
 
     def get(self, request, *args, **kwargs):
         form = self.get_form()
-        formset = FichaImageFormSet(queryset=FichaImage.objects.none())
         assignment_id = self.kwargs.get("assignment_id")
         assignment = get_object_or_404(Assignment, id=assignment_id)
 
-        current_datetime = timezone.now()
+        current_datetime = timezone.now().date()
         if (
             assignment.time_window_start > current_datetime
             or assignment.time_window_end < current_datetime
         ):
             raise Http404("La ficha no se puede crear en este momento")
         print(form)
-        print(formset)
         return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -218,7 +172,6 @@ def ficha_detail_view(request, user_id, assignment_id):
     ficha = get_object_or_404(
         Ficha, student__user__id=user_id, assignment__id=assignment_id
     )
-    fichaimages = FichaImage.objects.filter(ficha=ficha)
     print(user_id, assignment_id)
     return render(
         request,
@@ -227,171 +180,8 @@ def ficha_detail_view(request, user_id, assignment_id):
             "ficha": ficha,
             "user_id": user_id,
             "assignment_id": assignment_id,
-            "fichaimages": fichaimages,
         },
     )
-
-
-# class FichaCreateView(LoginRequiredMixin, CreateView):
-#     model = Ficha
-#     template_name = "ficha_create.html"
-#     form_class = FichaForm
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["assignment_id"] = self.kwargs.get("assignment_id")
-#         if self.request.POST:
-#             context["images"] = FichaImageFormSet(
-#                 self.request.POST, self.request.FILES, prefix="fichaimage"
-#             )
-#         else:
-#             context["images"] = FichaImageFormSet(prefix="fichaimage")
-#         return context
-#
-#     def post(self, request, *args, **kwargs):
-#         form = self.get_form()
-#         formset = FichaImageFormSet(
-#             request.POST, request.FILES, queryset=FichaImage.objects.none()
-#         )
-#         if form.is_valid() and formset.is_valid():
-#             ficha = form.save()
-#             for inline_form in formset:
-#                 if inline_form.cleaned_data:
-#                     image = inline_form.cleaned_data["image"]
-#                     attributes = inline_form.cleaned_data["attributes"]
-#                     FichaImage.objects.create(
-#                         ficha=ficha, image=image, attributes=attributes
-#                     )
-#             return redirect("Fichas:ficha-list")
-#         else:
-#             form = FichaForm()
-#             formset = FichaImageFormSet(queryset=FichaImage.objects.none())
-#
-#             print("Form is not valid")
-#             for error in form.errors:
-#                 print(error)
-#             for error in formset.errors:
-#                 print(error)
-#
-#         return render(
-#             request,
-#             "ficha_create.html",
-#             {
-#                 "form": form,
-#                 "formset": formset,
-#             },
-#         )
-#
-#     def get(self, request, *args, **kwargs):
-#         form = self.get_form()
-#         formset = FichaImageFormSet(queryset=FichaImage.objects.none())
-#         assignment_id = self.kwargs.get("assignment_id")
-#         assignment = get_object_or_404(Assignment, id=assignment_id)
-#
-#         current_datetime = timezone.now()
-#         if (
-#             assignment.time_window_start > current_datetime
-#             or assignment.time_window_end < current_datetime
-#         ):
-#             raise Http404("La ficha no se puede crear en este momento")
-#         return super().get(request, *args, **kwargs)
-#
-#     def form_valid(self, form):
-#         context = self.get_context_data()
-#         images = context["images"]
-#         print("Attempting to save Ficha with:")
-#         print("StudentID:", self.request.user.id)
-#         print("AssignmentID:", self.kwargs.get("assignment_id"))
-#         # Existing code
-#         if images.is_valid():
-#             self.object = form.save()
-#             images.instance = self.object
-#             images.save()
-#         student = self.request.user
-#         student_profile = StudentProfile.objects.get(user=student)
-#         assignment_id = self.kwargs.get("assignment_id")
-#         assignment = get_object_or_404(Assignment, id=assignment_id)
-#
-#         # Check if a Ficha with the same student and assignment already exists
-#         existing_ficha = Ficha.objects.filter(
-#             student=student_profile, assignment=assignment
-#         ).first()
-#
-#         if existing_ficha:
-#             # If it exists, you can either update it, ignore it, or handle as per your requirement.
-#             # For now, I'm throwing a ValidationError. You can customize this part.
-#             raise ValidationError(
-#                 "A Ficha with this student and assignment already exists."
-#             )
-#         else:
-#             # If it doesn't exist, create a new Ficha
-#             ficha = form.save(commit=False)
-#             if "save_draft" in self.request.POST:
-#                 ficha.status = "Borrador"
-#             else:
-#                 ficha.status = "Publicado"
-#
-#             ficha.student = student_profile
-#             ficha.assignment = assignment
-#
-#             # Save the new Ficha
-#             ficha.save()
-#
-#             formset = FichaImageFormSet(
-#                 self.request.POST, self.request.FILES, instance=ficha
-#             )
-#             if formset.is_valid():
-#                 formset.save()
-#             else:
-#                 print(formset.errors)
-#
-#             return super(FichaCreateView, self).form_valid(form)
-#
-#     def get_success_url(self):
-#         return reverse_lazy("Fichas:ficha-list")
-
-
-# class FichaUpdateView(LoginRequiredMixin, UpdateView):
-#     model = Ficha
-#     template_name = "ficha_update.html"
-#     form_class = FichaForm
-#
-#     def get_object(self, queryset=None):
-#         return get_object_or_404(
-#             Ficha,
-#             student__user__id=self.kwargs["user_id"],
-#             assignment__id=self.kwargs["assignment_id"],
-#         )
-#
-#     def form_valid(self, form):
-#         if not form.cleaned_data["main_image"]:
-#             form.instance.main_image = self.get_object().main_image
-#         return super().form_valid(form)
-#
-#     def get_success_url(self):
-#         return reverse_lazy("Fichas:ficha-list")
-#
-#
-# class FichaDeleteView(LoginRequiredMixin, DeleteView):
-#     model = Ficha
-#     template_name = "ficha_delete_confirm.html"
-#
-#     def get_object(self, queryset=None):
-#         return get_object_or_404(
-#             Ficha,
-#             student__user__id=self.kwargs["user_id"],
-#             assignment__id=self.kwargs["assignment_id"],
-#         )
-#
-#     def post(self, request, *args, **kwargs):
-#         if "confirm_delete" in request.POST:
-#             return self.delete(request, *args, **kwargs)
-#         else:
-#             print("No se borro")
-#             pass
-#
-#     def get_success_url(self):
-#         return reverse_lazy("ficha-list")
 
 
 def assignment_index(request):
@@ -449,7 +239,9 @@ def create_assignment(request):
     if request.method == "POST":
         form = AssignmentForm(request.POST)
         if form.is_valid():
+            print(request.POST)
             new_assignment = form.save()
+            print(f"New assignment created: {new_assignment.__dict__}")
             context = {
                 "assignment": new_assignment,
                 "assignments": assignments,

@@ -1,4 +1,4 @@
-(function(){
+(function () {
 
     /** @type {import("../htmx").HtmxInternalApi} */
     var api;
@@ -15,7 +15,7 @@
         if (!elt || !respCode) return null;
 
         var targetAttr = targetAttrPrefix + respCode;
-        var targetStr  = api.getClosestAttributeValue(elt, targetAttr);
+        var targetStr = api.getClosestAttributeValue(elt, targetAttr);
 
         if (targetStr) {
             if (targetStr === "this") {
@@ -26,7 +26,7 @@
         } else {
             for (let l = targetAttr.length - 1; l > targetAttrMinLen; l--) {
                 targetAttr = targetAttr.substring(0, l) + '*';
-                targetStr  = api.getClosestAttributeValue(elt, targetAttr);
+                targetStr = api.getClosestAttributeValue(elt, targetAttr);
                 if (targetStr) break;
             }
         }
@@ -78,8 +78,8 @@
          * @param {Event} evt
          */
         onEvent: function (name, evt) {
-            if (name === "htmx:beforeSwap"    &&
-                evt.detail.xhr                &&
+            if (name === "htmx:beforeSwap" &&
+                evt.detail.xhr &&
                 evt.detail.xhr.status !== 200) {
                 if (evt.detail.target) {
                     if (htmx.config.responseTargetPrefersExisting) {

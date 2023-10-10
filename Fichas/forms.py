@@ -1,22 +1,22 @@
 from django import forms
-from .models import Ficha, Review, Assignment, FichaImage
+from .models import Ficha, Review, Assignment, FichaImage, get_default_start_date
 from django.contrib.admin.widgets import AdminDateWidget, AdminTimeWidget
 from django.forms import modelformset_factory
+from django.core.exceptions import ValidationError
 
 
 class AssignmentForm(forms.ModelForm):
-    time_window_start_date = forms.DateField(
-        widget=AdminDateWidget(
+    time_window_start = forms.DateField(
+        widget=forms.DateInput(
             attrs={
-                "format": format("%d/%m/%Y"),
                 "type": "date",
             }
-        )
+        ),
+        initial=get_default_start_date,
     )
-    time_window_end_date = forms.DateField(
-        widget=AdminDateWidget(
+    time_window_end = forms.DateField(
+        widget=forms.DateInput(
             attrs={
-                "format": format("%d/%m/%Y"),
                 "type": "date",
             }
         )
@@ -27,42 +27,52 @@ class AssignmentForm(forms.ModelForm):
         fields = [
             "title",
             "description",
-            "time_window_start_date",
-            "time_window_end_date",
+            "time_window_start",
+            "time_window_end",
         ]
 
+    def clean(self):
+        cleaned_data = super().clean()
+        time_window_start = cleaned_data.get("time_window_start")
+        time_window_end = cleaned_data.get("time_window_end")
 
-class CustomFileInput(forms.ClearableFileInput):
-    template_name = "components/custom_file_input.html"
-
-
-imgChoices = (
-    ("MAIN", "main"),
-    ("FOTO", "fotograma"),
-    ("COMP", "complementaria"),
-    ("REF", "referencia"),
-    ("O", "otra"),
-)
+        if time_window_end < time_window_start:
+            msg = "La fecha de cierre no puede ser anterior a la fecha de inicio"
+            self.add_error("time_window_end", msg)
+        return cleaned_data
 
 
-class FichaImageForm(forms.ModelForm):
-    attributes = forms.ChoiceField(
-        choices=imgChoices, label="Tipo de imagen", widget=forms.Select()
-    )
-
-    class Meta:
-        model = FichaImage
-        fields = ["image", "attributes"]
-        widgets = {
-            "image": CustomFileInput(),
-        }
-
-
-# add a fichaimage inlineformset to fichaform
+# class CustomFileInput(forms.ClearableFileInput):
+#     template_name = "components/custom_file_input.html"
+#
+#
+# imgChoices = (
+#     ("MAIN", "main"),
+#     ("FOTO", "fotograma"),
+#     ("COMP", "complementaria"),
+#     ("REF", "referencia"),
+#     ("O", "otra"),
+# )
+#
+#
+# class FichaImageForm(forms.ModelForm):
+#     attributes = forms.ChoiceField(
+#         choices=imgChoices, label="Tipo de imagen", widget=forms.Select()
+#     )
+#
+#     class Meta:
+#         model = FichaImage
+#         fields = ["image", "attributes"]
+#         widgets = {
+#             "image": CustomFileInput(),
+#         }
+#
+#
+# # add a fichaimage inlineformset to fichaform
 
 
 class FichaForm(forms.ModelForm):
-    main_image = forms.ImageField(widget=CustomFileInput)
+    main_image = forms.ImageField()
 
     class Meta:
         model = Ficha

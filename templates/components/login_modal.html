@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+    <div class="grid grid-cols-3 fixed inset-0 items-center justify-center bg-black bg-opacity-20">
+
+        <div class="container mx-auto justify-items-center rounded-t-xl text-zinc-50 bg-bg-bau accent-baublack col-start-2 col-span-1 w-1/2 h-1/3 drop-shadow-lg"
+             @click.outside="login_modal = false">
+            <form method="post" class="grid grid-cols-3 text-baublack gap-2 place-items-center">
+                <div class="row-start-1 row-span-1 bg-baured col-span-full border-baublack border-b-2 mb-6 rounded-t-xl w-full h-12 flex justify-center items-center -mt-1">
+                    <span class="text-xl font-primary font-bold text-white">Inicia Sesion</span>
+                </div>
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="px-12 row-span-1 col-span-full">
+                        <div>
+                            {{ field.label_tag }}
+                        </div>
+                        <div>
+                            {% render_field field %}
+                        </div>
+                    </div>
+                {% endfor %}
+                <button type="submit" value="Login"
+                        x-data="{t : '>'}"
+                        x-text="t"
+                        class="col-span-full row-span-1 mt-6 py-1 px-4 rounded-full text-white font-primary bg-baublue hover:bg-baured hover:text-white transition duration-300 ease-in-out"
+                        x-on:submit="login_modal=false"
+                        @click="t = ':-)'"
+                        x-transition.duration-500>
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+```

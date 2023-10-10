@@ -1,5 +1,5 @@
 htmx.defineExtension('client-side-templates', {
-    transformResponse : function(text, xhr, elt) {
+    transformResponse: function (text, xhr, elt) {
 
         var mustacheTemplate = htmx.closest(elt, "[mustache-template]");
         if (mustacheTemplate) {
@@ -30,7 +30,7 @@ htmx.defineExtension('client-side-templates', {
             } else {
                 return nunjucks.render(templateName, data);
             }
-          }
+        }
 
         return text;
     }

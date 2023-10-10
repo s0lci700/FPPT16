@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="container relative mx-auto flex h-screen w-screen flex-col overflow-clip">
+    <div class="container relative mx-auto flex h-screen w-screen flex-col overflow-clip"
+         x-data="{login_modal: false}">
 
         {% if user.is_authenticated %}
 
@@ -16,12 +17,18 @@
             </div>
         {% else %}
 
-            <div class="relative z-10 basis-2/12 text-center text-5xl border-baublack font-primary font-regular">
+            <div class="relative basis-2/12 text-center text-5xl border-baublack font-primary font-regular">
                 <span class="absolute inset-x-0 bottom-0 justify-self-end pb-3">No has iniciado sesión</span>
             </div>
-            <div class="container z-30 mx-auto my-auto flex basis-3/4 flex-col gap-12 border-t-4 text-center border-baublack">
+            <div class="container mx-auto my-auto flex basis-3/4 flex-col gap-12 border-t-4 text-center border-baublack">
                 <a class="mx-auto mt-12 rounded-full px-4 py-2 text-white transition-all bg-baublue font-primary hover:ring-baublack hover:ring-2"
-                   href="{% url 'Cuentas:login' %}">Iniciar Sesión</a>
+                   hx-get="{% url 'lmodal' %}"
+                   hx-trigger="click"
+                   hx-target="#loginmodal"
+                   hx-indicator=".htmx-indicator"
+                   @click="login_modal = true">Iniciar Sesión</a>
+            </div>
+            <div id="loginmodal" x-cloak x-show="login_modal">
             </div>
         {% endif %}
     </div>
@@ -51,6 +58,7 @@
                   fill="#454285"></path>
         </svg>
     </div>
+
 
 
     {#    {% include 'components/footer.html' %}#}

@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from Cuentas.general_views import home_view, landing_view
+from Cuentas.general_views import home_view, landing_view, login_modal as lmodal
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -29,6 +29,7 @@ urlpatterns = [
     # general views
     path("home/", home_view, name="home"),
     path("", landing_view, name="landing"),
+    path("lmodal/", lmodal, name="lmodal"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 admin.site.site_header = "FPPT16 Admin"
