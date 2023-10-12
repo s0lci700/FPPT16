@@ -7,40 +7,38 @@
 {% endblock %}
 
 {% block content %}
+    #TODO
     <div class="grid h-full grid-cols-12 font-primary">
         <div class="col-span-1">
             {% include 'components/sidebar.html' %}
         </div>
-        <div class="col-start-2 col-span-full">
+        <div class="col-span-full col-start-2">
             {% include 'components/header.html' with header_title='Alumnes' %}
         </div>
 
 
-        <div id="content"
-             class="col-start-2 col-span-full
-             items-start grid grid-rows-2 gap-3 pr-2">
+        <div id="content" class="col-span-full col-start-2 grid grid-rows-2 items-start gap-3 pr-2 h-[95vh]">
+            <!-- Added relative positioning -->
 
-            <div id="tercero" class="relative row-span-1 flex flex-row border-4 p-1 border-bauyellow">
-                <div class="absolute inset-0 left-0 mr-12 flex h-full w-24 items-center justify-center bg-bauyellow">
-                 <span class="flex h-full w-full items-center justify-center self-center text-center">
+            <div id="tercero" class="row-span-1 grid grid-rows-1 border-4 h-[40vh] border-bauyellow">
+                <span class="col-span-1 col-start-1 flex h-full items-center justify-center self-center text-center bg-bauyellow w-[5vw]">
                     TERCERO
                 </span>
-                </div>
-                <div class="ml-24">
+                <div class="col-start-2 grid grid-cols-12">
                     {% include 'components/user_list.html' with users=users|filter_by_year:"3" %}
                 </div>
             </div>
 
-            <div id="cuarto" class="relative row-span-1 flex flex-row border-4 p-1 border-baublue">
-                <div class="absolute inset-0 left-0 mr-12 flex h-full w-24 items-center justify-center text-zinc-50 bg-baublue">
-                <span class="flex h-full w-full items-center justify-center self-center text-center">
+            <div id="cuarto" class="row-span-1 grid grid-rows-1 border-4 h-[40vh] border-baublue">
+                <span class="col-span-1 col-start-1 flex h-full items-center justify-center self-center text-center text-white bg-baublue w-[5vw]">
                     CUARTO
                 </span>
-                </div>
-                <div class="ml-24">
+                <div class="col-start-2 grid grid-cols-12">
                     {% include 'components/user_list.html' with users=users|filter_by_year:"4" %}
                 </div>
             </div>
 
         </div>
+
+    </div>
 {% endblock content %}

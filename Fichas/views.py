@@ -86,9 +86,18 @@ class FichaCreateView(BaseFichaView, CreateView):
             ficha = form.save(commit=False)
             ficha.student_id = user_id
             ficha.assignment_id = assignment_id
+            button_clicked = request.POST.get("submit")
+            print(button_clicked)
+
+            if button_clicked == "publish":
+                # Publish the Ficha
+                ficha.status = "Publicado"
+            elif button_clicked == "draft":
+                # Save as a draft
+                ficha.status = "Borrador"
             ficha.save()
             return redirect(
-                "Fichas:ficha-create", user_id=user_id, assignment_id=assignment_id
+                "Fichas:ficha-list",
             )  # changed here
         else:
             handle_form_errors(form)
@@ -149,7 +158,7 @@ class FichaDeleteView(BaseFichaView, DeleteView):
             pass
 
     def get_success_url(self):
-        return reverse_lazy("ficha-list")
+        return reverse_lazy("Fichas:ficha-list")
 
 
 # Create your views here.

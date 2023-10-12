@@ -14,72 +14,101 @@
 
         <div id='content' class="col-start-2 col-end-12 rounded-lg bg-white p-6 shadow-lg">
             <form action="{% url 'Fichas:ficha-create' request.user.id assignment_id %}" method="post"
-                  enctype="multipart/form-data">
+                  enctype="multipart/form-data"
+                  class="grid grid-cols-1">
                 {% csrf_token %}
                 <!-- Ficha Image Section -->
-                <div class="space-y-6">
+
+                <div id="cover" class="mt-1 flex flex-col col-span-full row-span-1 items-center space-y-2 mb-4">
                     <label class="text-lg font-semibold" for="ficha-image">Portada</label>
+                    {% render_field form.main_image %}
+                    <div id="image-container" class="w-fit h-fit">
+                        <img id="image-preview" src="" alt="Image Preview"
+                             class="drop-shadow-lg mx-auto bg-gray-300 max-w-[25vw]"
+                             style="display: none;">
+                        <div id="placeholder"
+                             class="drop-shadow-lg mx-auto bg-gray-300 w-[25vw] h-[25vw] flex justify-center items-center text-white font-bold">
+                            No se ha cargado ninguna portada...
+                        </div>
+                    </div>
+                </div>
 
-                    <div class="mt-1 flex flex-col items-start">
-                        {% render_field form.main_image %}
-                    </div>
-                    <hr>
-                    <div>
-                        <label class="text-lg font-semibold" for="title">Titulo</label>
-                        <input type="text" id="title" name="title"
-                               class="mt-1 w-full rounded-lg border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                               placeholder="Titulo de la Obra">
-                    </div>
+
+                <!-- Ficha Title Section -->
+
+                <div class="flex flex-col col-span-full row-span-1 mb-4">
+                    {#                    <label class="flex text-lg font-semibold" for="title">Titulo</label>#}
+                    {% render_field form.title type="text" id="title" name="title" class="flex mt-1 w-full caret-pink-500 border-t-0 border-r-0 border-l-0 border-b border-blue-600 focus:ring-transparent focus:border-pink-600 prose-xl font-medium placeholder:font-thin placeholder:first-letter:font-medium leading-3" placeholder="Titulo de la Obra"> %}
+                </div>
 
 
-                    <!-- Description Section -->
-                    <div class="h-fit flex-1">
-                        <label class="text-lg font-semibold" for="description">Descripción</label>
-                        {% render_field form.description id='description' type='text-input' class='h-full w-full rounded-md ring-inset' %}
-                    </div>
-                    <!-- Analisis Operacional -->
-                    <div class="h-fit flex-1">
-                        <label for="analysis"
-                               class="text-lg font-semibold">Analisis</label>
-                        {% render_field form.analysis id="analysis" type="text-input" class='h-full w-full rounded-md ring-inset' %}
-                    </div>
-                    <!-- Analisis Referencial -->
-                    <div class="h-fit flex-1">
-                        <label for="referencial"
-                               class="text-lg font-semibold">Analisis Referencial</label>
-                        {% render_field form.references id="referencial" type="text-input" class='h-full w-full rounded-md ring-inset' %}
-                    </div>
-                    <!-- Palabras Claves / Tags -->
-                    <div class="h-fit flex-1">
-                        <label for="keywords"
-                               class="flex-1 text-sm font-medium leading-6 text-gray-900">Palabras Clave</label>
-                        {% render_field form.keywords id="keywords" type="text-input" class='h-full w-full rounded-md ring-inset' %}
-                    </div>
-                    <hr>
-                    <!-- Información Adicional -->
-                    <div class="h-fit flex-1">
-                        <label for="misc"
-                               class="flex-1 text-sm font-medium leading-6 text-gray-900">Informacion Adicional</label>
-                        {% render_field form.misc id="misc" type="text-input" class='h-full w-full rounded-md ring-inset' %}
-                    </div>
+                <!-- Description Section -->
+                <div class="h-fit flex-1 col-span-full row-span-1">
+                    <label class="text-lg font-semibold" for="description">Descripción</label>
+                    {% render_field form.description id='description' type='text-input' class='h-full w-full ' %}
+                </div>
+                <!-- Analisis Operacional -->
+                <div class="h-fit flex-1 col-span-full row-span-1">
+                    <label for="analysis"
+                           class="text-lg font-semibold">Analisis</label>
+                    {% render_field form.analysis id="analysis" type="text-input" class='h-full w-full ' %}
+                </div>
+                <!-- Analisis Referencial -->
+                <div class="h-fit flex-1 col-span-full row-span-1">
+                    <label for="referencial"
+                           class="text-lg font-semibold">Analisis Referencial</label>
+                    {% render_field form.references id="referencial" type="text-input" class='h-full w-full ' %}
+                </div>
+                <!-- Palabras Claves / Tags -->
+                <div class="h-fit flex-1 col-span-full row-span-1">
+                    <label for="keywords"
+                           class="flex-1 text-sm font-medium leading-6 text-gray-900">Palabras Clave</label>
+                    {% render_field form.keywords id="keywords" type="text-input" class='h-full w-full ' %}
+                </div>
+                <hr>
+                <!-- Información Adicional -->
+                <div class="h-fit flex-1 col-span-full row-span-1">
+                    <label for="misc"
+                           class="flex-1 text-sm font-medium leading-6 text-gray-900">Informacion Adicional</label>
+                    {% render_field form.misc id="misc" type="text-input" class='h-full w-full ' %}
+                </div>
 
-                    <!-- Buttons -->
-                    <div class="flex justify-end space-x-4">
-                        <button type="submit" name="publish"
-                                class="rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">Publicar
-                        </button>
-                        <button type="submit" name="save_draft"
-                                class="rounded-md bg-yellow-300 px-4 py-2 hover:bg-yellow-400">Guardar como Borrador
-                        </button>
-                        <button type="submit" name="cancel" class="rounded-md bg-gray-400 px-4 py-2 hover:bg-gray-500">
-                            Cancelar
-                        </button>
-                    </div>
+                <!-- Buttons -->
+                <div class="flex justify-end space-x-4 col-span-full row-span-1">
+                    <button type="submit" name="submit" value="publish"
+                            class="rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">Publicar
+                    </button>
+                    <button type="submit" name="submit" value="draft"
+                            class="rounded-md bg-yellow-300 px-4 py-2 hover:bg-yellow-400">Guardar como Borrador
+                    </button>
+                    <button type="submit" name="cancel" class="rounded-md bg-gray-400 px-4 py-2 hover:bg-gray-500">
+                        Cancelar
+                    </button>
+                </div>
             </form>
         </div>
     </div>
-{% endblock %}
+    <script>
+        const imageInput = document.getElementById('id_main_image');
+        const imagePreview = document.getElementById('image-preview');
+        const imageContainer = document.getElementById('image-container');
+        const placeholder = document.getElementById('placeholder');
 
-{#{% block footer %}#}
-{#    {% include 'components/footer.html' %}#}
-{#{% endblock %}#}
+        imageInput.addEventListener('change', function () {
+            const file = imageInput.files[0];
+            if (file) {
+                const imageURL = URL.createObjectURL(file);
+                imagePreview.src = imageURL;
+                imagePreview.style.display = 'block';
+                imageContainer.style.display = 'block'; // Display the image container
+                placeholder.style.display = 'none';
+            } else {
+                imagePreview.style.display = 'none';
+                imageContainer.style.display = 'none'; // Hide the image container
+                placeholder.style.display = 'block';
+            }
+        });
+    </script>
+
+
+{% endblock %}

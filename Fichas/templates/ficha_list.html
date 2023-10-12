@@ -6,21 +6,30 @@
         <div class="col-span-1 row-span-full my-1">
             {% include 'components/sidebar.html' %}
         </div>
-        {% if request.resolver_match.view_name == 'my-fichas' %}
-            {% include 'components/header.html' with header_title=request.user.first_name %}
+        {#        <p>{{ request.resolver_match.view_name }}</p>#}
+        {% if request.resolver_match.view_name == 'cuentas:my-fichas' %}
+            {% include 'components/header.html' with header_title='Mis Fichas' %}
         {% else %}
             {% include 'components/header.html' with header_title='Fichas' %}
         {% endif %}
         <div id="content"
-             class="col-start-2 col-span-full grid-flow-row-dense grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mr-4"
+             class="mt-4 col-start-2 col-span-full grid-flow-row-dense grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mr-4"
              x-data="{
                  {% for e in fichas %}
                      showInfo{{ forloop.counter0 }}: false,
                          {% endfor %}
                 }">
-            {% for ficha in fichas %}
-                {% include 'components/ficha-list-card.html' %}
-            {% endfor %}
+            {% if request.resolver_match.view_name == 'cuentas:my-fichas' %}
+                {% for ficha in fichas %}
+                    {% include 'components/ficha-list-card.html' %}
+                {% endfor %}
+            {% else %}
+                {% for ficha in fichas %}
+                    {% if ficha.status == 'Publicado' %}
+                        {% include 'components/ficha-list-card.html' %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

@@ -15,18 +15,20 @@
                   enctype="multipart/form-data"
                   class="grid grid-cols-6 gap-2">
                 {% csrf_token %}
-                <div class="col-span-full row-span-2 flex-col flex">
-                    <img class="mr-4 flex h-auto max-w-sm self-center" src="{{ ficha.main_image.url }}"
-                         alt="ficha main image">
-                    <span class="flex items-center">{{ ficha.main_image.name }}</span>
-                    <div class="flex items-center">
+                <div class="col-span-full grid-cols-1 grid place-items-center">
+                    <div class="row-span-1 col-span-full aspect-[1/1] ">
+                        <img class="max-w-[33vw]" src="{{ ficha.main_image.url }}"
+                             alt="ficha main image">
+                        {#                        <span class="row-span-1  items-center">{{ ficha.main_image.name }}</span>#}
+                    </div>
+                    <div class="row-span-1  items-center my-4">
                         {% render_field form.main_image %}
                     </div>
                 </div>
 
 
                 <!-- Description Section -->
-                <div class="col-span-full">
+                <div class="col-span-full px-6">
                     <div class="h-fit ">
                         <label class="text-lg font-semibold" for="title">Titulo</label>
                         {% render_field form.title id='title' class='h-full w-full rounded-md ring-inset' %}

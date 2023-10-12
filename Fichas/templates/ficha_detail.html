@@ -3,7 +3,7 @@
 {% load thumbnail %}
 
 {% block title %}
-    <title>{{ ficha.name }}</title>
+    <title>{{ ficha.title }}</title>
 {% endblock %}
 
 {% block content %}
@@ -12,10 +12,10 @@
             {% include 'components/sidebar.html' %}
         </div>
         <div id="ficha-container"
-             class="col-span-full col-start-2 grid h-fit w-full grid-cols-6 p-4 text-center">
+             class="col-span-full col-start-2 grid h-fit w-full grid-cols-12 p-4 text-center">
             <!-- Ficha.title & Student.name Header-->
             <div id="ficha-head"
-                 class="col-span-full mb-2 flex h-fit w-full items-center px-6 py-2 font-semibold bg-bauyellow font-primary">
+                 class="col-span-full row-span-1 mb-2 flex h-fit w-full items-center px-6 py-2 font-semibold bg-bauyellow font-primary">
                 <span class="flex-grow">{{ ficha.title }}, <span
                         class="font-normal text-muted">{{ ficha.student.user.first_name }} {{ ficha.student.user.last_name }}</span></span>
                 {% if user == ficha.student.user %}
@@ -26,63 +26,55 @@
                 {% endif %}
             </div>
             <!-- Ficha Content -->
-            <div id="content-container"
-                 class="col-span-full flex w-full flex-col items-center justify-center self-center">
+            <div id="cover-container"
+                 class="col-start-4 col-span-6 row-span-2 place-items-center justify-center self-center grid grid-cols-1 h-fit aspect-[1/1] mb-4">
                 <!-- Ficha.main_image -->
-                <a id="image-container" class="flex" href="{{ ficha.main_image.url }}">
-                    {% thumbnail ficha.main_image "x500" as im %}
-                        <img class="self-start" src="{{ im.url }}" alt="ficha image">
-                    {% endthumbnail %}
-                </a>
-                {% for image in fichaimages %}
-                    <ul>
-                        <li>
-                            <img src="{{ image.image.url }}">
-                        </li>
-                        <li>
-                            {{ image.attributes }}
-                        </li>
-                    </ul>
+
+                <div onclick="window.open('{{ ficha.main_image.url }}', '_blank');"
+                     style="background-image: url('{{ ficha.main_image.url }}')"
+                     class="bg-cover bg-center w-full h-full aspect-[1/1] row-span-1 col-span-1 hover:cursor-pointer"></div>
+
+            </div>
+        </div>
+        <div id="text-container"
+             class="col-start-2 col-span-full grid grid-cols-1 place-items-center gap-2 py-4 px-6">
+
+            <!-- Ficha.descripcion -->
+            <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col rounded-r-lg border bg-zinc-50 px-2 py-1 border-baublack">
+                <span class="h-fit self-start font-thin">Descripcion:</span>
+                <span class="self-start px-6 pb-2 text-justify">{{ ficha.description }}</span>
+            </div>
+            <!-- Ficha.analisis_operacional -->
+            <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col rounded-r-lg border bg-zinc-50 px-2 py-1 border-baublack">
+                <span class="self-start font-thin">Analisis Operacional</span>
+                <span class="self-start px-6 pb-2 text-justify">{{ ficha.analysis }}</span>
+            </div>
+            <!-- Ficha.analisis_referencial -->
+            <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col rounded-r-lg border bg-zinc-50 px-2 py-1 border-baublack">
+                <span class="self-start font-thin">Analisis Referencial</span>
+                <span class="self-start px-6 pb-2 text-justify">{{ ficha.references }}</span>
+            </div>
+            <!-- Ficha.misc -->
+            {% if ficha.misc %}
+                <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col rounded-r-lg border bg-zinc-50 px-2 py-1 border-baublack">
+                    <span class="self-start font-thin">Información Adicional:</span>
+                    <span class="self-start px-6 pb-2 text-justify">{{ ficha.misc }}</span>
+                </div>
+            {% endif %}
+            <!-- Ficha.keywords -->
+            <div class="row-span-1 col-span-full justify-start w-full py-1">
+                {% for keyword in ficha.keywords.all %}
+                    <span class="rounded-full bg-zinc-50 px-2 py-1 mr-0.5 prose-sm">{{ keyword }}</span>
                 {% endfor %}
-                <!-- Ficha.descripcion -->
-                <ul id="text-content-container"
-                    class="mt-2 flex h-fit w-full list-inside flex-col items-center text-justify gap-y-0.5">
-                    <!-- ... -->
-                    <li class="flex w-full max-w-5xl flex-col items-start rounded-r-lg border bg-zinc-50 px-2 py-1 border-baublack prose prose-sm">
-                        <span class="h-fit self-start font-thin">Descripcion:</span>
-                        <span class="h-fit self-start px-6 pb-2">{{ ficha.description }}</span>
-                    </li>
-                    <!-- Ficha.analisis_operacional -->
-                    <li class="flex w-full max-w-5xl flex-col items-start rounded-r-lg border bg-zinc-50 px-2 py-1 border-baublack prose prose-sm">
-                        <span class="self-start font-thin">Analisis Operacional</span>
-                        <span class="h-fit self-start px-6 pb-2">{{ ficha.analysis }}</span>
-                    </li>
-                    <!-- Ficha.analisis_referencial -->
-                    <li class="flex w-full max-w-5xl flex-col items-start rounded-r-lg border bg-zinc-50 px-2 py-1 border-baublack prose prose-sm">
-                        <span class="self-start font-thin">Analisis Referencial</span>
-                        <span class="h-fit self-start px-6 pb-2">{{ ficha.references }}</span>
-                    </li>
-                    <!-- Ficha.misc -->
-                    {% if ficha.misc %}
-                        <li class="flex w-full max-w-5xl flex-col items-start rounded-r-lg border bg-zinc-50 px-2 py-1 border-baublack prose prose-sm">
-                            <span class="self-start font-thin">Información Adicional:</span>
-                            <span class="h-fit self-start px-6 pb-2">{{ ficha.misc }}</span>
-                        </li>
-                    {% endif %}
-                    <!-- Ficha.keywords -->
-                    <li class="flex w-full max-w-7xl flex-row justify-start py-1 prose prose-sm">
-                        {% for keyword in ficha.keywords.all %}
-                            <span class="rounded-full bg-zinc-50 px-2 py-1 mr-0.5">{{ keyword }}</span>
-                        {% endfor %}
-                    </li>
-                    <!-- Ficha.metadata (fechas) -->
-                    <li class="flex w-full max-w-7xl flex-col justify-start prose prose-sm">
-                        <span class="self-start font-thin text-muted">Fecha de creación y última fecha de actualización:</span>
-                        <span class="self-start font-thin text-muted">{{ ficha.created_at }} / {{ ficha.updated_at }}</span>
-                        <span class="self-start font-thin text-muted">Encargo: {{ ficha.assignment_id }}, {{ ficha.assignment.title.title }}</span>
-                    </li>
-                </ul>
+            </div>
+            <!-- Ficha.metadata (fechas) -->
+            <div class="row-span-1 col-span-full justify-start w-full flex flex-col text-center">
+                <span class="self-start font-thin text-muted">Fecha de creación y última fecha de actualización:</span>
+                <span class="self-start font-thin text-muted">{{ ficha.created_at }} / {{ ficha.updated_at }}</span>
+                <span class="self-start font-thin text-muted">Encargo: {{ ficha.assignment_id }}, {{ ficha.assignment.title.title }}</span>
             </div>
         </div>
     </div>
+    </div>
+
 {% endblock %}

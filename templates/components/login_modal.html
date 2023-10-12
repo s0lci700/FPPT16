@@ -2,7 +2,7 @@
 {% load static %}
 {% load widget_tweaks %}
 {% block content %}
-    <div class="grid grid-cols-3 fixed inset-0 items-center justify-center bg-black bg-opacity-20">
+    <div class="min-h-screen w-screen grid grid-cols-3 fixed inset-0 items-center justify-center bg-black bg-opacity-20">
 
         <div class="container mx-auto justify-items-center rounded-t-xl text-zinc-50 bg-bg-bau accent-baublack col-start-2 col-span-1 w-1/2 h-fit drop-shadow-lg -mt-16"
              @click.outside="login_modal = false">
@@ -27,11 +27,12 @@
                 <button type="submit" value="Login"
                         x-data="{t : '>'}"
                         x-text="t"
-                        class="col-span-full row-span-1 my-6 py-1 px-4 rounded-full text-white font-primary bg-baublue hover:bg-baured hover:text-white transition duration-300 ease-in-out"
+                        class="col-span-full row-span-1 mt-6 py-1 px-4 rounded-full text-white font-primary bg-baublue hover:bg-baured hover:text-white transition duration-300 ease-in-out"
                         x-on:submit="login_modal=false"
                         @click="t = ':-)'"
                         x-transition.duration-500>
                 </button>
+                <span class="col-span-full row-span-1 text-sm mb-6 text-center">¿Problemas? <br> <a>Contactar al admin</a></span>
             </form>
         </div>
     </div>

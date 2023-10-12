@@ -1,23 +1,21 @@
-{% load thumbnail %}
-
-<a href="{% url 'Cuentas:user_detail' user.pk %}">
+<a href="{% url 'Cuentas:user_detail' user.pk %}" class="col-span-1 row-span-1 aspect-[1/1]">
     {% if user.role == 'A' %}
         {% if user.studentprofile.year == '4' %}
-            <li class="my-1 self-center border-4 bg-zinc-100 bg-opacity-30 p-2 text-center transition-all duration-200 border-baublack hover:border-baublue hover:rounded-lg aspect-[1/1]">
-                {% elif user.studentprofile.year == '3' %}
-            <li class="my-1 self-center border-4 bg-zinc-100 bg-opacity-30 p-2 text-center transition-all duration-200 border-baublack hover:border-bauyellow hover:rounded-lg aspect-[1/1]">
+            <div class="my-1 self-center border-4 bg-zinc-100 bg-opacity-30 p-2 text-center transition-all duration-200 border-baublack hover:border-baublue hover:rounded-lg aspect-[1/1]">
+        {% elif user.studentprofile.year == '3' %}
+            <div class="my-1 self-center border-4 bg-zinc-100 bg-opacity-30 p-2 text-center transition-all duration-200 border-baublack hover:border-bauyellow hover:rounded-lg aspect-[1/1]">
         {% endif %}
     {% else %}
-        <li class="my-1 self-center border-4 bg-zinc-100 bg-opacity-30 p-2 text-center transition-all duration-200 border-baublack hover:border-baured hover:rounded-lg aspect-[1/1]">
+        <div class="my-1 self-center border-4 bg-zinc-100 bg-opacity-30 p-2 text-center transition-all duration-200 border-baublack hover:border-baured hover:rounded-lg aspect-[1/1]">
     {% endif %}
 
-    <div class="relative flex h-full w-full flex-col items-center justify-center px-1 text-center pt-1.5 pb-2">
+    <div class="items-center justify-center px-1 text-center pt-1.5 pb-2">
         <span>{{ user.first_name }} <b>{{ user.last_name }}</b></span>
         <hr>
-        {% thumbnail user.avatar "200x200" crop="center" as im %}
-            <img class="self-center aspect-[1/1] p-1" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
-                 alt="{{ user.first_name }} avatar">
-        {% endthumbnail %}
+        <div style="background-image: url('{{ user.avatar.url }}')"
+             class="bg-cover bg-center w-full h-full aspect-[1/1]">
+
+        </div>
     </div>
-    </li>
+    </div>
 </a>

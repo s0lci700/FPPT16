@@ -6,40 +6,47 @@
 {% block content %}
     <!-- Main div -->
     <div x-data="{createModal: false, updateModal: false}"
-         class="grid h-full grid-cols-12 grid-rows-6 font-primary">
+         class="grid h-full grid-cols-12 font-primary">
+
         <div class="container col-start-1 col-end-2 row-span-full my-1">
             {% include 'components/sidebar.html' %}
         </div>
 
         <!-- header -->
-        {% include 'components/header.html' with header_title='Encargos' %}
-        {% if request.user.role == 'P' %}
-            <div class="col-start-2 col-end-13 row-start-1 mt-1 mr-9 flex h-fit flex-1 justify-evenly bg-none">
-                <a class="flex place-self-start whitespace-nowrap mt-1.5">Hoy
-                    es: {{ weekday }} {{ day_number }}
-                    de {{ month }}, {{ year }}</a>
-                <a @click="createModal = true"
-                   hx-get="{% url 'Fichas:assignment-create' %}"
-                   hx-target="#creationModal"
-                   hx-trigger="click"
-                   class="cursor-pointer rounded-full px-3 py-2 text-center text-sm font-thin text-zinc-50 bg-baublue
+        <div class="col-span-full col-start-2 row-span-1">
+            {% include 'components/header.html' with header_title='Encargos' %}
+        </div>
+
+        <div class="col-span-full col-start-2 grid grid-cols-1">
+
+            {% if request.user.role == 'P' %}
+                <div class="col-span-full row-span-1 mt-1 mr-9 h-fit justify-evenly bg-none">
+                    <a class="whitespace-nowrap mt-1.5">Hoy
+                        es: {{ weekday }} {{ day_number }}
+                        de {{ month }}, {{ year }}</a>
+                    <a @click="createModal = true"
+                       hx-get="{% url 'Fichas:assignment-create' %}"
+                       hx-target="#creationModal"
+                       hx-trigger="click"
+                       class="cursor-pointer rounded-full px-3 py-2 text-center text-sm font-thin text-zinc-50 bg-baublue
                    hover:animate-pulse hover:bg-blue-700 w-[150px} transition-all flex">Nuevo encargo</a>
-            </div>
-        {% else %}
-            <div class="col-start-2 col-end-13 row-start-1 mt-1 mr-9 flex h-fit flex-1 justify-start bg-none">
-                <a class="flex place-self-start whitespace-nowrap mt-1.5">Hoy
-                    es: {{ weekday }} {{ day_number }}
-                    de {{ month }}, {{ year }}</a>
-            </div>
-        {% endif %}
+                </div>
+            {% else %}
+                <div class="col-span-full row-span-1 mt-1 mr-9 h-fit justify-start bg-none">
+                    <a class="place-self-start whitespace-nowrap mt-1.5">Hoy
+                        es: {{ weekday }} {{ day_number }}
+                        de {{ month }}, {{ year }}</a>
+                </div>
+            {% endif %}
+        </div>
 
 
         <!-- assignment-list div -->
 
 
         <div id="assignment-list"
-             class="col-start-2 col-span-11 row-start-1 mt-20 mr-8 row-span-full
-     grid grid-rows-4 grid-cols-7 gap-4 mb-4"
+             class="col-start-2 col-span-full my-8 mx-4
+                    grid grid-cols-7 gap-4"
              hx-get="{% url 'Fichas:assignment-list' %}" hx-trigger="load">
             <p>Loading...</p>
         </div>

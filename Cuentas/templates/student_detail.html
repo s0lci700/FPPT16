@@ -4,26 +4,22 @@
 {% block title %}<title>{{ user.first_name }}</title>{% endblock %}
 
 {% block content %}
-    <div id="nav-sidebar" class="grid h-full grid-cols-12 grid-rows-6 font-primary"
+    <div id="nav-sidebar" class="grid h-full grid-cols-12 font-primary"
          x-data="{'editModal': false}">
         <div class="container col-start-1 col-end-2 row-span-full my-1">
             {% include 'components/sidebar.html' %}
         </div>
 
-        <div id="content" class="col-start-2 col-end-13 row-start-1 row-end-7 mx-2 mt-6 p-4">
+        <div id="content" class="col-start-2 col-span-full mx-2 mt-6 p-4">
 
-            <div id="container-grid" class="grid h-full w-full grid-cols-12 grid-rows-6 px-6">
+            <div id="container-grid" class="grid h-full w-full grid-cols-3 px-6">
 
                 <div id="pfp"
-                     class="col-span-2 col-start-1 row-span-2 row-start-1 flex h-full w-full justify-items-center self-center">
-                    {% thumbnail user.avatar "400x400" crop="center" as im %}
-                        <img class="flex scale-110 self-center transition-all duration-300 ease-in-out hover:scale-105"
-                             src="{{ im.url }}" width="{{ im.width }}"
-                             height="{{ im.height }}"
-                             alt="{{ user.first_name }} avatar">
-                    {% endthumbnail %}
+                     class="col-span-1 aspect-[1/1] row-span-1 h-full w-full justify-items-center self-center">
+                    <div style="background-image: url('{{ user.avatar.url }}')"
+                         class="bg-cover bg-center w-full h-full"></div>
                 </div>
-                <div id="data" class="col-span-4 col-start-4 row-span-2 row-start-1 -ml-28 pt-4 pl-3">
+                <div id="data" class="col-span-4 row-span-1 pt-4 pl-3">
                     <div class="flex flex-row">
 
                         <p class="inline-block text-3xl font-medium">{{ user.first_name }} {{ user.last_name }}</p>
@@ -51,27 +47,24 @@
 
                 {% if user.role == 'A' %}
                     <div id="keywordcontainer"
-                         class="col-span-6 col-start-7 row-span-2 row-start-1 h-full w-full px-4 pt-4">
+                         class="col-span-6 row-span-1 h-full w-full px-4 pt-4">
                         <div id="keywords"
-                             class="grid h-full w-full grid-flow-row grid-cols-12 grid-rows-6 content-evenly gap-2 border-2 px-4 py-4 text-xs border-baublack">
-                            <div id="keywords-title"
-                                 class="col-span-full row-span-1 row-start-1 -mt-2 mb-3 border-b-2 text-center text-lg border-baublack font-primary">
-                                <span class="font-semibold">Palabras Clave</span>
-                            </div>
+                             class="grid h-full w-full content-evenly gap-2 border-2 px-4 py-4 text-xs border-baublack">
+                            <span class="font-semibold col-span-full row-span-1">Palabras Clave</span>
                             {% for tag in tags %}
                                 {% include 'components/tag.html' %}
                             {% endfor %}
                         </div>
                     </div>
                     <div id="fichascontainer"
-                         class="col-start-1 col-end-13 row-start-3 row-end-7 mt-6 border-t-4 px-0 border-baublack">
+                         class="col-span-full mt-6 border-t-4 px-0 border-baublack">
                         <div id="fichas"
-                             class="mt-2 grid h-full w-full grid-flow-row grid-cols-12 grid-rows-6 gap-x-3 gap-y-2 px-1 py-1">
+                             class="mt-2 grid h-full w-full grid-cols-5 gap-x-3 gap-y-2 px-1 py-1">
                             {% for ficha in user_fichas %}
                                 {% include "components/ficha-card.html" %}
                             {% empty %}
                                 <div id="ficha-card"
-                                     class="col-span-2 row-span-3 flex flex-col border-2 bg-slate-200 px-1 pt-3 text-center border-baublack">
+                                     class="col-span-1 row-span-1 border-2 bg-slate-200 px-1 pt-3 text-center border-baublack">
                                     <span>empty</span>
                                 </div>
                             {% endfor %}
@@ -91,8 +84,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block footer %}
-    {% include 'components/footer.html' %}
 {% endblock %}
