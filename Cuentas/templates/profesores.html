@@ -18,9 +18,11 @@
 
         <div id="content"
              class="col-start-2 col-span-full
-             items-start grid grid-rows-2 gap-3 pr-2">
-            <!-- Teachers -->
-            {% include 'components/user_list.html' with users=users|filter_by_role:"P" title="Profesores" %}
+             items-start grid grid-cols-4 gap-3 pr-2">
+            <div class="max-w-[60vw]">
+                <!-- Teachers -->
+                {% include 'components/user_list.html' with users=users|filter_by_role:"P" title="Profesores" %}
+            </div>
         </div>
     </div>
 {% endblock content %}

@@ -1,21 +1,35 @@
-<a href="{% url 'Cuentas:user_detail' user.pk %}" class="col-span-1 row-span-1 aspect-[1/1]">
+<a href="{% url 'Cuentas:user_detail' user.pk %}" class="col-span-2 row-span-full w-full aspect-[1/1] self-center">
     {% if user.role == 'A' %}
         {% if user.studentprofile.year == '4' %}
-            <div class="my-1 self-center border-4 bg-zinc-100 bg-opacity-30 p-2 text-center transition-all duration-200 border-baublack hover:border-baublue hover:rounded-lg aspect-[1/1]">
+            <div class="self-center border-4 bg-zinc-100 bg-opacity-30 text-center transition-all duration-200 border-baublack hover:border-baublue hover:rounded-lg">
+                <div class="items-center justify-center text-center">
+                    <span>{{ user.first_name }} <b>{{ user.last_name }}</b></span>
+                    <hr>
+                    <div style="background-image: url('{{ user.avatar.url }}')"
+                         class="bg-cover bg-center h-full aspect-[1/1]">
+                    </div>
+                </div>
+            </div>
         {% elif user.studentprofile.year == '3' %}
-            <div class="my-1 self-center border-4 bg-zinc-100 bg-opacity-30 p-2 text-center transition-all duration-200 border-baublack hover:border-bauyellow hover:rounded-lg aspect-[1/1]">
+            <div class="self-center border-4 bg-zinc-100 bg-opacity-30 text-center transition-all duration-200 border-baublack hover:border-bauyellow hover:rounded-lg">
+                <div class="items-center justify-center text-center">
+                    <span>{{ user.first_name }} <b>{{ user.last_name }}</b></span>
+                    <hr>
+                    <div style="background-image: url('{{ user.avatar.url }}')"
+                         class="bg-cover bg-center h-full aspect-[1/1]">
+                    </div>
+                </div>
+            </div>
         {% endif %}
     {% else %}
-        <div class="my-1 self-center border-4 bg-zinc-100 bg-opacity-30 p-2 text-center transition-all duration-200 border-baublack hover:border-baured hover:rounded-lg aspect-[1/1]">
-    {% endif %}
-
-    <div class="items-center justify-center px-1 text-center pt-1.5 pb-2">
-        <span>{{ user.first_name }} <b>{{ user.last_name }}</b></span>
-        <hr>
-        <div style="background-image: url('{{ user.avatar.url }}')"
-             class="bg-cover bg-center w-full h-full aspect-[1/1]">
-
+        <div class="self-center border-4 bg-zinc-100 bg-opacity-30 text-center transition-all duration-200 border-baublack hover:border-baublue hover:rounded-lg">
+            <div class="items-center justify-center text-center">
+                <span>{{ user.first_name }} <b>{{ user.last_name }}</b></span>
+                <hr>
+                <div style="background-image: url('{{ user.avatar.url }}')"
+                     class="bg-cover bg-center h-full aspect-[1/1]">
+                </div>
+            </div>
         </div>
-    </div>
-    </div>
+    {% endif %}
 </a>

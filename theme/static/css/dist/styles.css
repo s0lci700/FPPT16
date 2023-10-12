@@ -1317,6 +1317,10 @@ select{
   grid-column: span 1 / span 1;
 }
 
+.col-span-2{
+  grid-column: span 2 / span 2;
+}
+
 .col-span-3{
   grid-column: span 3 / span 3;
 }
@@ -1331,10 +1335,6 @@ select{
 
 .col-span-full{
   grid-column: 1 / -1;
-}
-
-.col-span-11{
-  grid-column: span 11 / span 11;
 }
 
 .col-start-1{
@@ -1703,12 +1703,8 @@ select{
   height: 25vw;
 }
 
-.h-\[33vh\]{
-  height: 33vh;
-}
-
-.h-\[50vh\]{
-  height: 50vh;
+.h-\[40vh\]{
+  height: 40vh;
 }
 
 .h-auto{
@@ -1726,18 +1722,6 @@ select{
 
 .h-screen{
   height: 100vh;
-}
-
-.h-\[40vh\]{
-  height: 40vh;
-}
-
-.h-\[90vh\]{
-  height: 90vh;
-}
-
-.h-\[95vh\]{
-  height: 95vh;
 }
 
 .min-h-\[16vh\]{
@@ -1801,18 +1785,6 @@ select{
   width: 100vw;
 }
 
-.w-\[10vw\]{
-  width: 10vw;
-}
-
-.w-\[8vw\]{
-  width: 8vw;
-}
-
-.w-\[5vw\]{
-  width: 5vw;
-}
-
 .min-w-\[100px\]{
   min-width: 100px;
 }
@@ -1835,6 +1807,14 @@ select{
 
 .max-w-\[33vw\]{
   max-width: 33vw;
+}
+
+.max-w-\[5vw\]{
+  max-width: 5vw;
+}
+
+.max-w-\[60vw\]{
+  max-width: 60vw;
 }
 
 .flex-1{
@@ -1904,10 +1884,6 @@ select{
   resize: both;
 }
 
-.list-inside{
-  list-style-position: inside;
-}
-
 .grid-flow-row-dense{
   grid-auto-flow: row dense;
 }
@@ -1924,6 +1900,10 @@ select{
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.grid-cols-4{
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .grid-cols-5{
   grid-template-columns: repeat(5, minmax(0, 1fr));
 }
@@ -1936,12 +1916,8 @@ select{
   grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
-.grid-cols-8{
-  grid-template-columns: repeat(8, minmax(0, 1fr));
-}
-
-.grid-cols-9{
-  grid-template-columns: repeat(9, minmax(0, 1fr));
+.grid-rows-1{
+  grid-template-rows: repeat(1, minmax(0, 1fr));
 }
 
 .grid-rows-2{
@@ -1958,10 +1934,6 @@ select{
 
 .grid-rows-6{
   grid-template-rows: repeat(6, minmax(0, 1fr));
-}
-
-.grid-rows-1{
-  grid-template-rows: repeat(1, minmax(0, 1fr));
 }
 
 .flex-row{
@@ -2006,6 +1978,10 @@ select{
 
 .items-center{
   align-items: center;
+}
+
+.items-stretch{
+  align-items: stretch;
 }
 
 .justify-start{
@@ -2526,14 +2502,6 @@ select{
   padding-right: 0.5rem;
 }
 
-.pt-1{
-  padding-top: 0.25rem;
-}
-
-.pt-1\.5{
-  padding-top: 0.375rem;
-}
-
 .pt-2{
   padding-top: 0.5rem;
 }
@@ -2925,11 +2893,6 @@ select{
 .hover\:border-baublue:hover{
   --tw-border-opacity: 1;
   border-color: rgb(69 66 133 / var(--tw-border-opacity));
-}
-
-.hover\:border-baured:hover{
-  --tw-border-opacity: 1;
-  border-color: rgb(197 64 45 / var(--tw-border-opacity));
 }
 
 .hover\:border-bauyellow:hover{

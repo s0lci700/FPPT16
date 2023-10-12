@@ -1,3 +1,4 @@
+{#user edit modal form#}
 {% load widget_tweaks %}
 {% load sorl_thumbnail %}
 <a href="{% url 'Cuentas:user_detail' user.pk %}"
@@ -6,8 +7,10 @@
     <i class="fa-solid fa-arrow-left"></i>
 </a>
 
-<img src="{{ user.avatar.url }}" alt="avatar"
-     class="h-fit resize w-[100px]">
+<div id="image-container" class="mt-2 w-fit h-fit">
+    <img id="image-preview" src="{{ user.avatar.url }}" alt="Image Preview" class="w-[100px]"
+         style="display: block;">
+</div>
 
 <form
         hx-post="{% url 'Cuentas:edit_user' user.pk %}"
@@ -27,6 +30,7 @@
         <p class="mt-1 text-sm leading-tight text-gray-500 dark:text-gray-300" id="file_input_help">
             SVG, PNG, JPG or GIF (MAX. 800x400px).
         </p>
+
     </div>
     <div class="flex h-auto w-fit cursor-text">
         <div class="flex flex-row space-x-2">
@@ -63,3 +67,26 @@
         </button>
     </div>
 </form>
+
+<script>
+    const imageInput = document.getElementById('file_input');
+    const imagePreview = document.getElementById('image-preview');
+    const imageContainer = document.getElementById('image-container');
+
+    // Function to update the image preview
+    function updateImagePreview() {
+        const file = imageInput.files[0];
+        if (file) {
+            const imageURL = URL.createObjectURL(file);
+            imagePreview.src = imageURL;
+            imagePreview.style.display = 'block';
+        } else {
+            imagePreview.style.display = 'none';
+        }
+    }
+
+    imageInput.addEventListener('change', updateImagePreview);
+
+    // Update the image preview when the page loads
+    window.addEventListener('load', updateImagePreview);
+</script>
