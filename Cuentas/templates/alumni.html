@@ -24,7 +24,7 @@
                 <div class="col-span-1 h-full text-center bg-bauyellow max-w-[5vw]">
                     TERCERO
                 </div>
-                <div class="col-start-2 col-span-full grid grid-cols-12 grid-rows-1 w-full h-full">
+                <div class="col-start-2 col-span-full grid grid-cols-12 grid-rows-1 w-full h-full gap-2">
                     {% include 'components/user_list.html' with users=users|filter_by_year:"3" %}
                 </div>
             </div>
@@ -34,7 +34,7 @@
                 <div class="col-span-1 h-full text-center text-white bg-baublue max-w-[5vw]">
                     CUARTO
                 </div>
-                <div class="col-start-2 col-span-full grid grid-cols-12 grid-rows-1 w-full h-full ">
+                <div class="col-start-2 col-span-full grid grid-cols-12 grid-rows-1 w-full h-full gap-2">
                     {% include 'components/user_list.html' with users=users|filter_by_year:"4" %}
                 </div>
             </div>

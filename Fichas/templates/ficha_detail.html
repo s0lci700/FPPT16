@@ -15,14 +15,21 @@
              class="col-span-full col-start-2 grid h-fit w-full grid-cols-12 p-4 text-center">
             <!-- Ficha.title & Student.name Header-->
             <div id="ficha-head"
-                 class="col-span-full row-span-1 mb-2 flex h-fit w-full items-center px-6 py-2 font-semibold bg-bauyellow font-primary">
-                <span class="flex-grow">{{ ficha.title }}, <span
-                        class="font-normal text-muted">{{ ficha.student.user.first_name }} {{ ficha.student.user.last_name }}</span></span>
+                 class="col-span-full grid grid-cols-3 items-center bg-bauyellow pt-2 px-6 mb-2">
+                <div class="col-start-2 col-end-3 text-2xl font-semibold text-center place-self-center place-items-center">
+                    <div id="title" class="text-2xl leading-4">{{ ficha.title }}, <br>
+                        <span class="font-normal text-muted text-base">{{ ficha.student.user.first_name }} {{ ficha.student.user.last_name }}</span>
+                    </div>
+                </div>
                 {% if user == ficha.student.user %}
-                    <a href="{% url 'Fichas:ficha-update' ficha.student.user.id ficha.assignment.id %}"
-                       class="rounded px-4 py-2 text-white transition-all bg-baublue hover:bg-blue-600">Editar</a>
+                    <div class="col-start-3 col-end-4 text-right place-self-center mb-1.5">
+                        <a href="{% url 'Fichas:ficha-update' ficha.student.user.id ficha.assignment.id %}"
+                           class="rounded px-4 py-2 text-white transition-all bg-baublue hover:bg-blue-600">Editar</a>
+                    </div>
                 {% elif user.role == 'P' %}
-                    <a class="rounded px-4 py-2 text-white bg-bauyellow">Reseñar</a>
+                    <div class="col-start-3 col-end-4 text-right">
+                        <a class="rounded px-4 py-2 text-white bg-bauyellow">Reseñar</a>
+                    </div>
                 {% endif %}
             </div>
             <!-- Ficha Content -->
@@ -37,28 +44,28 @@
             </div>
         </div>
         <div id="text-container"
-             class="col-start-2 col-span-full grid grid-cols-1 place-items-center gap-2 py-4 px-6">
+             class="col-start-2 col-span-full grid grid-cols-1 place-items-center gap-2 py-4 px-6 prose-base leading-snug mx-16">
 
             <!-- Ficha.descripcion -->
-            <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col rounded-r-lg border bg-zinc-50 px-2 py-1 border-baublack">
+            <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col border-0 bg-zinc-50 px-2 py-1 border-baublack">
                 <span class="h-fit self-start font-thin">Descripcion:</span>
-                <span class="self-start px-6 pb-2 text-justify">{{ ficha.description }}</span>
+                <span class="self-start px-16 pb-2 text-justify">{{ ficha.description }}</span>
             </div>
             <!-- Ficha.analisis_operacional -->
-            <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col rounded-r-lg border bg-zinc-50 px-2 py-1 border-baublack">
+            <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col border-0 bg-zinc-50 px-2 py-1 border-baublack">
                 <span class="self-start font-thin">Analisis Operacional</span>
-                <span class="self-start px-6 pb-2 text-justify">{{ ficha.analysis }}</span>
+                <span class="self-start px-16 pb-2 text-justify">{{ ficha.analysis }}</span>
             </div>
             <!-- Ficha.analisis_referencial -->
-            <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col rounded-r-lg border bg-zinc-50 px-2 py-1 border-baublack">
+            <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col border-0 bg-zinc-50 px-2 py-1 border-baublack">
                 <span class="self-start font-thin">Analisis Referencial</span>
-                <span class="self-start px-6 pb-2 text-justify">{{ ficha.references }}</span>
+                <span class="self-start px-16 pb-2 text-justify">{{ ficha.references }}</span>
             </div>
             <!-- Ficha.misc -->
             {% if ficha.misc %}
-                <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col rounded-r-lg border bg-zinc-50 px-2 py-1 border-baublack">
+                <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col border-0 bg-zinc-50 px-2 py-1 border-baublack">
                     <span class="self-start font-thin">Información Adicional:</span>
-                    <span class="self-start px-6 pb-2 text-justify">{{ ficha.misc }}</span>
+                    <span class="self-start px-16 pb-2 text-justify">{{ ficha.misc }}</span>
                 </div>
             {% endif %}
             <!-- Ficha.keywords -->

@@ -1,32 +1,35 @@
 {% load widget_tweaks %}
 <!-- shared_form.html -->
-<div class="h-fit ">
-    <label class="text-lg font-semibold" for="title">Titulo</label>
-    {% render_field form.title id='title' class='h-full w-full rounded-md ring-inset' %}
-</div>
-<hr>
-<div class="h-fit ">
-    <label class="text-lg font-semibold" for="description">Descripción</label>
-    {% render_field form.description id='description' class='h-full w-full rounded-md ring-inset' %}
-</div>
-<!-- Analisis Operacional -->
-<div class="h-fit ">
-    <label for="analysis" class="text-lg font-semibold">Analisis</label>
-    {% render_field form.analysis id="analysis" class='h-full w-full rounded-md ring-inset' %}
-</div>
-<!-- Analisis Referencial -->
-<div class="h-fit ">
-    <label for "referencial" class="text-lg font-semibold">Analisis Referencial</label>
-    {% render_field form.references id="referencial" class='h-full w-full rounded-md ring-inset' %}
-</div>
-<!-- Palabras Claves / Tags -->
-<div class="h-fit ">
-    <label for="keywords" class="flex-1 text-sm font-medium leading-6 text-gray-900">Palabras Clave</label>
-    {% render_field form.keywords id="keywords" class='h-full w-full rounded-md ring-inset' %}
-</div>
-<hr>
-<!-- Información Adicional -->
-<div class="h-fit ">
-    <label for="misc" class="flex-1 text-sm font-medium leading-6 text-gray-900">Informacion Adicional</label>
-    {% render_field form.misc id="misc" class='h-full w-full rounded-md ring-inset' %}
+<div class="prose-base caret-pink-500">
+
+    <div class="self-center mx-auto h-fit w-[50vw] mb-2">
+        {% render_field form.title id='title' class='text-center h-full w-full border-x-0 border-t-0 border-b-2 ring-0 focus:ring-0 text-xl font-bold' placeholder='Titulo de la obra' %}
+    </div>
+    <div class="h-fit w-[75vw] mx-auto">
+        <label class="text-lg font-semibold" for="description">Descripción</label>
+        {% render_field form.description id='description' class='bg-zinc-200 h-full w-full resize-none ring-inset border-0 ring-0 focus:ring-0' %}
+    </div>
+    <!-- Analisis Operacional -->
+    <div class="h-fit w-[75vw] mx-auto">
+        <label for="analysis" class="text-lg font-semibold">Analisis</label>
+        {% render_field form.analysis id="analysis" class='bg-zinc-200 h-full w-full resize-none ring-inset border-0 ring-0 focus:ring-0' %}
+    </div>
+    <!-- Analisis Referencial -->
+    <div class="h-fit w-[75vw] mx-auto">
+        <label for="referencial" class="text-lg font-semibold">Analisis Referencial</label>
+        {% render_field form.references id="referencial" class='bg-zinc-200 h-full w-full resize-none ring-inset border-0 ring-0 focus:ring-0' %}
+    </div>
+    <!-- Palabras Claves / Tags -->
+    <div class="h-fit w-[75vw] mx-auto">
+        <label for="keywords" class="flex-1 text-sm font-medium leading-6 text-gray-900">Palabras Clave<span
+                class="text-xs font-normal text-muted"> (Separadas por coma)</span></label>
+        {% render_field form.keywords id="keywords" class='bg-zinc-200 h-full w-full resize-none ring-inset border-0 ring-0 focus:ring-0' %}
+    </div>
+    <hr>
+    <!-- Información Adicional -->
+    <div class="h-fit w-[75vw] mx-auto">
+        <label for="misc" class="flex-1 text-sm font-medium leading-6 text-gray-900">Informacion Adicional</label>
+        {% render_field form.misc id="misc" class='bg-zinc-200 h-full w-full resize-none ring-inset border-0 ring-0 focus:ring-0' %}
+    </div>
+    <hr>
 </div>

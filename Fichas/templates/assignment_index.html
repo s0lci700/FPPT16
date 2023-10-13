@@ -21,15 +21,23 @@
 
             {% if request.user.role == 'P' %}
                 <div class="col-span-full row-span-1 mt-1 mr-9 h-fit justify-evenly bg-none">
-                    <a class="whitespace-nowrap mt-1.5">Hoy
-                        es: {{ weekday }} {{ day_number }}
-                        de {{ month }}, {{ year }}</a>
+                    <span class="whitespace-nowrap mt-1.5 text-baublue">Hoy es:
+                        <span class="text-blue-600 underline decoration-wavy">
+                             {{ weekday }} {{ day_number }}
+                            de
+                            {{ month }}, {{ year }}
+                        </span>
+                    </span>
+                </div>
+                <div class="col-span-full row-span-1 place-self-center">
                     <a @click="createModal = true"
                        hx-get="{% url 'Fichas:assignment-create' %}"
                        hx-target="#creationModal"
                        hx-trigger="click"
                        class="cursor-pointer rounded-full px-3 py-2 text-center text-sm font-thin text-zinc-50 bg-baublue
-                   hover:animate-pulse hover:bg-blue-700 w-[150px} transition-all flex">Nuevo encargo</a>
+                   hover:animate-pulse hover:bg-blue-700 transition-all w-[10vw]">Nuevo
+                        encargo</a>
+                </div>
                 </div>
             {% else %}
                 <div class="col-span-full row-span-1 mt-1 mr-9 h-fit justify-start bg-none">
@@ -38,7 +46,6 @@
                         de {{ month }}, {{ year }}</a>
                 </div>
             {% endif %}
-        </div>
 
 
         <!-- assignment-list div -->

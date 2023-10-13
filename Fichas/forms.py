@@ -134,6 +134,27 @@ class FichaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user", None)
         super(FichaForm, self).__init__(*args, **kwargs)
+        if self.instance.pk:
+            self.initial["keywords"] = ", ".join(
+                [kw.name for kw in self.instance.keywords.all()]
+            )
+
+    def save(self, commit=True):
+        instance = super(FichaForm, self).save(commit=False)
+
+        if commit:
+            instance.save()
+
+        if instance.pk:
+            instance.keywords.clear()  # clear old keywords
+            keywords = self.cleaned_data["keywords"]
+            # Check if keywords is a string or a list and then handle it accordingly
+            if isinstance(keywords, str):
+                keywords = keywords.split(",")
+            for keyword in keywords:
+                instance.keywords.add(keyword.strip())  # add new keywords
+
+        return instance
 
 
 class ReviewForm(forms.ModelForm):

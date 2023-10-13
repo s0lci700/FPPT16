@@ -10,7 +10,7 @@
             {% include 'components/sidebar.html' %}
         </div>
 
-        <div id='content' class="col-start-2 col-end-12 rounded-lg bg-white p-6 shadow-lg">
+        <div id='content' class="col-start-2 col-end-13 mr-6 rounded-lg bg-white p-6 shadow-lg my-4">
             <form action="{% url 'Fichas:ficha-update' ficha.student.user.id ficha.assignment.id %}" method="post"
                   enctype="multipart/form-data"
                   class="grid grid-cols-1">
@@ -32,7 +32,23 @@
 
                 <!-- Buttons -->
                 <div class="mt-6 flex flex-row gap-x-2">
-                    {% include 'components/button.html' with bg_button='bg-baublue' extra_classes="hover:bg-blue-600" name='update' button_type="submit" button_text="Actualizar" %}
+                    {% if ficha.status == 'Borrador' %}
+                        <button type="submit" name="submit" value="publish"
+                                class="rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">Publicar
+                        </button>
+                        <button type="submit" name="submit" value="draft"
+                                class="rounded-md bg-yellow-300 px-4 py-2 hover:bg-yellow-400">Actualizar
+                        </button>
+
+                    {% else %}
+                        <button type="submit" name="submit" value="submit"
+                                class="rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">Actualizar
+                        </button>
+                        <button type="submit" name="submit" value="draft"
+                                class="rounded-md bg-yellow-300 px-4 py-2 hover:bg-yellow-400">Guardar como Borrador
+                        </button>
+                    {% endif %}
+
                     <button @click="showModal = true" class="rounded px-4 py-2 text-white bg-baured hover:bg-red-600"
                             type="button">Eliminar
                     </button>
@@ -41,8 +57,6 @@
                 </div>
             </form>
         </div>
-        This approach allows you to maintain the common form structure in one place, making it easier to keep both
-        templates in sync.
 
 
         <!-- Include the delete modal here -->

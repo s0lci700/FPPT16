@@ -3,8 +3,9 @@ from datetime import datetime
 
 import pytz
 from django.contrib.auth import get_user_model
+from django.contrib import messages
 from django.db.models import Q, Case, When, BooleanField
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -141,9 +142,21 @@ class FichaUpdateView(BaseFichaView, UpdateView):
     template_name = "ficha_update.html"
 
     def form_valid(self, form):
-        if not form.cleaned_data["main_image"]:
-            form.instance.main_image = self.get_object().main_image
-        return super().form_valid(form)
+        self.object = form.save(commit=False)
+        button_clicked = self.request.POST.get("submit")
+
+        if button_clicked == "publish":
+            # Publish the Ficha
+            self.object.status = "Publicado"
+        elif button_clicked == "draft":
+            # Save as a draft
+            self.object.status = "Borrador"
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Invalid form data. Please fix the errors below.")
+        return super().form_invalid(form)
 
     def get_success_url(self):
         return reverse_lazy("Fichas:ficha-list")
