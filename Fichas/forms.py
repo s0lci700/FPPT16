@@ -160,7 +160,7 @@ class FichaForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ["teacher", "ficha", "review"]
+        fields = ["review"]
         widgets = {
             "review": forms.Textarea(attrs={"rows": 5}),
         }

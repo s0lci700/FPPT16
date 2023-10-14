@@ -2,6 +2,7 @@
 {% load widget_tweaks %}
 <div @click.outside="createModal = false">
     <form method="post" hx-post="{% url 'Fichas:assignment-create' %}"
+          hx-headers='{"HX-Trigger": "true"}'
           hx-target="#assignment-list" hx-swap="beforeend"
           x-on:submit="createModal = false"
           class="container mx-auto flex flex-col justify-items-center rounded-xl p-10 text-zinc-50 bg-baublue accent-baublack">
@@ -15,7 +16,7 @@
         <!-- Other fields -->
         <button type="submit"
                 class="mt-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
-            Create
+            Crear
         </button>
     </form>
     {% if form.errors %}

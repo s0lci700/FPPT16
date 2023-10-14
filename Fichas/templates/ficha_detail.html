@@ -27,11 +27,13 @@
                            class="rounded px-4 py-2 text-white transition-all bg-baublue hover:bg-blue-600">Editar</a>
                     </div>
                 {% elif user.role == 'P' %}
-                    <div class="col-start-3 col-end-4 text-right">
-                        <a class="rounded px-4 py-2 text-white bg-bauyellow">Reseñar</a>
+                    <div class="col-start-3 col-end-4 text-right place-self-center mb-1.5">
+                        <a href="{% url 'Fichas:review-create' ficha.student_id ficha.assignment_id %}"
+                           class="rounded px-4 py-2 text-white bg-baured">Reseñar</a>
                     </div>
                 {% endif %}
             </div>
+
             <!-- Ficha Content -->
             <div id="cover-container"
                  class="col-start-4 col-span-6 row-span-2 place-items-center justify-center self-center grid grid-cols-1 h-fit aspect-[1/1] mb-4">
@@ -80,8 +82,36 @@
                 <span class="self-start font-thin text-muted">{{ ficha.created_at }} / {{ ficha.updated_at }}</span>
                 <span class="self-start font-thin text-muted">Encargo: {{ ficha.assignment_id }}, {{ ficha.assignment.title.title }}</span>
             </div>
+
+            <div class="h-[0.5vh] col-span-full row-span-1 w-full bg-baublue rounded-full">
+
+            </div>
+
+            <!-- Ficha.review -->
+
+            {% if user == ficha.student.user or user.role == 'P' %}
+
+                <div class="row-span-1 col-span-full items-start w-full relative leading-tight min-h-[16vh]">
+                    <div class=" flex flex-col bg-zinc-50 px-4 pt-1 pb-4">
+                        <span class="self-start font-thin mb-2">Evaluacion:</span>
+                        {% for entry in review %}
+                            <span class="font-medium">{{ entry.teacher.user.first_name }} {{ entry.teacher.user.last_name }}:</span>
+                            <span class="self-start px-8 pb-2 text-justify">{{ entry.review }}</span>
+                            <span class="w-full border-dashed border-b border-baublack flex self-start font-thin text-muted">{{ entry.updated_at|date:"F j, Y P" }}</span>
+                        {% empty %}
+                            <div class="absolute right-0 z-30 bg-red-400">OOOO</div>
+                        {% endfor %}
+                    </div>
+                    <div hx-get="{% url 'Fichas:review-update' ficha.student_id ficha.assignment_id %}"
+                         hx-trigger="onload"
+                         hx-target="this" id="review"
+                         class="flex flex-col bg-zinc-50 px-4 pt-1 pb-4">
+                        <!-- The review form will be loaded here -->
+                        #TODO: FIX THIS HTMX REQUEST FORM NOT DISPLAYING...........
+                    </div>
+                </div>
+
+            {% endif %}
         </div>
     </div>
-    </div>
-
 {% endblock %}

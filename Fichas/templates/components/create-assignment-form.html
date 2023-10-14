@@ -1,20 +1,29 @@
+<!-- ACreateModal.html -->
 {% load widget_tweaks %}
-<form method="post" hx-post="{% url 'Fichas:assignment-create' %}"
-      x-on:submit="createModal = false"
-      @click.outside="createModal = false"
-      class="container mx-auto flex w-fit flex-col justify-items-center rounded-xl p-10 text-zinc-50 bg-baublue accent-baublack">
-    {% csrf_token %}
-    {% for field in form %}
-        <div class="flex flex-col self-start">
-            {{ field.label_tag }}
-            {{ field | add_class:"text-baublack" }}
-        </div>
-    {% endfor %}
-    <!-- Other fields -->
-    <button type="submit"
-            class="mt-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
-        Create
-    </button>
-</form>
-
-{# hx-target="#assignment-list" hx-swap="beforeend" #}
+<div @click.outside="createModal = false">
+    <form method="post" hx-post="{% url 'Fichas:assignment-create' %}"
+          hx-headers='{"HX-Trigger": "true"}'
+          hx-target="#assignment-list" hx-swap="beforeend"
+          x-on:submit="createModal = false"
+          class="container mx-auto flex flex-col justify-items-center rounded-xl p-10 text-zinc-50 bg-baublue accent-baublack">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="flex flex-col self-start">
+                {{ field.label_tag }}
+                {{ field | add_class:"text-baublack" }}
+            </div>
+        {% endfor %}
+        <!-- Other fields -->
+        <button type="submit"
+                class="mt-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
+            Crear
+        </button>
+    </form>
+    {% if form.errors %}
+        {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+                <div>{{ error }}</div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+</div>

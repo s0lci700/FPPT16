@@ -11,9 +11,9 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import CreateView, UpdateView, DeleteView
 
-from Cuentas.models import StudentProfile
-from .forms import FichaForm, AssignmentForm
-from .models import Ficha, Assignment
+from Cuentas.models import StudentProfile, TeacherProfile
+from .forms import FichaForm, AssignmentForm, ReviewForm
+from .models import Ficha, Assignment, Review
 
 User = get_user_model()
 
@@ -194,11 +194,13 @@ def ficha_detail_view(request, user_id, assignment_id):
     ficha = get_object_or_404(
         Ficha, student__user__id=user_id, assignment__id=assignment_id
     )
+    review = Review.objects.filter(ficha=ficha)
     print(user_id, assignment_id)
     return render(
         request,
         "ficha_detail.html",
         {
+            "review": review,
             "ficha": ficha,
             "user_id": user_id,
             "assignment_id": assignment_id,
@@ -272,8 +274,8 @@ def create_assignment(request):
             if request.htmx:
                 return render(
                     request,
-                    "components/assignment-list.html",
-                    context,
+                    "components/open_assignment.html",
+                    {"assignment": new_assignment},
                 )
     else:
         # This is for GET or any other method
@@ -339,3 +341,48 @@ def assignment_delete_view(request, pk):
             "assignment": assignment,
         }
         return render(request, "assignment_delete_confirm.html", context)
+
+
+def review_create_view(request, user_id, assignment_id):
+    teacher = TeacherProfile.objects.get(user=request.user)
+    ficha = get_object_or_404(
+        Ficha, student__user__id=user_id, assignment__id=assignment_id
+    )
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.teacher = teacher
+            review.ficha = ficha
+            review.save()
+            return render(request, "components/review-form.html", {"form": form})
+    else:
+        form = ReviewForm()
+        context = {
+            "form": form,
+            "ficha": ficha,
+        }
+        return render(request, "review_create.html", context)
+
+
+def review_update_view(request, user_id, assignment_id):
+    teacher = TeacherProfile.objects.get(user=request.user)
+    ficha = get_object_or_404(
+        Ficha, student__user__id=user_id, assignment__id=assignment_id
+    )
+    review = Review.objects.filter(teacher=teacher, ficha=ficha).first()
+
+    # always create form, either bound to the POST data or unbound
+    form = ReviewForm(request.POST or None, instance=review)
+
+    if request.method == "POST":
+        if form.is_valid():
+            if not review:
+                review = Review(teacher=teacher, ficha=ficha)
+            review.review = form.cleaned_data.get("review")
+            review.save()
+
+    # always render the form
+    return render(
+        request, "components/review-form.html", {"form": form, "ficha": ficha}
+    )
