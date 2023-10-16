@@ -1,0 +1,5 @@
+<div>
+    <span class="font-medium">{{ entry.teacher.user.first_name }} {{ entry.teacher.user.last_name }}:</span>
+    <span class="self-start px-8 pb-2 text-justify">{{ entry.review }}</span>
+    <span class="flex w-full self-start border-b border-dashed font-thin border-baublack text-muted">{{ entry.updated_at|date:"F j, Y P" }}</span>
+</div>

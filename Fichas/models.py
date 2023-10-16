@@ -108,5 +108,8 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        unique_together = ("teacher", "ficha")
+
     def __str__(self):
         return f"{self.ficha.title} reseñado por {self.teacher.user.first_name}"

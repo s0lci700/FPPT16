@@ -15,103 +15,87 @@
              class="col-span-full col-start-2 grid h-fit w-full grid-cols-12 p-4 text-center">
             <!-- Ficha.title & Student.name Header-->
             <div id="ficha-head"
-                 class="col-span-full grid grid-cols-3 items-center bg-bauyellow pt-2 px-6 mb-2">
-                <div class="col-start-2 col-end-3 text-2xl font-semibold text-center place-self-center place-items-center">
+                 class="col-span-full mb-2 grid grid-cols-3 items-center px-6 pt-2 bg-bauyellow">
+                <div class="col-start-2 col-end-3 place-items-center place-self-center text-center text-2xl font-semibold">
                     <div id="title" class="text-2xl leading-4">{{ ficha.title }}, <br>
-                        <span class="font-normal text-muted text-base">{{ ficha.student.user.first_name }} {{ ficha.student.user.last_name }}</span>
+                        <span class="text-base font-normal text-muted">{{ ficha.student.user.first_name }} {{ ficha.student.user.last_name }}</span>
                     </div>
                 </div>
                 {% if user == ficha.student.user %}
-                    <div class="col-start-3 col-end-4 text-right place-self-center mb-1.5">
+                    <div class="col-start-3 col-end-4 place-self-center text-right mb-1.5">
                         <a href="{% url 'Fichas:ficha-update' ficha.student.user.id ficha.assignment.id %}"
                            class="rounded px-4 py-2 text-white transition-all bg-baublue hover:bg-blue-600">Editar</a>
-                    </div>
-                {% elif user.role == 'P' %}
-                    <div class="col-start-3 col-end-4 text-right place-self-center mb-1.5">
-                        <a href="{% url 'Fichas:review-create' ficha.student_id ficha.assignment_id %}"
-                           class="rounded px-4 py-2 text-white bg-baured">Reseñar</a>
                     </div>
                 {% endif %}
             </div>
 
             <!-- Ficha Content -->
             <div id="cover-container"
-                 class="col-start-4 col-span-6 row-span-2 place-items-center justify-center self-center grid grid-cols-1 h-fit aspect-[1/1] mb-4">
+                 class="col-span-6 col-start-4 row-span-2 mb-4 grid h-fit grid-cols-1 place-items-center justify-center self-center aspect-[1/1]">
                 <!-- Ficha.main_image -->
 
                 <div onclick="window.open('{{ ficha.main_image.url }}', '_blank');"
                      style="background-image: url('{{ ficha.main_image.url }}')"
-                     class="bg-cover bg-center w-full h-full aspect-[1/1] row-span-1 col-span-1 hover:cursor-pointer"></div>
+                     class="col-span-1 row-span-1 h-full w-full bg-cover bg-center aspect-[1/1] hover:cursor-pointer"></div>
 
             </div>
         </div>
         <div id="text-container"
-             class="col-start-2 col-span-full grid grid-cols-1 place-items-center gap-2 py-4 px-6 prose-base leading-snug mx-16">
+             class="col-span-full col-start-2 mx-16 grid grid-cols-1 place-items-center gap-2 px-6 py-4 leading-snug prose-base">
 
             <!-- Ficha.descripcion -->
-            <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col border-0 bg-zinc-50 px-2 py-1 border-baublack">
+            <div class="col-span-full row-span-1 flex w-full flex-col items-start border-0 bg-zinc-50 px-2 py-1 min-h-[16vh] border-baublack">
                 <span class="h-fit self-start font-thin">Descripcion:</span>
                 <span class="self-start px-16 pb-2 text-justify">{{ ficha.description }}</span>
             </div>
             <!-- Ficha.analisis_operacional -->
-            <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col border-0 bg-zinc-50 px-2 py-1 border-baublack">
+            <div class="col-span-full row-span-1 flex w-full flex-col items-start border-0 bg-zinc-50 px-2 py-1 min-h-[16vh] border-baublack">
                 <span class="self-start font-thin">Analisis Operacional</span>
                 <span class="self-start px-16 pb-2 text-justify">{{ ficha.analysis }}</span>
             </div>
             <!-- Ficha.analisis_referencial -->
-            <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col border-0 bg-zinc-50 px-2 py-1 border-baublack">
+            <div class="col-span-full row-span-1 flex w-full flex-col items-start border-0 bg-zinc-50 px-2 py-1 min-h-[16vh] border-baublack">
                 <span class="self-start font-thin">Analisis Referencial</span>
                 <span class="self-start px-16 pb-2 text-justify">{{ ficha.references }}</span>
             </div>
             <!-- Ficha.misc -->
             {% if ficha.misc %}
-                <div class="row-span-1 col-span-full items-start w-full min-h-[16vh] flex flex-col border-0 bg-zinc-50 px-2 py-1 border-baublack">
+                <div class="col-span-full row-span-1 flex w-full flex-col items-start border-0 bg-zinc-50 px-2 py-1 min-h-[16vh] border-baublack">
                     <span class="self-start font-thin">Información Adicional:</span>
                     <span class="self-start px-16 pb-2 text-justify">{{ ficha.misc }}</span>
                 </div>
             {% endif %}
             <!-- Ficha.keywords -->
-            <div class="row-span-1 col-span-full justify-start w-full py-1">
+            <div class="col-span-full row-span-1 w-full justify-start py-1">
                 {% for keyword in ficha.keywords.all %}
                     <span class="rounded-full bg-zinc-50 px-2 py-1 mr-0.5 prose-sm">{{ keyword }}</span>
                 {% endfor %}
             </div>
             <!-- Ficha.metadata (fechas) -->
-            <div class="row-span-1 col-span-full justify-start w-full flex flex-col text-center">
+            <div class="col-span-full row-span-1 flex w-full flex-col justify-start text-center">
                 <span class="self-start font-thin text-muted">Fecha de creación y última fecha de actualización:</span>
                 <span class="self-start font-thin text-muted">{{ ficha.created_at }} / {{ ficha.updated_at }}</span>
                 <span class="self-start font-thin text-muted">Encargo: {{ ficha.assignment_id }}, {{ ficha.assignment.title.title }}</span>
             </div>
 
-            <div class="h-[0.5vh] col-span-full row-span-1 w-full bg-baublue rounded-full">
+            <div class="col-span-full row-span-1 w-full rounded-full h-[0.5vh] bg-baublue">
 
             </div>
 
             <!-- Ficha.review -->
+            <span class="mb-2 self-start font-thin col-span-full text-start">Evaluaciones:</span>
+            {% include 'review_list.html' %}
 
-            {% if user == ficha.student.user or user.role == 'P' %}
-
-                <div class="row-span-1 col-span-full items-start w-full relative leading-tight min-h-[16vh]">
-                    <div class=" flex flex-col bg-zinc-50 px-4 pt-1 pb-4">
-                        <span class="self-start font-thin mb-2">Evaluacion:</span>
-                        {% for entry in review %}
-                            <span class="font-medium">{{ entry.teacher.user.first_name }} {{ entry.teacher.user.last_name }}:</span>
-                            <span class="self-start px-8 pb-2 text-justify">{{ entry.review }}</span>
-                            <span class="w-full border-dashed border-b border-baublack flex self-start font-thin text-muted">{{ entry.updated_at|date:"F j, Y P" }}</span>
-                        {% empty %}
-                            <div class="absolute right-0 z-30 bg-red-400">OOOO</div>
-                        {% endfor %}
-                    </div>
-                    <div hx-get="{% url 'Fichas:review-update' ficha.student_id ficha.assignment_id %}"
-                         hx-trigger="onload"
-                         hx-target="this" id="review"
-                         class="flex flex-col bg-zinc-50 px-4 pt-1 pb-4">
-                        <!-- The review form will be loaded here -->
-                        #TODO: FIX THIS HTMX REQUEST FORM NOT DISPLAYING...........
-                    </div>
-                </div>
-
-            {% endif %}
         </div>
     </div>
 {% endblock %}
+
+{#CREAR RESENA#}
+{#<button#}
+{#        hx-get="{% url 'Fichas:review-create' user_id=ficha.student_id assignment_id=ficha.assignment_id %}?counter={{ forloop.counter0 }}"#}
+{#        hx-trigger="click"#}
+{#        hx-target="this"#}
+{#        hx-swap="outerHTML"#}
+{#        class="w-fit px-4 py-1 text-white bg-baublue hover:cursor-pointer">#}
+{#    Crear#}
+{#</button>#}

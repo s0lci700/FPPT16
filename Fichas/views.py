@@ -5,8 +5,9 @@ import pytz
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.db.models import Q, Case, When, BooleanField
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import CreateView, UpdateView, DeleteView
@@ -195,6 +196,9 @@ def ficha_detail_view(request, user_id, assignment_id):
         Ficha, student__user__id=user_id, assignment__id=assignment_id
     )
     review = Review.objects.filter(ficha=ficha)
+    teacher_has_reviewed = Review.objects.filter(
+        ficha=ficha, teacher__user=request.user
+    ).exists()
     print(user_id, assignment_id)
     return render(
         request,
@@ -204,6 +208,7 @@ def ficha_detail_view(request, user_id, assignment_id):
             "ficha": ficha,
             "user_id": user_id,
             "assignment_id": assignment_id,
+            "teacher_has_reviewed": teacher_has_reviewed,
         },
     )
 
@@ -343,6 +348,9 @@ def assignment_delete_view(request, pk):
         return render(request, "assignment_delete_confirm.html", context)
 
 
+# REVIEWS
+
+
 def review_create_view(request, user_id, assignment_id):
     teacher = TeacherProfile.objects.get(user=request.user)
     ficha = get_object_or_404(
@@ -355,17 +363,39 @@ def review_create_view(request, user_id, assignment_id):
             review.teacher = teacher
             review.ficha = ficha
             review.save()
-            return render(request, "components/review-form.html", {"form": form})
+            reviews = Review.objects.filter(ficha=ficha)
+            rendered = render_to_string(
+                "entry.html",
+                {
+                    "entry": review,
+                    "ficha": ficha,
+                    "user": request.user,
+                    "counter": reviews.count(),
+                },
+            )
+            return HttpResponse(rendered, content_type="text/html")
+        # context = {
+        #     "form": form,
+        #     "ficha": ficha,
+        #     "user_id": user_id,
+        #     "assignment_id": assignment_id,
+        #     "entry": review,
+        # }
+        # return render(request, "components/review-partial.html", context)
+
     else:
         form = ReviewForm()
         context = {
             "form": form,
             "ficha": ficha,
+            "user_id": user_id,
+            "assignment_id": assignment_id,
         }
-        return render(request, "review_create.html", context)
+        return render(request, "review_create_form.html", context)
 
 
 def review_update_view(request, user_id, assignment_id):
+    counter = request.GET.get("counter")
     teacher = TeacherProfile.objects.get(user=request.user)
     ficha = get_object_or_404(
         Ficha, student__user__id=user_id, assignment__id=assignment_id
@@ -375,14 +405,76 @@ def review_update_view(request, user_id, assignment_id):
     # always create form, either bound to the POST data or unbound
     form = ReviewForm(request.POST or None, instance=review)
 
+    entry = Review.objects.filter(teacher=teacher, ficha=ficha).first()
+
     if request.method == "POST":
         if form.is_valid():
             if not review:
                 review = Review(teacher=teacher, ficha=ficha)
             review.review = form.cleaned_data.get("review")
             review.save()
+            return render(
+                request,
+                "components/review-partial.html",
+                {
+                    "entry": review,
+                    "counter": counter,
+                },
+            )
+    else:
+        if review:
+            form = ReviewForm(instance=review)
+        else:
+            form = ReviewForm()
 
     # always render the form
     return render(
-        request, "components/review-form.html", {"form": form, "ficha": ficha}
+        request,
+        "review_update_form.html",
+        {"form": form, "ficha": ficha, "counter": counter},
     )
+
+
+def review_delete_view(request, user_id, assignment_id):
+    teacher = TeacherProfile.objects.get(user=request.user)
+    ficha = get_object_or_404(
+        Ficha, student__user__id=user_id, assignment__id=assignment_id
+    )
+    review = Review.objects.filter(teacher=teacher, ficha=ficha).first()
+
+    if review is not None:
+        review.delete()
+        reviews = Review.objects.filter(ficha=ficha)
+        rendered = render_to_string(
+            "review_list.html",
+            {
+                "reviews": reviews,
+                "ficha": ficha,
+                "user": request.user,
+                "counter": reviews.count(),
+            },
+        )
+        return HttpResponse(rendered, content_type="text/html")
+
+    else:
+        return JsonResponse(
+            {"status": "error", "message": "Review does not exist."}, safe=False
+        )
+
+
+def get_entries(request, user_id, assignment_id):
+    teacher = TeacherProfile.objects.get(user=request.user)
+    ficha = get_object_or_404(
+        Ficha, student__user__id=user_id, assignment__id=assignment_id
+    )
+    reviews = Review.objects.filter(ficha=ficha)
+    rendered = render_to_string(
+        "review_list.html",
+        {
+            "reviews": reviews,
+            "ficha": ficha,
+            "user": request.user,
+            "counter": reviews.count(),
+        },
+    )
+    return HttpResponse(rendered, content_type="text/html")

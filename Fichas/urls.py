@@ -14,6 +14,8 @@ from .views import (
     edit_assignment,
     review_create_view,
     review_update_view,
+    review_delete_view,
+    get_entries,
 )
 
 urlpatterns = [
@@ -57,4 +59,10 @@ urlpatterns = [
         review_update_view,
         name="review-update",
     ),
+    path(
+        "<int:user_id>/<int:assignment_id>/review-delete",
+        review_delete_view,
+        name="review-delete",
+    ),
+    path("<int:user_id>/<int:assignment_id>/reviews/", get_entries, name="reviews"),
 ]

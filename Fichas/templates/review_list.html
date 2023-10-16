@@ -1,0 +1,31 @@
+{% if user == ficha.student.user or user.role == 'P' %}
+
+    <div class="relative col-span-full row-span-1 w-full items-start leading-tight min-h-[16vh]"
+         x-data="{ open: true }">
+        <div id="evaluaciones" class="flex flex-col bg-zinc-50 px-4 pt-1 pb-4">
+            <div id="entries">
+
+                {% if user.role == 'P' and not teacher_has_reviewed %}
+                    <button
+                            id="evaluate-btn"
+                            hx-get="{% url 'Fichas:review-create' user_id=ficha.student_id assignment_id=ficha.assignment_id %}?counter={{ review.count }}"
+                            hx-trigger="click"
+                            hx-target="#entries"
+                            hx-swap="beforeend"
+                            onclick="this.style.display = 'none'; document.getElementById('no-entry').style.display='none';"
+                            class="w-fit px-4 py-1 text-white bg-baublue hover:cursor-pointer">
+                        Evaluar
+                    </button>
+                {% endif %}
+
+                {% for entry in review %}
+                    {% include 'entry.html' %}
+                {% empty %}
+                    <span id="no-entry"
+                          class="self-start px-8 pb-2 text-justify">No hay evaluaciones aun</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+{% endif %}

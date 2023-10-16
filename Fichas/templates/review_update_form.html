@@ -1,0 +1,17 @@
+{% load widget_tweaks %}
+{# review_update_form.html #}
+<form @submit="open = true"
+      method="post"
+      hx-target="#entry-{{ counter }}"
+      hx-swap="innerHTML"
+      hx-post="{% url 'Fichas:review-update' user_id=ficha.student_id assignment_id=ficha.assignment_id %}"
+      action="{% url 'Fichas:review-update' user_id=ficha.student_id assignment_id=ficha.assignment_id %}"
+      class="flex flex-col gap-2">
+    {% csrf_token %}
+    {% render_field form.review class='h-fit' %}
+    <button type="submit"
+            class="bg-red-400 py-1 px-2 border-baublack border w-fit">
+        Submit
+    </button>
+</form>
+{#hx-get="#btn-update-{{ counter }}" hx-target="this" hx-swap="outerHTML"#}

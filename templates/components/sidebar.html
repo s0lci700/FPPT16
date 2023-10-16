@@ -73,6 +73,11 @@
                         </div>
                     </div>
                 {% elif request.user.role == 'P' %}
+                    <a href="{% url 'Fichas:ficha-list' %}"
+                       class="relative flex h-20 w-full items-center justify-center self-center overflow-hidden border-r-4 bg-cover bg-no-repeat text-center font-semibold border-baublack font-primary">
+                        Fichas
+                        <div class="absolute top-0 right-0 bottom-0 left-0 h-full w-full translate-x-6 overflow-hidden bg-gray-400 bg-fixed opacity-0 transition duration-300 ease-in-out hover:translate-x-0 hover:opacity-50"></div>
+                    </a>
                     <a href="{% url 'Fichas:assignment' %}"
                        class="relative flex h-20 w-full items-center justify-center self-center overflow-hidden border-r-4 bg-cover bg-no-repeat text-center font-semibold border-baublack font-primary">
                         Encargos

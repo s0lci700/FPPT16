@@ -1,0 +1,15 @@
+{% load widget_tweaks %}
+{# review_create_form.html #}
+<form
+        id="create-form"
+        method="post"
+        hx-target="this"
+        hx-swap="outerHTML"
+        hx-post="{% url 'Fichas:review-create' user_id=ficha.student_id assignment_id=ficha.assignment_id %}"
+        action="{% url 'Fichas:review-create' user_id=ficha.student_id assignment_id=ficha.assignment_id %}"
+        class="flex flex-col gap-1">
+    {% csrf_token %}
+    {% render_field form.review %}
+    <button type="submit" class="w-fit bg-red-400 py-1 px-2 border-baublack border">Submit</button>
+</form>
+

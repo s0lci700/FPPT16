@@ -1,8 +1,7 @@
 {# review-form.html #}
-<div class="bg-baublue w-full h-[25vw] col-span-full border-baublack border">
-    <form method="post" action="{% url 'Fichas:review-create' ficha.student_id ficha.assignment_id %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="bg-red-400">Submit</button>
-    </form>
-</div>
+<form method="post"
+      action="{% url 'Fichas:review-create' user_id=ficha.student_id assignment_id=ficha.assignment_id %}">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit" class="bg-red-400 py-1 px-2 border-baublack border">Submit</button>
+</form>

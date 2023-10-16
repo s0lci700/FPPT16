@@ -1,0 +1,31 @@
+<div id='entry-wrapper-{{ forloop.counter0 }}'>
+    <div class="my-2 entry-class" id="entry-{{ forloop.counter0 }}">
+
+        <span class="font-medium">{{ entry.teacher.user.first_name }} {{ entry.teacher.user.last_name }}:</span>
+        <span id="review-{{ forloop.counter0 }}"
+              class="self-start px-8 pb-2 text-justify">{{ entry.review }}</span>
+        <span class="flex w-full self-start border-b border-dashed font-thin border-baublack text-muted">{{ entry.updated_at|date:"F j, Y P" }}</span>
+    </div>
+    {% if user.id == entry.teacher.user.id %}
+        <div id="form-{{ forloop.counter0 }}" class="my-2" x-show="open"
+             x-transition.opacity.delay.200ms>
+            <button id="btn-update-{{ forloop.counter0 }}"
+                    @click="open = !open"
+                    hx-get="{% url 'Fichas:review-update' user_id=ficha.student_id assignment_id=ficha.assignment_id %}?counter={{ forloop.counter0 }}"
+                    hx-trigger="click"
+                    hx-target="#review-{{ forloop.counter0 }}"
+                    hx-swap="innerHTML"
+                    class="w-fit px-4 py-1 text-white bg-baublue hover:cursor-pointer">
+                Editar
+            </button>
+            <button id="btn-delete-{{ forloop.counter0 }}"
+                    hx-post="{% url 'Fichas:review-delete' user_id=ficha.student_id assignment_id=ficha.assignment_id %}"
+                    hx-swap="innerHTML"
+                    hx-target="#entry-wrapper-{{ forloop.counter0 }}"
+                    hx-confirm="¿Estas seguro de eliminar esta evaluacion?"
+                    class="w-fit px-4 py-1 text-white bg-baured hover:cursor-pointer">
+                Eliminar
+            </button>
+        </div>
+    {% endif %}
+</div>
