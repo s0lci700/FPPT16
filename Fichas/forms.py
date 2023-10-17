@@ -84,6 +84,7 @@ class FichaForm(forms.ModelForm):
             "analysis",
             "references",
             "keywords",
+            "anexos",
             "misc",
         ]
         widgets = {
@@ -129,6 +130,10 @@ class FichaForm(forms.ModelForm):
                     "label": "Palabras clave",
                 }
             ),
+            "anexos": forms.URLInput(
+                attrs={"class": "url-input", "placeholder": "URL"}
+            ),
+            # specify other field widgets here...
         }
 
     def __init__(self, *args, **kwargs):

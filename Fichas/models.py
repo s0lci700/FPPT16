@@ -3,6 +3,7 @@ from django.utils import timezone
 from datetime import datetime
 from taggit.managers import TaggableManager
 import os
+from embed_video.fields import EmbedVideoField
 
 
 def upload_to(instance, filename):
@@ -86,6 +87,7 @@ class Ficha(models.Model):
     analysis = models.TextField(blank=True)
     references = models.TextField(blank=True)
     keywords = TaggableManager(blank=True)
+    anexos = EmbedVideoField(blank=True)
     misc = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -93,6 +95,9 @@ class Ficha(models.Model):
     @property
     def linked_assignment_id(self):
         return self.assignment.id
+
+    def anexos_as_list(self):
+        return self.anexos.split(",")
 
     def __str__(self):
         return self.title

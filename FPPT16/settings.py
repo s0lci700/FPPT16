@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "widget_tweaks",
     "django_browser_reload",
     "fontawesomefree",
+    "embed_video",
 ]
 
 MIDDLEWARE = [

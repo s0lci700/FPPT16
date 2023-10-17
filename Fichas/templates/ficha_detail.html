@@ -1,6 +1,7 @@
 <!-- ficha_detail.html -->
 {% extends 'base.html' %}
 {% load thumbnail %}
+{% load embed_video_tags %}
 
 {% block title %}
     <title>{{ ficha.title }}</title>
@@ -63,6 +64,29 @@
                 <div class="col-span-full row-span-1 flex w-full flex-col items-start border-0 bg-zinc-50 px-2 py-1 min-h-[16vh] border-baublack">
                     <span class="self-start font-thin">Información Adicional:</span>
                     <span class="self-start px-16 pb-2 text-justify">{{ ficha.misc }}</span>
+                </div>
+            {% endif %}
+            <!-- Ficha.anexos -->
+            {% if ficha.anexos %}
+                <div class="col-span-full row-span-1 flex w-full flex-col border-0 bg-zinc-50 px-2 py-1 min-h-[16vh] border-baublack ">
+                    <span class="self-start  font-thin">Anexos:</span>
+                    {#                    <a href="{{ ficha.anexos }}"#}
+                    {#                       class="self-start px-16 pb-2 text-justify text-blue-600 hover:text-blue-900">{{ ficha.anexos }}</a>#}
+                    <div class="grid grid-cols-2 gap-2">
+
+                        {% for embed in embed_codes %}
+                            {% if embed.url %}
+                                <div id="non-embed" class="col-span-1 row-span-1 text-blue-600 hover:text-blue-900">
+                                    <a href="{{ embed.url }}">{{ embed.url }}</a>
+                                </div>
+                            {% else %}
+                                <div id="embed" class="col-span-1 row-span-1 text-blue-600 hover:text-blue-900">
+                                    {{ embed|safe }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
                 </div>
             {% endif %}
             <!-- Ficha.keywords -->

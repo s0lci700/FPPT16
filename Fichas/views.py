@@ -11,6 +11,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import CreateView, UpdateView, DeleteView
+from embed_video.backends import detect_backend, UnknownBackendException
 
 from Cuentas.models import StudentProfile, TeacherProfile
 from .forms import FichaForm, AssignmentForm, ReviewForm
@@ -160,7 +161,13 @@ class FichaUpdateView(BaseFichaView, UpdateView):
         return super().form_invalid(form)
 
     def get_success_url(self):
-        return reverse_lazy("Fichas:ficha-list")
+        return reverse_lazy(
+            "Fichas:ficha-detail",
+            kwargs={
+                "user_id": self.object.student.user.id,
+                "assignment_id": self.object.assignment.id,
+            },
+        )
 
 
 class FichaDeleteView(BaseFichaView, DeleteView):
@@ -200,6 +207,15 @@ def ficha_detail_view(request, user_id, assignment_id):
         ficha=ficha, teacher__user=request.user
     ).exists()
     print(user_id, assignment_id)
+    print(ficha.anexos_as_list())
+    embed_codes = []
+    for anexo in ficha.anexos_as_list():
+        try:
+            backend = detect_backend(anexo)
+            embed_code = backend.get_embed_code(640, 480)
+            embed_codes.append(embed_code)
+        except UnknownBackendException:
+            embed_codes.append({"url": anexo})
     return render(
         request,
         "ficha_detail.html",
@@ -209,6 +225,7 @@ def ficha_detail_view(request, user_id, assignment_id):
             "user_id": user_id,
             "assignment_id": assignment_id,
             "teacher_has_reviewed": teacher_has_reviewed,
+            "embed_codes": embed_codes,
         },
     )
 
