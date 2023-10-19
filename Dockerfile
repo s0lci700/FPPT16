@@ -1,39 +1,40 @@
-# Fetch the official Python 3.11 Image
+# Use an official Python image as the base image
 FROM python:3.11.4
 
-# Ensures Python outputs everything that's printed inside
-# the application directly to the terminal (makes the Docker logs cleaner)
-ENV PYTHONUNBUFFERED=1
-
-# Python 3.14 is not currently available but 3.11.4 will mostly suit all the requirements
-
-# Set evironment variables
+# Set environment variables to avoid Python bytecode and buffering
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Node.js is required for npm
-# Install Node.js
+# Install system dependencies for your app
 RUN apt-get update && \
     apt-get install -y nodejs npm
 
-# Create a directory for the application and set it as working directory
+# Create a directory for your application and set it as the working directory
 RUN mkdir /code
 WORKDIR /code
 
-# Install Django and other dependencies
+# Install Python dependencies
 COPY requirements.txt /code/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Install npm dependencies
+# Install Node.js and npm
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y nodejs
+
+# Copy the package.json and package-lock.json files to install npm dependencies
 COPY package*.json /code/
 RUN npm install
 
-# Copy the entire Django application
+# Copy the rest of your Django application code
 COPY . /code/
 
-# Copy start-script
-COPY start.sh /code/
+# Copy the Django secret key file into the container
+COPY django_secrets.env /code/
 
-# Run start-script
-CMD ["/code/start.sh"]
+
+# Expose the port your app runs on (you may need to adjust this to your Django settings)
+EXPOSE 8000
+
+# Start the application using the start.sh script and read the secret key from the file
+CMD ["sh", "-c", "export $(cat /code/django_secrets.env | xargs) && /code/start.sh"]

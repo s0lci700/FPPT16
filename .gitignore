@@ -458,3 +458,4 @@ cython_debug/
 
 ssh/
 ssh.pub/
+django_secrets.env/
