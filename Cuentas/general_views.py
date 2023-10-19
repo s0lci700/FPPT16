@@ -7,6 +7,11 @@ from datetime import datetime
 import pytz
 import locale
 
+try:
+    locale.setlocale(locale.LC_TIME, "es_ES.UTF-8")
+except locale.Error:
+    print("Unsupported locale setting, fallback to default locale.")
+
 from Cuentas.forms import LoginForm
 from Cuentas.models import CustomUser
 from Fichas.models import Assignment

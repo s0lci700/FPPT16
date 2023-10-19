@@ -1,6 +1,16 @@
 # Use an official Python image as the base image
 FROM python:3.11.4
 
+# Set Environment Variables for locales
+ENV LANG es_ES.UTF-8
+ENV LANGUAGE es_ES:es
+ENV LC_ALL es_ES.UTF-8
+
+# Install locales into the Docker image and set it up
+RUN apt-get clean && apt-get update && apt-get install -y locales
+RUN locale-gen es_ES.UTF-8
+RUN dpkg-reconfigure locales
+
 # Set environment variables to avoid Python bytecode and buffering
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -19,7 +29,7 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Install Node.js and npm
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
 RUN apt-get install -y nodejs
 
 # Copy the package.json and package-lock.json files to install npm dependencies
