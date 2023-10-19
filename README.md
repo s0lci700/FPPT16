@@ -1,4 +1,4 @@
-# FPP-T16 <br> Ficha de proceso de produccion. *Taller 16, Universidad de Chile*.
+# PuNTO <br> Plataforma Unificada de Trabajos y Obras *Universidad de Chile*.
 Intento de reemplazo y optimización de plataforma web descontinuada usada en el taller 16 de la Escuela de Artes.
 
 La plataforma busca generar un espacio donde los estudiantes pueden subir fichas de sus trabajos desarrollados durante el semestre.
