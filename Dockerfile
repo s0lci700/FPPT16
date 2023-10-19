@@ -31,3 +31,9 @@ RUN npm install
 
 # Copy the entire Django application
 COPY . /code/
+
+# Copy start-script
+COPY start.sh /code/
+
+# Run start-script
+CMD ["/code/start.sh"]
