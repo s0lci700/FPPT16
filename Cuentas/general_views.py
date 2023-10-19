@@ -5,12 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import datetime
 import pytz
-import locale
-
-try:
-    locale.setlocale(locale.LC_TIME, "es_ES.UTF-8")
-except locale.Error:
-    print("Unsupported locale setting, fallback to default locale.")
 
 from Cuentas.forms import LoginForm
 from Cuentas.models import CustomUser
@@ -87,7 +81,7 @@ def home_view(request):
         .first()
     )  # Take the first one, which will be the closest
 
-    locale.setlocale(locale.LC_TIME, "es_ES.UTF-8")  # Set locale to Spanish
+    # Get the current date and time in Chile
     weekday = chile_time.strftime("%A")  # Gives day of the week
     day_number = chile_time.day  # Gives the day number
     month = chile_time.strftime("%B")  # Gives the month
