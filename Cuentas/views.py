@@ -1,13 +1,27 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model, get_user
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import resolve
 from django.views.generic import DetailView, ListView
+from reportlab.lib.units import cm
+from reportlab.lib.utils import ImageReader
 from taggit.models import Tag
+from PIL import Image
+from io import BytesIO
+import io
+from django.http import FileResponse
+from django.core.files.storage import default_storage as storage
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from django.conf import settings
+
+settings.BASE_URL = "http://localhost:8000/"  # add your actual domain here
 
 from Fichas.models import Ficha
 from .models import CustomUser
+import requests
 
 User = get_user_model()
 
@@ -142,6 +156,102 @@ class UserDetailView(DetailView):
             teacher_profile = self.object.teacherprofile
             context["teacher"] = teacher_profile
         return context
+
+
+from django.http import FileResponse
+
+
+def get_dossier(request, pk):
+    active_user = request.user.pk
+    user = CustomUser.objects.get(pk=active_user)
+    if user.role == "A":
+        student_profile = user.studentprofile
+        fichas = Ficha.objects.filter(student=student_profile).all()
+        c = canvas.Canvas("dossier.pdf", pagesize=letter)
+
+        width, height = letter
+
+        c.setFont("Helvetica", 14)
+        c.drawString(
+            2 * cm,
+            height - 2 * cm,
+            f"{student_profile.user.first_name} {student_profile.user.last_name}",
+        )
+        height -= 1.2 * 14
+
+        for i, ficha in enumerate(fichas):
+            response = requests.get(settings.BASE_URL + ficha.main_image.url)
+            img = Image.open(BytesIO(response.content))
+            img_path = ficha.main_image.path
+            if not settings.DEBUG:
+                image_file = storage.open(img_path, "rb")
+                image = ImageReader(BytesIO(image_file.read()))
+                image_file.close()
+            else:
+                image = ImageReader(img_path)
+
+            if i != 0:
+                c.showPage()
+
+            c.drawString(2 * cm, height - 2 * cm, f"Ficha {i+1}: {ficha.title}")
+
+            size = 12
+            height -= 2 * cm + size
+            line_height = 1.2 * size
+
+            c.setFont("Helvetica", size)
+
+            c.drawString(
+                2 * cm, height - line_height, f"Descripcion: {ficha.description}"
+            )
+            height -= line_height
+
+            c.drawString(
+                2 * cm, height - line_height, f"Analisis Operacional: {ficha.analysis}"
+            )
+            height -= line_height
+
+            c.drawString(
+                2 * cm,
+                height - line_height,
+                f"Analisis Referencial: {ficha.references}",
+            )
+            height -= line_height
+
+            if ficha.misc:
+                c.drawString(2 * cm, height - line_height, f"Miscelaneo: {ficha.misc}")
+                height -= line_height
+
+            if ficha.anexos:
+                c.drawString(2 * cm, height - line_height, f"Anexos: {ficha.anexos}")
+                height -= line_height
+
+            for keyword in ficha.keywords.all():
+                c.drawString(2 * cm, height - line_height, f"{keyword}")
+                height -= line_height
+
+            img_width = width - 4 * cm  # define image width as you want
+            aspect = image.getSize()[1] / float(
+                image.getSize()[0]
+            )  # calc aspect ratio of image
+            img_height = aspect * img_width  # calc image height based on aspect ratio
+            c.drawImage(
+                image,
+                2 * cm,
+                height - img_height - 2 * cm,
+                width=img_width,
+                height=img_height,
+            )
+
+        c.save()
+
+        # Open the saved file and send it as a response
+        file = open("dossier.pdf", "rb")
+        response = FileResponse(file, content_type="application/pdf")
+        response["Content-Disposition"] = 'attachment; filename="dossier.pdf"'
+        return response
+    else:
+        return Http404
 
 
 class MyFichasViews(ListView, LoginRequiredMixin):

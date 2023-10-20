@@ -31,6 +31,9 @@
                                class="ml-2 inline-block rounded-full border-2 px-3 text-sm transition-all duration-200 border-baublack py-1.5 text-baublack hover:bg-bauyellow/80">
                                 Editar perfil
                             </a>
+                            <a href="{% url 'Cuentas:get_dossier' request.user.pk %}"
+                               class="ml-2 inline-block rounded-full border-2 px-3 text-sm transition-all duration-200 border-baublack py-1.5 text-baublack hover:bg-bauyellow/80">
+                                Dossier</a>
                         {% endif %}
                     </div>
                     <p class="text-sm text-gray-500">{{ user.pronouns }}</p>

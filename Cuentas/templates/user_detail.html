@@ -31,13 +31,18 @@
 
                         <p class="inline-block text-3xl font-medium">{{ customuser.first_name }} {{ customuser.last_name }}</p>
                         {% if request.user.pk == customuser.pk %}
-                            <a hx-get="{% url 'Cuentas:edit_user' customuser.pk %}"
-                               hx-target="#edit-modal"
-                               @click="editModal = true"
-                               hx-swap="innerHTML"
-                               class="ml-2 inline-block rounded-full border-2 px-3 text-sm transition-all duration-200 border-baublack py-1.5 text-baublack hover:bg-bauyellow/80">
-                                Editar perfil
-                            </a>
+                            <div class="flex flex-row text-center">
+                                <a hx-get="{% url 'Cuentas:edit_user' customuser.pk %}"
+                                   hx-target="#edit-modal"
+                                   @click="editModal = true"
+                                   hx-swap="innerHTML"
+                                   class="aspect-[1/1] ml-2 inline-block rounded-full border-2 px-3 text-sm transition-all duration-200 border-baublack py-1.5 text-baublack hover:bg-bauyellow/80">
+                                    Editar perfil
+                                </a>
+                                <a href="{% url 'Cuentas:get_dossier' request.user.pk %}"
+                                   class="aspect-[1/1] ml-2 inline-block rounded-full border-2 px-3 text-sm transition-all duration-200 border-baublack py-1.5 text-baublack hover:bg-bauyellow/80">
+                                    Dossier</a>
+                            </div>
                         {% endif %}
                     </div>
                     <p class="text-sm text-gray-500">{{ customuser.pronouns }}</p>

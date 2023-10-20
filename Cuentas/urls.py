@@ -35,4 +35,5 @@ urlpatterns = [
     path(
         "user/<int:pk>/fichas/", include(("Fichas.urls", "Fichas"))
     ),  # This line will connect Cuentas and Fichas
+    path("user/student/<int:pk>/dossier/", views.get_dossier, name="get_dossier"),
 ]
